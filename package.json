@@ -45,7 +45,7 @@
     "@angular/router": "4.3.6",
     "@blackbaud/auth-client": "2.7.0",
     "@blackbaud/skyux-design-tokens": "0.0.8",
-    "@blackbaud/skyux-builder": "blackbaud/skyux-builder#rc-2.0.0",
+    "@blackbaud/skyux-builder": "blackbaud/skyux-builder#rc-merge-master-07-26-2018",
     "core-js": "2.4.1",
     "normalize-scss": "5.0.3",
     "rxjs": "5.4.3",
