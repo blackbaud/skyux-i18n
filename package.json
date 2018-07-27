@@ -54,7 +54,5 @@
     "typescript": "2.3.2",
     "zone.js": "0.8.10"
   },
-  "dependencies": {
-    "fontfaceobserver": "^2.0.13"
-  }
+  "dependencies": {}
 }
