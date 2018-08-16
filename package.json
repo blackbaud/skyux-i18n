@@ -1,6 +1,6 @@
 {
   "name": "@skyux/i18n",
-  "version": "0.0.1",
+  "version": "3.0.0-alpha.0",
   "description": "SKY UX Internationalization",
   "main": "bundles/bundle.umd.js",
   "module": "index.ts",
