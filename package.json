@@ -9,29 +9,29 @@
   },
   "scripts": {
     "skyux": "skyux",
-    "test": "skyux test && skyux e2e && skyux build && npm run build",
+    "test": "skyux test --coverage library",
+    "test:ci": "skyux test --platform travis --coverage library",
     "build": "skyux build-public-library",
     "start": "skyux serve"
   },
   "keywords": [],
   "author": "Blackbaud",
   "license": "ISC",
-  "peerDependencies": {
-    "@angular/animations": "^4.3.6",
-    "@angular/common": "^4.3.6",
-    "@angular/compiler": "^4.3.6",
-    "@angular/compiler-cli": "^4.3.6",
-    "@angular/core": "^4.3.6",
-    "@angular/forms": "^4.3.6",
-    "@angular/http": "^4.3.6",
-    "@angular/platform-browser": "^4.3.6",
-    "@angular/platform-browser-dynamic": "^4.3.6",
-    "@angular/router": "^4.3.6",
-    "@blackbaud/auth-client": "^2.7.0",
-    "core-js": "^2.4.1",
-    "rxjs": "^5.4.3",
-    "zone.js": "^0.8.10"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blackbaud/skyux-i18n.git"
   },
+  "bugs": {
+    "url": "https://github.com/blackbaud/skyux-i18n/issues"
+  },
+  "homepage": "https://github.com/blackbaud/skyux-i18n#readme",
+  "peerDependencies": {
+    "@angular/core": "^4.3.6",
+    "@angular/http": "^4.3.6",
+    "@skyux/core": ">=3.0.0-alpha.1",
+    "rxjs": "^5.4.3"
+  },
+  "dependencies": {},
   "devDependencies": {
     "@angular/animations": "4.3.6",
     "@angular/common": "4.3.6",
@@ -44,8 +44,11 @@
     "@angular/platform-browser-dynamic": "4.3.6",
     "@angular/router": "4.3.6",
     "@blackbaud/auth-client": "2.7.0",
+    "@blackbaud/skyux-builder": "blackbaud/skyux-builder#rc-resolve-locale-resources",
     "@blackbaud/skyux-design-tokens": "0.0.8",
-    "@blackbaud/skyux-builder": "blackbaud/skyux-builder#rc-merge-master-07-26-2018",
+    "@skyux/builder-utils": "3.0.0-alpha.1",
+    "@skyux/core": "3.0.0-alpha.1",
+    "@skyux/theme": "3.0.0-alpha.4",
     "core-js": "2.4.1",
     "normalize-scss": "5.0.3",
     "rxjs": "5.4.3",
@@ -53,6 +56,5 @@
     "tslint": "5.2.0",
     "typescript": "2.3.2",
     "zone.js": "0.8.10"
-  },
-  "dependencies": {}
+  }
 }
