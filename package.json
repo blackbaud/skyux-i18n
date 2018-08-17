@@ -44,7 +44,7 @@
     "@angular/platform-browser-dynamic": "4.3.6",
     "@angular/router": "4.3.6",
     "@blackbaud/auth-client": "2.7.0",
-    "@blackbaud/skyux-builder": "blackbaud/skyux-builder#rc-resolve-locale-resources",
+    "@blackbaud/skyux-builder": "blackbaud/skyux-builder#rc-2.0.0",
     "@skyux/builder-utils": "3.0.0-alpha.1",
     "@skyux/core": "3.0.0-alpha.1",
     "@skyux/theme": "3.0.0-alpha.4",
