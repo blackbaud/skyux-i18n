@@ -10,7 +10,7 @@
   "scripts": {
     "skyux": "skyux",
     "test": "skyux test --coverage library",
-    "test:ci": "skyux test --platform travis --coverage library",
+    "test:ci": "skyux test --platform travis --coverage library && skyux build-public-library",
     "build": "skyux build-public-library",
     "start": "skyux serve"
   },
