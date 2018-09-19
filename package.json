@@ -28,8 +28,8 @@
   "peerDependencies": {
     "@angular/core": "^4.3.6",
     "@angular/http": "^4.3.6",
-    "@skyux/assets": ">=3.0.0-alpha.0",
-    "@skyux/core": "^3.0.1",
+    "@skyux/assets": ">=3.0.0-alpha.2",
+    "@skyux/core": "^3.0.2",
     "rxjs": "^5.4.3"
   },
   "dependencies": {},
@@ -46,9 +46,9 @@
     "@angular/router": "4.3.6",
     "@blackbaud/auth-client": "2.7.0",
     "@blackbaud/skyux": "2.24.0",
-    "@blackbaud/skyux-builder": "1.20.2",
-    "@skyux/assets": "3.0.0-alpha.0",
-    "@skyux/core": "3.0.1",
+    "@blackbaud/skyux-builder": "blackbaud/skyux-builder#add-lib-testing-dir",
+    "@skyux/assets": "3.0.0-alpha.2",
+    "@skyux/core": "3.0.2",
     "core-js": "2.4.1",
     "rxjs": "5.4.3",
     "ts-node": "3.0.4",
