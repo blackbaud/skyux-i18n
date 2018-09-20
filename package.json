@@ -1,6 +1,6 @@
 {
   "name": "@skyux/i18n",
-  "version": "3.0.0-alpha.9",
+  "version": "3.0.0",
   "description": "SKY UX Internationalization",
   "main": "bundles/bundle.umd.js",
   "module": "index.ts",
@@ -28,7 +28,7 @@
   "peerDependencies": {
     "@angular/core": "^4.3.6",
     "@angular/http": "^4.3.6",
-    "@skyux/assets": ">=3.0.0-alpha.2",
+    "@skyux/assets": "^3.0.0",
     "@skyux/core": "^3.0.2",
     "rxjs": "^5.4.3"
   },
@@ -45,9 +45,9 @@
     "@angular/platform-browser-dynamic": "4.3.6",
     "@angular/router": "4.3.6",
     "@blackbaud/auth-client": "2.7.0",
-    "@blackbaud/skyux": "2.24.0",
-    "@blackbaud/skyux-builder": "blackbaud/skyux-builder#add-lib-testing-dir",
-    "@skyux/assets": "3.0.0-alpha.2",
+    "@blackbaud/skyux": "2.25.0",
+    "@blackbaud/skyux-builder": "1.22.0",
+    "@skyux/assets": "3.0.0",
     "@skyux/core": "3.0.2",
     "core-js": "2.4.1",
     "rxjs": "5.4.3",
