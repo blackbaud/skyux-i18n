@@ -3,7 +3,8 @@ import {
 } from '@angular/core';
 
 import {
-  SKY_LIB_RESOURCES_PROVIDERS
+  SKY_LIB_RESOURCES_PROVIDERS,
+  SkyI18nModule
 } from '../public';
 
 import {
@@ -11,12 +12,13 @@ import {
 } from './sample-resources-provider';
 
 @NgModule({
-  providers: [
-    {
-      provide: SKY_LIB_RESOURCES_PROVIDERS,
-      useClass: SkySampleResourcesProvider,
-      multi: true
-    }
-  ]
+  exports: [
+    SkyI18nModule
+  ],
+  providers: [{
+    provide: SKY_LIB_RESOURCES_PROVIDERS,
+    useClass: SkySampleResourcesProvider,
+    multi: true
+  }]
 })
-export class SkySampleResourcesModule {}
+export class SkySampleResourcesModule { }
