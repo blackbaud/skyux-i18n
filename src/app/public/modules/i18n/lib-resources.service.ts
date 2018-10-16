@@ -1,3 +1,4 @@
+// #region imports
 import {
   Inject,
   Injectable
@@ -26,6 +27,7 @@ import {
 import {
   SkyLibResourcesProvider
 } from './lib-resources-provider';
+// #endregion
 
 @Injectable()
 export class SkyLibResourcesService {
@@ -37,9 +39,8 @@ export class SkyLibResourcesService {
   ) { }
 
   public getString(name: string, ...args: any[]): Observable<string> {
-    return this.localeProvider
-      .getLocaleInfo()
-      .map((info) => this.getStringForLocale(info, name, args));
+    return this.localeProvider.getLocaleInfo()
+      .map((info) => this.getStringForLocale(info, name, ...args));
   }
 
   public getStringForLocale(
@@ -50,10 +51,10 @@ export class SkyLibResourcesService {
     for (const provider of this.providers) {
       const s = provider.getString(info, name);
        if (s) {
-        return this.format.formatText(s, args);
+        return this.format.formatText(s, ...args);
       }
     }
 
-    return undefined;
+    return name;
   }
 }

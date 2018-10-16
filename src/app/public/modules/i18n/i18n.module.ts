@@ -15,10 +15,6 @@ import {
 } from '@skyux/core';
 
 import {
-  SkyAppHostLocaleProvider
-} from './host-locale-provider';
-
-import {
   SkyAppResourcesPipe
 } from './resources.pipe';
 

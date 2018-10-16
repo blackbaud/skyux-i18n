@@ -12,7 +12,8 @@
     "skyux": "skyux",
     "start": "skyux serve --hmr",
     "test": "skyux test --coverage library --logFormat none",
-    "test:visual": "skyux e2e --logFormat none"
+    "test:visual": "skyux e2e --logFormat none",
+    "watch": "skyux watch --coverage library"
   },
   "keywords": [],
   "author": "Blackbaud",

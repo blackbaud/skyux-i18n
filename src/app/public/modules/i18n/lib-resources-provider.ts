@@ -1,3 +1,4 @@
+// #region imports
 import {
   Injectable
 } from '@angular/core';
@@ -5,6 +6,7 @@ import {
 import {
   SkyAppLocaleInfo
 } from './locale-info';
+// #endregion
 
 @Injectable()
 export abstract class SkyLibResourcesProvider {

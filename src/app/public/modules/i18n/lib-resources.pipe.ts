@@ -1,3 +1,4 @@
+// #region imports
 import {
   ChangeDetectorRef,
   Pipe,
@@ -5,12 +6,9 @@ import {
 } from '@angular/core';
 
 import {
-  Observable
-} from 'rxjs/Observable';
-
-import {
   SkyLibResourcesService
 } from './lib-resources.service';
+// #endregion
 
 @Pipe({
   name: 'skyLibResources',
@@ -24,11 +22,11 @@ export class SkyLibResourcesPipe implements PipeTransform {
     private resourcesService: SkyLibResourcesService
   ) { }
 
-  public transform(name: string, ...args: any[]): Observable<string> {
+  public transform(name: string, ...args: any[]): string {
     const cacheKey = name + JSON.stringify(args);
 
     if (!(cacheKey in this.resourceCache)) {
-      this.resourcesService.getString(name, args)
+      this.resourcesService.getString(name, ...args)
         .subscribe((value: string) => {
           this.resourceCache[cacheKey] = value;
           this.changeDetector.markForCheck();
