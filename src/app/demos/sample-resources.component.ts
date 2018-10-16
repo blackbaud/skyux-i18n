@@ -10,21 +10,23 @@ import {
 
 @Component({
   selector: 'sky-sample-resources',
-  template: `{{ 'greeting' | skyLibResources }}`,
+  templateUrl: './sample-resources.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkySampleResourcesComponent implements OnInit {
+  public defaultGreeting: string;
+  public localizedGreeting: string;
+
   constructor(
     private resourcesService: SkyLibResourcesService
   ) { }
 
   public ngOnInit(): void {
-    const value = this.resourcesService.getDefaultString('greeting');
-    console.log('Default value (static):', value);
+    this.defaultGreeting = this.resourcesService.getDefaultString('greeting');
 
-    this.resourcesService.getString('greeting', 'harper')
+    this.resourcesService.getString('greeting')
       .subscribe((localizedValue: string) => {
-        console.log('Localized value (async):', localizedValue);
+        this.localizedGreeting = localizedValue;
       });
   }
 }

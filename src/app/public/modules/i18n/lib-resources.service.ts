@@ -15,7 +15,7 @@ import 'rxjs/add/observable/merge';
 
 import {
   SKY_LIB_RESOURCES_PROVIDERS
-} from './lib-resources-providers';
+} from './lib-resources-providers-token';
 
 import {
   SkyLibResourcesProvider
