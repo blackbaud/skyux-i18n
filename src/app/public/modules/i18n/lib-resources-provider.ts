@@ -3,14 +3,12 @@ import {
 } from '@angular/core';
 
 import {
-  Observable
-} from 'rxjs/Observable';
+  SkyAppLocaleInfo
+} from './locale-info';
 
 @Injectable()
 export abstract class SkyLibResourcesProvider {
 
-  public getDefaultString: (name: string, ...args: any[]) => string;
-
-  public getString: (name: string, ...args: any[]) => Observable<string>;
+  public getString: (localeInfo: SkyAppLocaleInfo, name: string) => string;
 
 }
