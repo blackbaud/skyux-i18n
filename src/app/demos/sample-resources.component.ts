@@ -22,9 +22,13 @@ export class SkySampleResourcesComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    this.defaultGreeting = this.resourcesService.getDefaultString('greeting');
+    this.defaultGreeting = this.resourcesService.getStringForLocale(
+      { locale: 'en_US' },
+      'greeting'
+    );
 
-    this.resourcesService.getString('greeting')
+    this.resourcesService
+      .getString('greeting')
       .subscribe((localizedValue: string) => {
         this.localizedGreeting = localizedValue;
       });

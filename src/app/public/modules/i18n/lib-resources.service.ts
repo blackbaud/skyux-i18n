@@ -7,15 +7,9 @@ import {
   Observable
 } from 'rxjs/Observable';
 
-import 'rxjs/add/observable/merge';
-
 import {
   SkyAppFormat
 } from '@skyux/core';
-
-import {
-  SkyAppHostLocaleProvider
-} from './host-locale-provider';
 
 import {
   SkyAppLocaleInfo
@@ -38,7 +32,7 @@ export class SkyLibResourcesService {
   private format = new SkyAppFormat();
 
   constructor(
-    @Inject(SkyAppHostLocaleProvider) private localeProvider: SkyAppLocaleProvider,
+    private localeProvider: SkyAppLocaleProvider,
     @Inject(SKY_LIB_RESOURCES_PROVIDERS) private providers: SkyLibResourcesProvider[]
   ) { }
 
@@ -48,13 +42,10 @@ export class SkyLibResourcesService {
       .map((info) => this.getStringForLocale(info, name, args));
   }
 
-  public getDefaultString(name: string, ...args: any[]): string {
-    return this.getStringForLocale({ locale: 'en_US' }, name, args);
-  }
-
-  private getStringForLocale(
+  public getStringForLocale(
     info: SkyAppLocaleInfo,
-    name: string, ...args: any[]
+    name: string,
+    ...args: any[]
   ): string {
     for (const provider of this.providers) {
       const s = provider.getString(info, name);

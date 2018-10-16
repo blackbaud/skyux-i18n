@@ -9,7 +9,7 @@ import {
 
 import {
   SkySampleResourcesProvider
-} from './sample-resources-provider';
+} from '../public/plugin-resources/sample-resources-provider';
 
 @NgModule({
   exports: [

@@ -34,6 +34,10 @@ import {
   SkyLibResourcesService
 } from './lib-resources.service';
 
+import {
+  SkyAppLocaleProvider
+} from './locale-provider';
+
 @NgModule({
   declarations: [
     SkyAppResourcesPipe,
@@ -53,7 +57,7 @@ import {
       provide: SkyAppAssetsService,
       useValue: SkyAppAssetsService
     },
-    SkyAppHostLocaleProvider,
+    SkyAppLocaleProvider,
     SkyAppResourcesService,
     SkyAppWindowRef,
     SkyLibResourcesService
