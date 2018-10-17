@@ -48,7 +48,7 @@
     "@blackbaud/auth-client": "2.10.0",
     "@blackbaud/skyux": "2.26.0",
     "@blackbaud/skyux-builder": "blackbaud/skyux-builder#host-locale-provider",
-    "@skyux-sdk/builder-plugin-skyux": "1.0.0-rc.1",
+    "@skyux-sdk/builder-plugin-skyux": "1.0.0-rc.2",
     "@skyux-sdk/testing": "3.0.0",
     "@skyux/assets": "3.0.0",
     "@skyux/core": "3.0.2",

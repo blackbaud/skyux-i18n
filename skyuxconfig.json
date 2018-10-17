@@ -2,6 +2,9 @@
   "name": "skyux-i18n",
   "mode": "easy",
   "compileMode": "aot",
+  "skyuxModules": [
+    "SkyErrorModule"
+  ],
   "plugins": [
     "@skyux-sdk/builder-plugin-skyux"
   ],
