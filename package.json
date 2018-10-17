@@ -9,11 +9,12 @@
   },
   "scripts": {
     "build": "skyux build-public-library",
+    "build:dev-bundle": "npm run build && node ./scripts/dev-bundle.js",
     "skyux": "skyux",
-    "start": "skyux serve --hmr",
+    "start": "npm run build:dev-bundle && skyux serve --hmr",
     "test": "skyux test --coverage library --logFormat none",
-    "test:visual": "skyux e2e --logFormat none",
-    "watch": "skyux watch --coverage library"
+    "test:visual": "npm run build:dev-bundle && skyux e2e --logFormat none",
+    "watch": "npm run build:dev-bundle && skyux watch --coverage library"
   },
   "keywords": [],
   "author": "Blackbaud",
