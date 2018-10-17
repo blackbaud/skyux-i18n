@@ -9,6 +9,7 @@
   },
   "scripts": {
     "build": "skyux build-public-library",
+    "build:ci": "node ./scripts/dev-bundle.js && npm run build",
     "build:dev-bundle": "npm run build && node ./scripts/dev-bundle.js",
     "skyux": "skyux",
     "start": "npm run build:dev-bundle && skyux serve --hmr",
