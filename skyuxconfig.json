@@ -2,6 +2,9 @@
   "name": "skyux-i18n",
   "mode": "easy",
   "compileMode": "aot",
+  "plugins": [
+    "@skyux-sdk/builder-plugin-skyux"
+  ],
   "testSettings": {
     "unit": {
       "browserSet": "paranoid"
