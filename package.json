@@ -12,7 +12,7 @@
     "build:dev-bundle": "npm run build && node ./scripts/dev-bundle.js",
     "skyux": "skyux",
     "start": "npm run build:dev-bundle && skyux serve --hmr",
-    "test": "skyux test --coverage library --logFormat none",
+    "test": "npm run build:dev-bundle && skyux test --coverage library --logFormat none",
     "test:visual": "npm run build:dev-bundle && skyux e2e --logFormat none",
     "watch": "npm run build:dev-bundle && skyux watch --coverage library"
   },
