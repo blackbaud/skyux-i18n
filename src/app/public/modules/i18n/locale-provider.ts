@@ -13,9 +13,8 @@ import {
 @Injectable()
 export class SkyAppLocaleProvider {
   public getLocaleInfo(): Observable<SkyAppLocaleInfo> {
-    const locale = navigator.language || (navigator as any).userLanguage;
     return Observable.of({
-      locale: locale.replace('-', '_')
+      locale: 'en_US'
     });
   }
 }
