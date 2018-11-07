@@ -2,7 +2,7 @@ import {
   SkyAppResources
 } from '@skyux/i18n';
 
-export function getString(
+export function getStringForLocale(
   resources: {
     [locale: string]: SkyAppResources
   },

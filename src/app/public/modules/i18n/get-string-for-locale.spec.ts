@@ -1,6 +1,6 @@
 import {
-  getString
-} from './get-string';
+  getStringForLocale
+} from './get-string-for-locale';
 
 describe('Get string', () => {
   let resources: any;
@@ -14,17 +14,17 @@ describe('Get string', () => {
   });
 
   it('should return a string paired to a key', () => {
-    const result = getString(resources, 'EN-US', 'foo');
+    const result = getStringForLocale(resources, 'EN-US', 'foo');
     expect(result).toEqual('bar');
   });
 
   it('should return a default string if locale not supported', () => {
-    const result = getString(resources, 'FR-CA', 'foo');
+    const result = getStringForLocale(resources, 'FR-CA', 'foo');
     expect(result).toEqual('bar');
   });
 
   it('should return an empty string if the key does not exist', () => {
-    const result = getString(resources, 'EN-US', 'invalid');
+    const result = getStringForLocale(resources, 'EN-US', 'invalid');
     expect(result).toEqual('');
   });
 });
