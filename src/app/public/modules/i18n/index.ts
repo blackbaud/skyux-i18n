@@ -1,3 +1,4 @@
+export * from './get-string';
 export * from './host-locale-provider';
 export * from './i18n.module';
 export * from './lib-resources-provider';
