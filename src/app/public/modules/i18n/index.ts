@@ -1,3 +1,4 @@
+// Include in the bundle, but not in the root API.
 import './get-string';
 
 export * from './host-locale-provider';
