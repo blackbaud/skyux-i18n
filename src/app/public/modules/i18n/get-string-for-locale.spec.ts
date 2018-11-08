@@ -27,4 +27,9 @@ describe('Get string', () => {
     const result = getStringForLocale(resources, 'EN-US', 'invalid');
     expect(result).toEqual('');
   });
+
+  it('should handle mixed-case locales', () => {
+    const result = getStringForLocale(resources, 'en-us', 'foo');
+    expect(result).toEqual('bar');
+  });
 });
