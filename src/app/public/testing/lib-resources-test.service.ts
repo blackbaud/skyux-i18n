@@ -57,7 +57,7 @@ export class SkyLibResourcesTestService {
     if (!resources) {
       throwMissingResourceError(
         'No resource file exists for the default locale en-US. ' +
-        'Did you add `--coverage library` to your test command?'
+        'Did you append `--coverage library` to your test command?'
       );
     }
 
