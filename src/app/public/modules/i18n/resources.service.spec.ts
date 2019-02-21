@@ -219,6 +219,7 @@ describe('Resources service', () => {
       });
 
       mockLocaleProvider = {
+        currentLocale: 'en_US',
         defaultLocale: 'en_US',
         getLocaleInfo: () => {
           return getLocaleInfo();
