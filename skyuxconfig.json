@@ -1,4 +1,5 @@
 {
+  "$schema": "./node_modules/@skyux/core/skyuxconfig-schema.json",
   "name": "skyux-i18n",
   "mode": "easy",
   "compileMode": "aot",
