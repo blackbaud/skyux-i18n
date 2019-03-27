@@ -26,7 +26,7 @@ import {
 
 import {
   SkyI18nFormat
-} from './format';
+} from '../../utils/format';
 
 import {
   SkyAppLocaleProvider

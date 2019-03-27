@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { SkyI18nFormat } from '../modules/i18n/format';
+import { SkyI18nFormat } from '../utils/format';
 
 import { Observable } from 'rxjs/Observable';
 

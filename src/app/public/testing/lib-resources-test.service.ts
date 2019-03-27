@@ -4,7 +4,7 @@ import {
 
 import {
   SkyI18nFormat
-} from '../modules/i18n/format';
+} from '../utils/format';
 
 import {
   SkyAppLocaleInfo,
