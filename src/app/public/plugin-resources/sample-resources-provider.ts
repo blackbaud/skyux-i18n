@@ -1,10 +1,7 @@
 import {
-  SkyAppLocaleInfo
-} from '../modules/i18n/locale-info';
-
-import {
+  SkyAppLocaleInfo,
   SkyLibResourcesProvider
-} from '../modules/i18n/lib-resources-provider';
+} from '../modules';
 
 export class SkySampleResourcesProvider implements SkyLibResourcesProvider {
   public getString: (localeInfo: SkyAppLocaleInfo, name: string) => string;

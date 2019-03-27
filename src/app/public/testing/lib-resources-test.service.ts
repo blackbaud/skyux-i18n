@@ -3,13 +3,13 @@ import {
 } from '@angular/core';
 
 import {
-  SkyI18nFormat
-} from '../utils/format';
-
-import {
   SkyAppLocaleInfo,
   SkyAppResources
 } from '../modules';
+
+import {
+  SkyI18nFormat
+} from '../utils/format';
 
 import {
   Observable
