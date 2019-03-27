@@ -22,25 +22,20 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
 
 import {
-  SkyAppHostLocaleProvider
-} from '@blackbaud/skyux-builder/runtime/i18n';
-
-import {
   SkyAppAssetsService
 } from '@skyux/assets';
 
 import {
-  SkyAppFormat
-} from '@skyux/core/modules/format';
+  SkyI18nFormat
+} from './format';
 
 import {
-  SkyAppWindowRef
-} from '@skyux/core/modules/window/window-ref';
+  SkyAppLocaleProvider
+} from './locale-provider';
 
 import {
-  SkyAppLocaleProvider,
   SkyAppResourcesService
-} from './index';
+} from './resources.service';
 
 describe('Resources service', () => {
   let resources: SkyAppResourcesService;
@@ -59,14 +54,10 @@ describe('Resources service', () => {
     };
 
     const providers: any[] = [
-      SkyAppWindowRef,
       SkyAppAssetsService,
       SkyAppResourcesService,
-      SkyAppFormat,
-      {
-        provide: SkyAppLocaleProvider,
-        useClass: SkyAppHostLocaleProvider
-      },
+      SkyI18nFormat,
+      SkyAppLocaleProvider,
       {
         provide: XHRBackend,
         useClass: MockBackend

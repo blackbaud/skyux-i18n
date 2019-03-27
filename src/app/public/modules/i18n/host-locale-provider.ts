@@ -9,8 +9,8 @@ import {
 import 'rxjs/add/observable/of';
 
 import {
-  SkyAppWindowRef
-} from '@skyux/core/modules/window';
+  SkyI18nWindowService
+} from './window.service';
 
 import {
   SkyAppLocaleInfo
@@ -23,7 +23,7 @@ import {
 @Injectable()
 export class SkyAppHostLocaleProvider extends SkyAppLocaleProvider {
   constructor(
-    private windowRef: SkyAppWindowRef
+    private windowRef: SkyI18nWindowService
   ) {
     super();
   }
