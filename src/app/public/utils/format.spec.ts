@@ -1,10 +1,10 @@
 import {
-  SkyI18nFormat
+  Format
 } from './format';
 
 describe('Format', () => {
   it('should replace the templated string with the correct parameters', () => {
-    const result = SkyI18nFormat.formatText(
+    const result = Format.formatText(
       'This is the {0} test string. It {1}!',
       'first',
       'worked'

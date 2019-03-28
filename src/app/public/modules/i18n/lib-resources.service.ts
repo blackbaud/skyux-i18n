@@ -9,7 +9,7 @@ import {
 } from 'rxjs/Observable';
 
 import {
-  SkyI18nFormat
+  Format
 } from '../../utils/format';
 
 import {
@@ -49,7 +49,7 @@ export class SkyLibResourcesService {
     for (const provider of this.providers) {
       const s = provider.getString(info, name);
        if (s) {
-        return SkyI18nFormat.formatText(s, ...args);
+        return Format.formatText(s, ...args);
       }
     }
 

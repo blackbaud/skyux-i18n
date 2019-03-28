@@ -25,7 +25,7 @@ import {
 } from '@skyux/assets';
 
 import {
-  SkyI18nFormat
+  Format
 } from '../../utils/format';
 
 import {
@@ -133,7 +133,7 @@ export class SkyAppResourcesService {
       }
 
       if (name in resources) {
-        return SkyI18nFormat.formatText(resources[name].message, ...args);
+        return Format.formatText(resources[name].message, ...args);
       }
 
       return name;

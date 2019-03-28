@@ -34,10 +34,6 @@ import {
 } from '@skyux/core/modules/window/window-ref';
 
 import {
-  SkyI18nFormat
-} from '../../utils/format';
-
-import {
   SkyAppLocaleProvider,
   SkyAppResourcesService
 } from './index';
@@ -62,7 +58,6 @@ describe('Resources service', () => {
       SkyAppWindowRef,
       SkyAppAssetsService,
       SkyAppResourcesService,
-      SkyI18nFormat,
       {
         provide: SkyAppLocaleProvider,
         useClass: SkyAppHostLocaleProvider

@@ -8,7 +8,7 @@ import {
 } from '../modules';
 
 import {
-  SkyI18nFormat
+  Format
 } from '../utils/format';
 
 import {
@@ -74,6 +74,6 @@ export class SkyLibResourcesTestService {
       );
     }
 
-    return SkyI18nFormat.formatText(resources[name].message, ...args);
+    return Format.formatText(resources[name].message, ...args);
   }
 }

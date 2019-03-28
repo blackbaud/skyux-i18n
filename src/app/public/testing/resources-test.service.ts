@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { SkyI18nFormat } from '../utils/format';
+import { Format } from '../utils/format';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -64,7 +64,7 @@ export class SkyAppResourcesTestService {
     }
 
     return Observable.of(
-      SkyI18nFormat.formatText(resources[name].message, ...args)
+      Format.formatText(resources[name].message, ...args)
     );
   }
 }
