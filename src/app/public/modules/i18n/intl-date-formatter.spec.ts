@@ -1,9 +1,13 @@
 import {
+  SkyBrowserDetector
+} from './browser-detector';
+
+import {
   SkyIntlDateFormatter
 } from './intl-date-formatter';
 
 describe('Intl date formatter', function () {
-  const isIE = (!!(window as any).MSInputMethodContext && !!(document as any).documentMode);
+  const isIE = SkyBrowserDetector.isIE;
 
   let testDate: Date;
 

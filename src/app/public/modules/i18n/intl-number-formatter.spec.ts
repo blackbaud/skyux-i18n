@@ -1,4 +1,8 @@
 import {
+  SkyBrowserDetector
+} from './browser-detector';
+
+import {
   SkyIntlNumberFormatStyle
 } from './intl-number-format-style';
 
@@ -12,8 +16,8 @@ function verifyResult(result: string, expectation: string): void {
 }
 
 describe('Intl number formatter', function () {
-  const isIE = (!!(window as any).MSInputMethodContext && !!(document as any).documentMode);
-  const isWindows10 = navigator.userAgent.indexOf('Windows NT 10.0');
+  const isIE = SkyBrowserDetector.isIE;
+  const isWindows7 = SkyBrowserDetector.isWindows7;
 
   it('should format currency for a locale', function () {
     const result = SkyIntlNumberFormatter.format(
@@ -73,7 +77,7 @@ describe('Intl number formatter', function () {
     );
 
     // IE 11 doesn't add a space before the symbol.
-    if (isIE && !isWindows10) {
+    if (isIE && isWindows7) {
       verifyResult(result, '48%');
     } else {
       verifyResult(result, '48 %');
