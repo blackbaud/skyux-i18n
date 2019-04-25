@@ -3,7 +3,6 @@ import {
 } from './intl-date-formatter';
 
 describe('Intl date formatter', function () {
-  console.log('AGENT:', navigator.userAgent);
   const isIE = (!!(window as any).MSInputMethodContext && !!(document as any).documentMode);
 
   let testDate: Date;
