@@ -1,38 +1,7 @@
-// This class is mostly ported from the Angular 4.x intl.ts in order to maintain the old
-// behavior of using the `Intl` API for formatting dates rather than having to register every
+// The contents of this file are mostly ported from the Angular 4.x intl.ts in order to maintain the
+// old behavior of using the `Intl` API for formatting dates rather than having to register every
 // supported locale.
 // https://github.com/angular/angular/blob/4.4.x/packages/common/src/pipes/intl.ts
-
-export enum SkyNumberFormatStyle {
-  Decimal,
-  Percent,
-  Currency
-}
-
-export class SkyNumberFormatter {
-  public static format(num: number, locale: string, style: SkyNumberFormatStyle, opts: {
-    minimumIntegerDigits?: number,
-    minimumFractionDigits?: number,
-    maximumFractionDigits?: number,
-    currency?: string|null,
-    currencyAsSymbol?: boolean
-  } = {}): string {
-    const {minimumIntegerDigits, minimumFractionDigits, maximumFractionDigits, currency,
-           currencyAsSymbol = false} = opts;
-    const options: Intl.NumberFormatOptions = {
-      minimumIntegerDigits,
-      minimumFractionDigits,
-      maximumFractionDigits,
-      style: SkyNumberFormatStyle[style].toLowerCase()
-    };
-
-    if (style === SkyNumberFormatStyle.Currency) {
-      options.currency = typeof currency === 'string' ? currency : undefined;
-      options.currencyDisplay = currencyAsSymbol ? 'symbol' : 'code';
-    }
-    return new Intl.NumberFormat(locale, options).format(num);
-  }
-}
 
 type DateFormatterFn = (date: Date, locale: string) => string;
 
@@ -145,14 +114,18 @@ function timeZoneGetter(timezone: string): DateFormatterFn {
 }
 
 function hour12Modify(
-    options: Intl.DateTimeFormatOptions, value: boolean): Intl.DateTimeFormatOptions {
+  options: Intl.DateTimeFormatOptions,
+  value: boolean
+): Intl.DateTimeFormatOptions {
   options.hour12 = value;
   return options;
 }
 
 function digitCondition(prop: string, len: number): Intl.DateTimeFormatOptions {
   const result: {[k: string]: string} = {};
+
   result[prop] = len === 2 ? '2-digit' : 'numeric';
+
   return result;
 }
 
@@ -177,7 +150,11 @@ function datePartGetterFactory(ret: Intl.DateTimeFormatOptions): DateFormatterFn
 
 const DATE_FORMATTER_CACHE = new Map<string, string[]>();
 
-function dateFormatter(format: string, date: Date, locale: string): string {
+function partToTime(part: string): string {
+  return part === '\'\'' ? '\'' : part.replace(/(^'|'$)/g, '').replace(/''/g, '\'');
+}
+
+export function dateFormatter(format: string, date: Date, locale: string): string {
   const fn = PATTERN_ALIASES[format];
 
   if (fn) {
@@ -211,14 +188,4 @@ function dateFormatter(format: string, date: Date, locale: string): string {
     const dateFormatFn = DATE_FORMATS[part];
     return text + (dateFormatFn ? dateFormatFn(date, locale) : partToTime(part));
   }, '');
-}
-
-function partToTime(part: string): string {
-  return part === '\'\'' ? '\'' : part.replace(/(^'|'$)/g, '').replace(/''/g, '\'');
-}
-
-export class SkyDateFormatter {
-  public static format(date: Date, locale: string, pattern: string): string {
-    return dateFormatter(pattern, date, locale);
-  }
 }

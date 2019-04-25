@@ -1,6 +1,5 @@
 // Include in the bundle, but not in the root API.
 import './get-string-for-locale';
-import './intl';
 
 export * from './host-locale-provider';
 export * from './i18n.module';
