@@ -12,7 +12,7 @@ describe('Intl date formatter', function () {
   let testDate: Date;
 
   beforeEach(function () {
-    testDate = new Date('4/24/2019');
+    testDate = new Date('2019-04-24T13:00:00+00:00');
   });
 
   it('should format common multi component patterns', function () {
@@ -45,9 +45,9 @@ describe('Intl date formatter', function () {
 
     if (isIE) {
       // IE adds minutes to the hours.
-      expect(formattedDate).toBe(`2019 00:00 AM 00`);
+      expect(formattedDate).toBe('2019 09:00 AM 00');
     } else {
-      expect(formattedDate).toBe('2019 00 AM EDT');
+      expect(formattedDate).toBe('2019 09 AM EDT');
     }
   });
 
