@@ -8,6 +8,9 @@ import {
 
 export abstract class SkyIntlNumberFormatter {
 
+  /* istanbul ignore next */
+  constructor() { }
+
   public static format(
     num: number,
     locale: string,

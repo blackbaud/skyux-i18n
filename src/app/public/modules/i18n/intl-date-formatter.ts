@@ -2,7 +2,11 @@ import {
   dateFormatter
 } from './intl-date-formatter-utils';
 
-export abstract class SkyIntlDateFormatter {
+export class SkyIntlDateFormatter {
+
+  /* istanbul ignore next */
+  constructor() { }
+
   public static format(
     date: Date,
     locale: string,

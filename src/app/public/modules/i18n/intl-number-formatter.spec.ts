@@ -11,7 +11,7 @@ function verifyResult(result: string, expectation: string): void {
   expect(result.replace(/\s/g, ' ')).toEqual(expectation);
 }
 
-describe('date formatter', function () {
+describe('Intl number formatter', function () {
 
   it('should format currency for a locale', function () {
     const result = SkyIntlNumberFormatter.format(

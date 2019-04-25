@@ -2,14 +2,14 @@ import {
   SkyIntlDateFormatter
 } from './intl-date-formatter';
 
-describe('date formatter', function () {
+describe('Intl date formatter', function () {
   let testDate: Date;
   let testHours: string;
   let testAmPm: string;
   let testTimeZone: string;
 
   beforeEach(function () {
-    testDate = new Date(2019, 3, 24);
+    testDate = new Date(2019, 3, 24, 5, 23, 15, 1020);
 
     testHours = testDate.getHours().toString();
     testHours = ('0' + testHours).substr(-2);
@@ -43,7 +43,9 @@ describe('date formatter', function () {
       'MEEEd': '6Mon15',
       'MMMd': 'Jun15',
       'yMMMMEEEEd': 'Monday, June 15, 2015',
-      'MMM kk ww ?? qq': 'Jun kk 6/15/2015 ?? qq'
+      'MMM kk ww ?? qq': 'Jun kk 6/15/2015 ?? qq',
+      'yyyy HH a Z': '2015 00 AM EDT',
+      'yyyy ss a Z': '2015 00 AM EDT'
     };
 
     Object.keys(dateFixtures).forEach((pattern: string) => {
@@ -80,6 +82,7 @@ describe('date formatter', function () {
       undefined,
       undefined
     );
+
     expect(formattedDate).toEqual('');
   });
 });

@@ -109,7 +109,13 @@ function timeZoneGetter(timezone: string): DateFormatterFn {
   return function(date: Date, locale: string): string {
     const result = intlDateFormat(date, locale, options);
     // Then extract first 3 letters that related to hours
-    return result ? result.substring(3) : '';
+    /* istanbul ignore else */
+    if (result) {
+      return result.substring(3);
+    }
+
+    /* istanbul ignore next */
+    return '';
   };
 }
 
@@ -173,6 +179,7 @@ export function dateFormatter(format: string, date: Date, locale: string): strin
     let _format: string|null = format;
     while (_format) {
       match = DATE_FORMATS_SPLIT.exec(_format);
+      /*istanbul ignore else */
       if (match) {
         parts = parts.concat(match.slice(1));
         _format = parts.pop() !;
