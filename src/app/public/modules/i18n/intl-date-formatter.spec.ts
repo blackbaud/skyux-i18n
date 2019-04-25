@@ -9,7 +9,7 @@ describe('Intl date formatter', function () {
   let testTimeZone: string;
 
   beforeEach(function () {
-    testDate = new Date(2019, 3, 24, 5, 23, 15, 1020);
+    testDate = new Date('4/24/2019');
 
     testHours = testDate.getHours().toString();
     testHours = ('0' + testHours).substr(-2);
@@ -31,25 +31,23 @@ describe('Intl date formatter', function () {
   });
 
   it('should format common multi component patterns', function () {
-    const date = new Date(2015, 5, 15);
-
     const dateFixtures: any = {
-      'EEE, M/d/y': 'Mon, 6/15/2015',
-      'EEE, M/d': 'Mon, 6/15',
-      'MMM d': 'Jun 15',
-      'dd/MM/yyyy': '15/06/2015',
-      'MM/dd/yyyy': '06/15/2015',
-      'yMEEEd': '20156Mon15',
-      'MEEEd': '6Mon15',
-      'MMMd': 'Jun15',
-      'yMMMMEEEEd': 'Monday, June 15, 2015',
-      'MMM kk ww ?? qq': 'Jun kk 6/15/2015 ?? qq',
-      'yyyy HH a Z': '2015 00 AM EDT',
-      'yyyy ss a Z': '2015 00 AM EDT'
+      'EEE, M/d/y': 'Wed, 4/24/2019',
+      'EEE, M/d': 'Wed, 4/24',
+      'MMM d': 'Apr 24',
+      'dd/MM/yyyy': '24/04/2019',
+      'MM/dd/yyyy': '04/24/2019',
+      'yMEEEd': '20194Wed24',
+      'MEEEd': '4Wed24',
+      'MMMd': 'Apr24',
+      'yMMMMEEEEd': 'Wednesday, April 24, 2019',
+      'MMM kk ww ?? qq': 'Apr kk 4/24/2019 ?? qq',
+      'yyyy HH a Z': '2019 00 AM EDT',
+      'yyyy ss a Z': '2019 00 AM EDT'
     };
 
     Object.keys(dateFixtures).forEach((pattern: string) => {
-      const formattedDate = SkyIntlDateFormatter.format(date, 'en-US', pattern);
+      const formattedDate = SkyIntlDateFormatter.format(testDate, 'en-US', pattern);
       const expectation = dateFixtures[pattern];
 
       expect(formattedDate).toEqual(expectation);
