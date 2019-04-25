@@ -173,7 +173,6 @@ export function dateFormatter(format: string, date: Date, locale: string): strin
     let _format: string|null = format;
     while (_format) {
       match = DATE_FORMATS_SPLIT.exec(_format);
-      console.log('EH?', _format, match);
       if (match) {
         parts = parts.concat(match.slice(1));
         _format = parts.pop() !;
