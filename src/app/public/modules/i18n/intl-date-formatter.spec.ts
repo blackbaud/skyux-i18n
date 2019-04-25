@@ -9,7 +9,7 @@ describe('date formatter', function () {
   let testTimeZone: string;
 
   beforeEach(function () {
-    testDate = new Date('2019-04-24T13:43:59+00:00');
+    testDate = new Date(2019, 3, 24);
 
     testHours = testDate.getHours().toString();
     testHours = ('0' + testHours).substr(-2);
@@ -30,19 +30,33 @@ describe('date formatter', function () {
     ).format(testDate).substr(-2);
   });
 
-  it('should format the date according to the specified locale and pattern alias', function () {
-    const formattedDate = SkyIntlDateFormatter.format(
-      new Date('2019-04-24T13:43:59+00:00'),
-      'en-US',
-      'yMMMd'
-    );
+  it('should format common multi component patterns', function () {
+    const date = new Date(2015, 5, 15);
 
-    expect(formattedDate).toBe('Apr 24, 2019');
+    const dateFixtures: any = {
+      'EEE, M/d/y': 'Mon, 6/15/2015',
+      'EEE, M/d': 'Mon, 6/15',
+      'MMM d': 'Jun 15',
+      'dd/MM/yyyy': '15/06/2015',
+      'MM/dd/yyyy': '06/15/2015',
+      'yMEEEd': '20156Mon15',
+      'MEEEd': '6Mon15',
+      'MMMd': 'Jun15',
+      'yMMMMEEEEd': 'Monday, June 15, 2015',
+      'MMM kk ww ?? qq': 'Jun kk 6/15/2015 ?? qq'
+    };
+
+    Object.keys(dateFixtures).forEach((pattern: string) => {
+      const formattedDate = SkyIntlDateFormatter.format(date, 'en-US', pattern);
+      const expectation = dateFixtures[pattern];
+
+      expect(formattedDate).toEqual(expectation);
+    });
   });
 
   it('should format the date according to the specified locale and custom format', function () {
     const formattedDate = SkyIntlDateFormatter.format(
-      new Date('2019-04-24T13:43:59+00:00'),
+      testDate,
       'en-US',
       'yyyy HH a Z'
     );
@@ -52,11 +66,20 @@ describe('date formatter', function () {
 
   it('should handle non-date part characters in the format string', function () {
     const formattedDate = SkyIntlDateFormatter.format(
-      new Date('2019-04-24T13:43:59+00:00'),
+      testDate,
       'en-US',
       'yyyy~\'\'M'
     );
 
     expect(formattedDate).toBe('2019~\'4');
+  });
+
+  it('should handle invalid dates', function () {
+    const formattedDate = SkyIntlDateFormatter.format(
+      new Date('invalid'),
+      undefined,
+      undefined
+    );
+    expect(formattedDate).toEqual('');
   });
 });

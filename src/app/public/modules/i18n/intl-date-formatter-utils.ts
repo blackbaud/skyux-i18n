@@ -164,6 +164,7 @@ export function dateFormatter(format: string, date: Date, locale: string): strin
   const cacheKey = format;
   let parts = DATE_FORMATTER_CACHE.get(cacheKey);
 
+  /* istanbul ignore else */
   if (!parts) {
     parts = [];
     let match: RegExpExecArray|null;
@@ -172,6 +173,7 @@ export function dateFormatter(format: string, date: Date, locale: string): strin
     let _format: string|null = format;
     while (_format) {
       match = DATE_FORMATS_SPLIT.exec(_format);
+      console.log('EH?', _format, match);
       if (match) {
         parts = parts.concat(match.slice(1));
         _format = parts.pop() !;
