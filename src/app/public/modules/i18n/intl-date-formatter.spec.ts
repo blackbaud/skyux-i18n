@@ -12,7 +12,7 @@ describe('Intl date formatter', function () {
   let testDate: Date;
 
   beforeEach(function () {
-    testDate = new Date(2019, 3, 24, 13);
+    testDate = new Date('Wed Apr 24 2019 09:07:34 GMT-0400');
   });
 
   it('should format common multi component patterns', function () {
@@ -40,14 +40,14 @@ describe('Intl date formatter', function () {
     const formattedDate = SkyIntlDateFormatter.format(
       testDate,
       'en-US',
-      'yyyy HH a Z'
+      'yyyy HH a z'
     );
 
     if (isIE) {
       // IE adds minutes to the hours.
-      expect(formattedDate).toBe('2019 13:00 PM 00');
+      expect(formattedDate).toBe('2019 09:00 AM 00');
     } else {
-      expect(formattedDate).toBe('2019 13 PM EDT');
+      expect(formattedDate).toBe('2019 09 AM Eastern Daylight Time');
     }
   });
 
