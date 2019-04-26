@@ -13,6 +13,11 @@ describe('Intl date formatter', function () {
 
   beforeEach(function () {
     testDate = new Date('2019-04-24T09:07:34Z');
+
+    // Set time to a specific timezone.
+    testDate.setTime(
+      testDate.getTime() + testDate.getTimezoneOffset() * 60 * 1000
+    );
   });
 
   it('should format common multi component patterns', function () {
