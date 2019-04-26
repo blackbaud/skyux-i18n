@@ -43,6 +43,9 @@ describe('Intl date formatter', function () {
       'yyyy HH a Z'
     );
 
+    console.log('Test date offset:', testDate.getTimezoneOffset());
+    console.log('Environment offset:', new Date(2019, 3, 24, 9, 7, 34).getTimezoneOffset());
+
     const hours = `0${testDate.getHours().toString()}`;
 
     const meridiem = testDate.toLocaleString('en-US', {
