@@ -10,9 +10,30 @@ describe('Intl date formatter', function () {
   const isIE = SkyBrowserDetector.isIE;
 
   let testDate: Date;
+  let testHours: string;
+  let testAmPm: string;
+  let testTimeZone: string;
 
   beforeEach(function () {
-    testDate = new Date('Apr 24 2019 13:00:00 EST');
+    testDate = new Date('2019-04-24T13:00:00+00:00');
+
+    testHours = testDate.getHours().toString();
+    testHours = ('0' + testHours).substr(-2);
+
+      testTimeZone = new Intl.DateTimeFormat(
+      'en-US',
+      {
+        timeZoneName: 'short'
+      }
+    ).format(testDate).substr(-3);
+
+      testAmPm = new Intl.DateTimeFormat(
+      'en-US',
+      {
+        hour: 'numeric',
+        hour12: true
+      }
+    ).format(testDate).substr(-2);
   });
 
   it('should format common multi component patterns', function () {
@@ -45,9 +66,9 @@ describe('Intl date formatter', function () {
 
     if (isIE) {
       // IE adds minutes to the hours.
-      expect(formattedDate).toBe('2019 14:00 PM 00');
+      expect(formattedDate).toBe(`2019 ${testHours} ${testAmPm} ${testTimeZone}`);
     } else {
-      expect(formattedDate).toBe('2019 14 PM EDT');
+      expect(formattedDate).toBe(`2019 ${testHours} ${testAmPm} ${testTimeZone}`);
     }
   });
 
