@@ -8,6 +8,7 @@ import {
 
 describe('Intl date formatter', function () {
   const isIE = SkyBrowserDetector.isIE;
+  const isWindows7 = SkyBrowserDetector.isWindows7;
 
   let testDate: Date;
 
@@ -43,10 +44,7 @@ describe('Intl date formatter', function () {
       'yyyy HH a Z'
     );
 
-    console.log('Test date offset:', testDate.getTimezoneOffset());
-    console.log('Environment offset:', new Date(2019, 3, 24, 9, 7, 34).getTimezoneOffset());
-
-    const hours = `0${testDate.getHours().toString()}`;
+    let hours = `0${testDate.getHours()}`;
 
     const meridiem = testDate.toLocaleString('en-US', {
       hour: 'numeric',
@@ -60,10 +58,18 @@ describe('Intl date formatter', function () {
     let timezone = timezoneFragments[timezoneFragments.length - 1];
 
     if (isIE) {
+      // IE 11 subtracts 1 from the hours count.
+      if (isWindows7) {
+        hours = `0${testDate.getHours() - 1}`;
+      }
+
       // IE adds minutes to the hours.
+      hours += ':00';
+
       // IE does not include timezone in the formatted locale string.
       timezone = '00';
-      expect(formattedDate).toBe(`2019 ${hours}:00 ${meridiem} ${timezone}`);
+
+      expect(formattedDate).toBe(`2019 ${hours} ${meridiem} ${timezone}`);
     } else {
       expect(formattedDate).toBe(`2019 ${hours} ${meridiem} ${timezone}`);
     }
