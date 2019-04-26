@@ -12,7 +12,7 @@ describe('Intl date formatter', function () {
   let testDate: Date;
 
   beforeEach(function () {
-    testDate = new Date('Wed Apr 24 2019 09:07:34 GMT-0400');
+    testDate = new Date('2019-04-24T09:07:34Z');
   });
 
   it('should format common multi component patterns', function () {
@@ -36,18 +36,33 @@ describe('Intl date formatter', function () {
     });
   });
 
-  it('should format the date according to the specified locale and custom format', function () {
+  it('should format the date/time according to specified locale and custom format', function () {
     const formattedDate = SkyIntlDateFormatter.format(
       testDate,
       'en-US',
-      'yyyy HH a z'
+      'yyyy HH a Z'
     );
+
+    const hours = `0${testDate.getHours().toString()}`;
+
+    const meridiem = testDate.toLocaleString('en-US', {
+      hour: 'numeric',
+      hour12: true
+    }).substr(-2);
+
+    const timezoneFragments = testDate.toLocaleString('en-US', {
+      timeZoneName: 'short'
+    }).split(' ');
+
+    let timezone = timezoneFragments[timezoneFragments.length - 1];
 
     if (isIE) {
       // IE adds minutes to the hours.
-      expect(formattedDate).toBe('2019 09:00 AM 00');
+      // IE does not include timezone in the formatted locale string.
+      timezone = '00';
+      expect(formattedDate).toBe(`2019 ${hours}:00 ${meridiem} ${timezone}`);
     } else {
-      expect(formattedDate).toBe('2019 09 AM Eastern Daylight Time');
+      expect(formattedDate).toBe(`2019 ${hours} ${meridiem} ${timezone}`);
     }
   });
 
