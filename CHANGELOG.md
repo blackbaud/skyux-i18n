@@ -1,6 +1,6 @@
 # 3.6.1 (2019-04-29)
 
-- Fixed `SkyAppHostLocaleProvider` to remove a circular reference to `@skyux/core`. [#33](https://github.com/blackbaud/skyux-i18n/pull/33)
+- Fixed `SkyAppHostLocaleProvider` to remove circular reference to `@skyux/core`. [#33](https://github.com/blackbaud/skyux-i18n/pull/33)
 
 # 3.6.0 (2019-04-26)
 
@@ -8,11 +8,11 @@
 
 # 3.5.2 (2019-03-28)
 
-- Fixed `SkyAppResourcesService` and `SkyLibResourcesService` to remove a circular reference to `@skyux/core`. [#25](https://github.com/blackbaud/skyux-i18n/pull/25)
+- Fixed `SkyAppResourcesService` and `SkyLibResourcesService` to remove circular reference to `@skyux/core`. [#25](https://github.com/blackbaud/skyux-i18n/pull/25)
 
 # 3.5.1 (2019-03-19)
 
-- Fixed `SkyI18nModule` to remove a circular reference to `@skyux/core`. [#23](https://github.com/blackbaud/skyux-i18n/pull/23)
+- Fixed `SkyI18nModule` to remove circular reference to `@skyux/core`. [#23](https://github.com/blackbaud/skyux-i18n/pull/23)
 
 # 3.5.0 (2018-11-19)
 
