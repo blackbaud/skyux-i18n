@@ -1,3 +1,7 @@
+# 3.6.1 (2019-04-29)
+
+- Fixed `SkyAppHostLocaleProvider` to remove a circular reference to `@skyux/core`. [#33](https://github.com/blackbaud/skyux-i18n/pull/33)
+
 # 3.6.0 (2019-04-26)
 
 - Added utility classes to format dates and numbers by locale. [#31](https://github.com/blackbaud/skyux-i18n/pull/31)
