@@ -23,7 +23,7 @@
   "homepage": "https://github.com/blackbaud/skyux-i18n#readme",
   "peerDependencies": {
     "@angular/core": ">=4.3.6",
-    "@angular/http": ">=4.3.6",
+    "@angular/common": ">=4.3.6",
     "@skyux/assets": "^3.0.0"
   },
   "dependencies": {},
