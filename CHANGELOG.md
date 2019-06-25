@@ -1,3 +1,7 @@
+# 3.7.0 (2019-06-24)
+
+- Removed peer dependency on the deprecated `@angular/http` library. [#35](https://github.com/blackbaud/skyux-i18n/pull/35)
+
 # 3.6.1 (2019-04-29)
 
 - Fixed `SkyAppHostLocaleProvider` to remove circular reference to `@skyux/core`. [#33](https://github.com/blackbaud/skyux-i18n/pull/33)
