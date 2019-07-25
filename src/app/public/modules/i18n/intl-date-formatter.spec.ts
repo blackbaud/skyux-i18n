@@ -8,7 +8,6 @@ import {
 
 describe('Intl date formatter', function () {
   const isIE = SkyBrowserDetector.isIE;
-  const isEdge = SkyBrowserDetector.isEdge;
   const isWindows7 = SkyBrowserDetector.isWindows7;
 
   let testDate: Date;
@@ -70,10 +69,6 @@ describe('Intl date formatter', function () {
       // IE does not include timezone in the formatted locale string.
       timezone = '00';
 
-      expect(formattedDate).toBe(`2019 ${hours} ${meridiem} ${timezone}`);
-    } else if (isEdge) {
-      // Edge does not prefix hours with zero.
-      // hours = testDate.getHours().toString();
       expect(formattedDate).toBe(`2019 ${hours} ${meridiem} ${timezone}`);
     } else {
       expect(formattedDate).toBe(`2019 ${hours} ${meridiem} ${timezone}`);
