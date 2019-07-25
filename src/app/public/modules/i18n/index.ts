@@ -3,7 +3,6 @@ import './get-string-for-locale';
 import './intl-date-formatter';
 import './intl-number-formatter';
 
-export * from './host-locale-provider';
 export * from './i18n.module';
 export * from './lib-resources-provider';
 export * from './lib-resources-providers-token';

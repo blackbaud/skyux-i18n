@@ -1,12 +1,19 @@
-import { Injectable } from '@angular/core';
+import {
+  Injectable
+} from '@angular/core';
 
-import { Format } from '../utils/format';
+import {
+  of as observableOf,
+  Observable
+} from 'rxjs';
 
-import { Observable } from 'rxjs/Observable';
+import {
+  SkyAppResources
+} from '../modules/i18n/resources';
 
-import 'rxjs/add/observable/of';
-
-import { SkyAppResources } from '../modules/i18n/resources';
+import {
+  Format
+} from '../utils/format';
 
 declare const ROOT_DIR: string;
 declare const require: { context: any };
@@ -63,7 +70,7 @@ export class SkyAppResourcesTestService {
       );
     }
 
-    return Observable.of(
+    return observableOf(
       Format.formatText(resources[name].message, ...args)
     );
   }

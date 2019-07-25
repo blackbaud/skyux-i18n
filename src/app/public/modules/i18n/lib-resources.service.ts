@@ -6,7 +6,11 @@ import {
 
 import {
   Observable
-} from 'rxjs/Observable';
+} from 'rxjs';
+
+import {
+  map
+} from 'rxjs/operators';
 
 import {
   Format
@@ -38,7 +42,9 @@ export class SkyLibResourcesService {
 
   public getString(name: string, ...args: any[]): Observable<string> {
     return this.localeProvider.getLocaleInfo()
-      .map((info) => this.getStringForLocale(info, name, ...args));
+      .pipe(
+        map((info) => this.getStringForLocale(info, name, ...args))
+      );
   }
 
   public getStringForLocale(

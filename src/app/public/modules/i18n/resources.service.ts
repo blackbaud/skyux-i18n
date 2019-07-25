@@ -1,4 +1,8 @@
 import {
+  HttpClient
+} from '@angular/common/http';
+
+import {
   forwardRef,
   Inject,
   Injectable,
@@ -6,19 +10,17 @@ import {
 } from '@angular/core';
 
 import {
-  HttpClient
-} from '@angular/common/http';
+  of as observableOf,
+  Observable
+} from 'rxjs';
 
 import {
-  Observable
-} from 'rxjs/Observable';
-
-import 'rxjs/add/observable/of';
-
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/publishReplay';
-import 'rxjs/add/operator/switchMap';
+  catchError,
+  map,
+  publishReplay,
+  refCount,
+  switchMap
+} from 'rxjs/operators';
 
 import {
   SkyAppAssetsService
@@ -37,7 +39,7 @@ declare type SkyResourceType = {[key: string]: {message: string}};
 const defaultResources: SkyResourceType = {};
 
 function getDefaultObs(): Observable<SkyResourceType> {
-  return Observable.of(defaultResources);
+  return observableOf(defaultResources);
 }
 
 /**
@@ -63,8 +65,8 @@ export class SkyAppResourcesService {
     if (!this.resourcesObs) {
       const localeObs = this.localeProvider.getLocaleInfo();
 
-      this.resourcesObs = localeObs
-        .switchMap((localeInfo) => {
+      this.resourcesObs = localeObs.pipe(
+        switchMap((localeInfo) => {
           let obs: Observable<any>;
           let resourcesUrl: string;
 
@@ -84,28 +86,29 @@ export class SkyAppResourcesService {
 
           if (resourcesUrl) {
             obs = this.httpObs[resourcesUrl] || this.http
-              .get<SkyResourceType>(resourcesUrl)
-              /* tslint:disable max-line-length */
-              // publishReplay(1).refCount() will ensure future subscribers to
-              // this observable will use a cached result.
-              // https://stackoverflow.com/documentation/rxjs/8247/common-recipes/26490/caching-http-responses#t=201612161544428695958
-              /* tslint:enable max-line-length */
-              .publishReplay(1)
-              .refCount()
-              .catch(() => {
-                // The resource file for the specified locale failed to load;
-                // fall back to the default locale if it differs from the specified
-                // locale.
-                const defaultResourcesUrl = this.getUrlForLocale(
-                  this.localeProvider.defaultLocale
-                );
+              .get<SkyResourceType>(resourcesUrl).pipe(
+                /* tslint:disable max-line-length */
+                // publishReplay(1).refCount() will ensure future subscribers to
+                // this observable will use a cached result.
+                // https://stackoverflow.com/documentation/rxjs/8247/common-recipes/26490/caching-http-responses#t=201612161544428695958
+                /* tslint:enable max-line-length */
+                publishReplay(1),
+                refCount(),
+                catchError(() => {
+                  // The resource file for the specified locale failed to load;
+                  // fall back to the default locale if it differs from the specified
+                  // locale.
+                  const defaultResourcesUrl = this.getUrlForLocale(
+                    this.localeProvider.defaultLocale
+                  );
 
-                if (defaultResourcesUrl && defaultResourcesUrl !== resourcesUrl) {
-                  return this.http.get<SkyResourceType>(defaultResourcesUrl);
-                }
+                  if (defaultResourcesUrl && defaultResourcesUrl !== resourcesUrl) {
+                    return this.http.get<SkyResourceType>(defaultResourcesUrl);
+                  }
 
-                return getDefaultObs();
-              });
+                  return getDefaultObs();
+                })
+              );
           } else {
             obs = getDefaultObs();
           }
@@ -113,20 +116,21 @@ export class SkyAppResourcesService {
           this.httpObs[resourcesUrl] = obs;
 
           return obs;
-        })
+        }),
         // Don't keep trying after a failed attempt to load resources, or else
         // impure pipes like resources pipe that call this service will keep
         // firing requests indefinitely every few milliseconds.
-        .catch(() => getDefaultObs());
+        catchError(() => getDefaultObs())
+      );
     }
 
-    return this.resourcesObs.map((resources): string => {
+    return this.resourcesObs.pipe(map((resources): string => {
       if (name in resources) {
         return Format.formatText(resources[name].message, ...args);
       }
 
       return name;
-    });
+    }));
   }
 
   private getUrlForLocale(locale: string): string {

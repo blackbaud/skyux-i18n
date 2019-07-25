@@ -1,19 +1,12 @@
 import {
-  getTestBed,
-  TestBed
-} from '@angular/core/testing';
-
-import {
   HttpClientTestingModule,
   HttpTestingController
 } from '@angular/common/http/testing';
 
 import {
-  Observable
-} from 'rxjs/Observable';
-
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/throw';
+  getTestBed,
+  TestBed
+} from '@angular/core/testing';
 
 import {
   SkyAppAssetsService
@@ -24,13 +17,28 @@ import {
 } from '@skyux/core';
 
 import {
-  SkyAppHostLocaleProvider
-} from './host-locale-provider';
+  Observable,
+  of as observableOf,
+  throwError as observableThrowError
+} from 'rxjs';
 
 import {
+  SkyAppLocaleInfo,
   SkyAppLocaleProvider,
   SkyAppResourcesService
 } from './index';
+
+class MockLocaleProvider extends SkyAppLocaleProvider {
+  constructor() {
+    super();
+  }
+
+  public getLocaleInfo(): Observable<SkyAppLocaleInfo> {
+    return observableOf({
+      locale: 'en-US'
+    });
+  }
+}
 
 describe('Resources service', () => {
   let resources: SkyAppResourcesService;
@@ -61,7 +69,7 @@ describe('Resources service', () => {
       SkyAppResourcesService,
       {
         provide: SkyAppLocaleProvider,
-        useClass: SkyAppHostLocaleProvider
+        useClass: MockLocaleProvider
       },
       {
         provide: SkyAppAssetsService,
@@ -165,7 +173,7 @@ describe('Resources service', () => {
     beforeEach(() => {
       currentLocale = undefined;
 
-      getLocaleInfo = () => Observable.of({
+      getLocaleInfo = () => observableOf({
         locale: currentLocale
       });
 
@@ -263,7 +271,7 @@ describe('Resources service', () => {
     it(
       'should fall back to the resource name if the locale provider throws an error',
       (done) => {
-        getLocaleInfo = () => Observable.throw(new Error());
+        getLocaleInfo = () => observableThrowError(new Error());
 
         resources.getString('hi').subscribe((value) => {
           expect(value).toBe('hi');

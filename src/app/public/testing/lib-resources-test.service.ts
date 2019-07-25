@@ -3,10 +3,9 @@ import {
 } from '@angular/core';
 
 import {
+  of as observableOf,
   Observable
-} from 'rxjs/Observable';
-
-import 'rxjs/add/observable/of';
+} from 'rxjs';
 
 import {
   SkyAppLocaleInfo,
@@ -20,14 +19,12 @@ import {
 declare const ROOT_DIR: string;
 declare const require: { context: any };
 
+/**
+ * @deprecated SkyLibResourcesTestService is no longer needed and should be removed from
+ * any TestBed modules that provide it.
+ */
 @Injectable()
 export class SkyLibResourcesTestService {
-  constructor() {
-    console.warn(
-      'SkyLibResourcesTestService is no longer needed and' +
-      'should be removed from any TestBed modules that provide it.'
-    );
-  }
 
   public getString(name: string, ...args: any[]): Observable<string> {
     const value = this.getStringForLocale(
@@ -36,7 +33,7 @@ export class SkyLibResourcesTestService {
       ...args
     );
 
-    return Observable.of(value);
+    return observableOf(value);
   }
 
   public getStringForLocale(

@@ -3,10 +3,9 @@ import {
 } from '@angular/core';
 
 import {
+  of as observableOf,
   Observable
-} from 'rxjs/Observable';
-
-import 'rxjs/add/observable/of';
+} from 'rxjs';
 
 import {
   SkyAppLocaleInfo
@@ -21,7 +20,7 @@ export class SkyAppLocaleProvider {
   private static _defaultLocale = 'en-US';
 
   public getLocaleInfo(): Observable<SkyAppLocaleInfo> {
-    return Observable.of({
+    return observableOf({
       locale: this.defaultLocale
     });
   }
