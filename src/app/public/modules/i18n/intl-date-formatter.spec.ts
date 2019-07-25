@@ -73,7 +73,7 @@ describe('Intl date formatter', function () {
       expect(formattedDate).toBe(`2019 ${hours} ${meridiem} ${timezone}`);
     } else if (isEdge) {
       // Edge does not prefix hours with zero.
-      hours = testDate.getHours().toString();
+      // hours = testDate.getHours().toString();
       expect(formattedDate).toBe(`2019 ${hours} ${meridiem} ${timezone}`);
     } else {
       expect(formattedDate).toBe(`2019 ${hours} ${meridiem} ${timezone}`);
