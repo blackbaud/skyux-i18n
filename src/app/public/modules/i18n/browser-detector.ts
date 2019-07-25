@@ -7,6 +7,10 @@ export class SkyBrowserDetector {
     navigator.userAgent.indexOf('Trident') > -1
   );
 
+  public static isEdge = (
+    navigator.userAgent.indexOf('Edge') > -1
+  );
+
   public static isWindows7 = (
     navigator.userAgent.indexOf('Windows NT 6.1') > -1
   );
