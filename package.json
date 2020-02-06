@@ -41,7 +41,7 @@
     "@blackbaud/auth-client": "2.21.0",
     "@pact-foundation/pact": "9.6.1",
     "@pact-foundation/pact-web": "9.6.1",
-    "@skyux-sdk/builder": "blackbaud/skyux-sdk-builder#ng-packagr",
+    "@skyux-sdk/builder": "3.13.0",
     "@skyux-sdk/builder-plugin-skyux": "1.2.1",
     "@skyux-sdk/e2e": "3.1.2",
     "@skyux-sdk/pact": "3.3.1",
