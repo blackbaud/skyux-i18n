@@ -9,15 +9,13 @@ import {
 } from '@angular/common/http/testing';
 
 import {
-  Observable
-} from 'rxjs/Observable';
-
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/throw';
-
-import {
   SkyAppAssetsService
 } from '@skyux/assets';
+
+import {
+  of as observableOf,
+  throwError as observableThrowError
+} from 'rxjs';
 
 import {
   SkyAppLocaleProvider
@@ -92,7 +90,7 @@ describe('Resources service', () => {
         provide: SkyAppLocaleProvider,
         useValue: {
           defaultLocale: 'en-US',
-          getLocaleInfo: () => Observable.of({
+          getLocaleInfo: () => observableOf({
             locale: 'en-US'
           })
         }
@@ -182,7 +180,7 @@ describe('Resources service', () => {
     beforeEach(() => {
       currentLocale = undefined;
 
-      getLocaleInfo = () => Observable.of({
+      getLocaleInfo = () => observableOf({
         locale: currentLocale
       });
 
@@ -280,7 +278,7 @@ describe('Resources service', () => {
     it(
       'should fall back to the resource name if the locale provider throws an error',
       (done) => {
-        getLocaleInfo = () => Observable.throw(new Error());
+        getLocaleInfo = () => observableThrowError(new Error());
 
         resources.getString('hi').subscribe((value) => {
           expect(value).toBe('hi');
@@ -308,7 +306,7 @@ describe('Resources service', () => {
     });
 
     it('should use the name from the provider if a recognized name is returned', (done) => {
-      getResourceName = (name: string) => Observable.of(name + '_alternate');
+      getResourceName = (name: string) => observableOf(name + '_alternate');
 
       resources.getString('hi').subscribe((value) => {
         expect(value).toBe('howdy');
@@ -320,7 +318,7 @@ describe('Resources service', () => {
 
     it(
       'should fall back to the original name if the name from the provider is unrecognized', (done) => {
-      getResourceName = (name: string) => Observable.of(name + '_unrecognized');
+      getResourceName = (name: string) => observableOf(name + '_unrecognized');
 
       resources.getString('hi').subscribe((value) => {
         expect(value).toBe('hello');

@@ -3,10 +3,9 @@ import {
 } from '@angular/core';
 
 import {
-  Observable
-} from 'rxjs/Observable';
-
-import 'rxjs/add/observable/of';
+  Observable,
+  of as observableOf
+} from 'rxjs';
 
 import {
   SkyAppResources
@@ -71,7 +70,7 @@ export class SkyAppResourcesTestService {
       );
     }
 
-    return Observable.of(
+    return observableOf(
       Format.formatText(resources[name].message, ...args)
     );
   }
