@@ -1,3 +1,15 @@
+# 3.9.3 (2020-02-10)
+
+- Fixed a circular reference to `@skyux/core`.
+
+# 3.9.2 (2020-02-07)
+
+- Fixed the primary entry point to export `SkyIntlNumberFormatStyle`. [#54](https://github.com/blackbaud/skyux-i18n/pull/54)
+
+# 3.9.1 (2020-02-07)
+
+- Fixed several deep imports into other SKY UX packages to address build warnings when using Angular Ivy. [#52](https://github.com/blackbaud/skyux-i18n/pull/52)
+
 # 3.9.0 (2019-09-09)
 
 - Added `SkyAppResourceNameProvider` to provide the ability to alter the resource key before passing it to `SkyLibResourcesService`. [#46](https://github.com/blackbaud/skyux-i18n/pull/46) Thanks [@Blackbaud-MatthewBell](https://github.com/Blackbaud-MatthewBell)!

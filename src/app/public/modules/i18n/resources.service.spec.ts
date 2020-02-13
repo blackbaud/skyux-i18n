@@ -20,14 +20,6 @@ import {
 } from '@skyux/assets';
 
 import {
-  SkyAppWindowRef
-} from '@skyux/core';
-
-import {
-  SkyAppHostLocaleProvider
-} from './host-locale-provider';
-
-import {
   SkyAppLocaleProvider
 } from './locale-provider';
 
@@ -48,8 +40,10 @@ describe('Resources service', () => {
   let esUrl: string;
   let enGbUrl: string;
 
-  function configureTestingModule(mockLocaleProvider?: any,
-    mockResourceNameProvider?: any): void {
+  function configureTestingModule(
+    mockLocaleProvider?: any,
+    mockResourceNameProvider?: any
+  ): void {
     enUsUrl = 'https://example.com/locales/resources_en_US.json';
     enGbUrl = 'https://example.com/locales/resources_en_GB.json';
     esUrl = 'https://example.com/locales/resources_es.json';
@@ -67,13 +61,8 @@ describe('Resources service', () => {
     };
 
     const providers: any[] = [
-      SkyAppWindowRef,
       SkyAppAssetsService,
       SkyAppResourcesService,
-      {
-        provide: SkyAppLocaleProvider,
-        useClass: SkyAppHostLocaleProvider
-      },
       {
         provide: SkyAppAssetsService,
         useValue: {
@@ -97,6 +86,16 @@ describe('Resources service', () => {
       providers.push({
         provide: SkyAppLocaleProvider,
         useValue: mockLocaleProvider
+      });
+    } else {
+      providers.push({
+        provide: SkyAppLocaleProvider,
+        useValue: {
+          defaultLocale: 'en-US',
+          getLocaleInfo: () => Observable.of({
+            locale: 'en-US'
+          })
+        }
       });
     }
 

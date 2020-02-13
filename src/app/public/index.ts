@@ -1,5 +1,4 @@
 export * from './modules/i18n/get-string-for-locale';
-export * from './modules/i18n/host-locale-provider';
 export * from './modules/i18n/i18n.module';
 export * from './modules/i18n/intl-date-formatter';
 export * from './modules/i18n/intl-number-formatter';
