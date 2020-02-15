@@ -1,6 +1,6 @@
 {
   "name": "@skyux/i18n",
-  "version": "3.9.3",
+  "version": "4.0.0-rc.0",
   "description": "SKY UX Internationalization",
   "main": "bundles/bundle.umd.js",
   "module": "index.ts",
@@ -24,7 +24,7 @@
   "peerDependencies": {
     "@angular/core": ">=4.3.6",
     "@angular/common": ">=4.3.6",
-    "@skyux/assets": "^4.0.0.rc"
+    "@skyux/assets": "^4.0.0-rc"
   },
   "dependencies": {},
   "devDependencies": {
@@ -45,7 +45,7 @@
     "@skyux-sdk/e2e": "3.1.2",
     "@skyux-sdk/pact": "3.3.1",
     "@skyux-sdk/testing": "3.1.0",
-    "@skyux/assets": "3.1.0",
+    "@skyux/assets": "4.0.0-rc.0",
     "@skyux/config": "3.7.0",
     "@skyux/core": "3.10.1",
     "@skyux/http": "4.0.0-rc.1",
