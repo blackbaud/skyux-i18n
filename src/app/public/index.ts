@@ -1,6 +1,7 @@
 export * from './modules/i18n/get-string-for-locale';
 export * from './modules/i18n/i18n.module';
 export * from './modules/i18n/intl-date-formatter';
+export * from './modules/i18n/intl-number-format-style';
 export * from './modules/i18n/intl-number-formatter';
 export * from './modules/i18n/lib-resources-provider';
 export * from './modules/i18n/lib-resources-providers-token';
