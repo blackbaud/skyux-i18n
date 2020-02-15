@@ -1,3 +1,7 @@
+# 4.0.0-rc.1 (2020-02-15)
+
+- Added the `SkyIntlNumberFormatStyle` type to the primary entry point. [#58](https://github.com/blackbaud/skyux-i18n/pull/58)
+
 # 4.0.0-rc.0 (2020-02-15)
 
 ### New features
