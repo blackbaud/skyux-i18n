@@ -3,10 +3,9 @@ import {
 } from '@angular/core';
 
 import {
-  Observable
-} from 'rxjs/Observable';
-
-import 'rxjs/add/observable/of';
+  Observable,
+  of as observableOf
+} from 'rxjs';
 
 import {
   SkyAppLocaleInfo
@@ -39,7 +38,7 @@ export class SkyLibResourcesTestService {
       ...args
     );
 
-    return Observable.of(value);
+    return observableOf(value);
   }
 
   public getStringForLocale(
