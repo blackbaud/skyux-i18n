@@ -1,3 +1,7 @@
+# 4.0.0-rc.2 (2020-03-26)
+
+- Added bug fixes and features from the master branch. [#64](https://github.com/blackbaud/skyux-i18n/pull/64)
+
 # 3.10.0 (2020-03-16)
 
 - Updated `SkyAppResourcesService` and `skyAppResources` pipe to leave tokens intact when no corresponding parameter is specified. [#62](https://github.com/blackbaud/skyux-i18n/pull/62)
