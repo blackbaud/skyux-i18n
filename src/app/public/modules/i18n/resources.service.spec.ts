@@ -1,19 +1,12 @@
 import {
-  getTestBed,
-  TestBed
-} from '@angular/core/testing';
-
-import {
   HttpClientTestingModule,
   HttpTestingController
 } from '@angular/common/http/testing';
 
 import {
-  Observable
-} from 'rxjs/Observable';
-
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/throw';
+  getTestBed,
+  TestBed
+} from '@angular/core/testing';
 
 import {
   SkyAppAssetsService
@@ -24,6 +17,14 @@ import {
 } from '@skyux/core/modules/window';
 
 import {
+  throwError
+} from 'rxjs';
+
+import {
+  Observable
+} from 'rxjs/Observable';
+
+import {
   SkyAppHostLocaleProvider
 } from './host-locale-provider';
 
@@ -32,12 +33,12 @@ import {
 } from './locale-provider';
 
 import {
-  SkyAppResourcesService
-} from './resources.service';
-
-import {
   SkyAppResourceNameProvider
 } from './resource-name-provider';
+
+import {
+  SkyAppResourcesService
+} from './resources.service';
 
 describe('Resources service', () => {
   let resources: SkyAppResourcesService;
@@ -149,6 +150,24 @@ describe('Resources service', () => {
       });
 
       addTestResourceResponse();
+    });
+
+    it('should return the specified string for the locale provided ', (done: DoneFn) => {
+      resources.getStringForLocale({ 'locale': 'es-MX' }, 'hi').subscribe((value: string) => {
+        expect(value).toBe('hello');
+        done();
+      });
+
+      addTestResourceResponse(esUrl);
+    });
+
+    it('should return the specified string with the specified parameters for the locale provided ', (done: DoneFn) => {
+      resources.getStringForLocale({ 'locale': 'es-MX' }, 'template', 'a', 'b').subscribe((value: string) => {
+        expect(value).toBe('format a me b a');
+        done();
+      });
+
+      addTestResourceResponse(esUrl);
     });
 
     it('should fall back to the resource name if no resource file exists', (done) => {
@@ -281,7 +300,7 @@ describe('Resources service', () => {
     it(
       'should fall back to the resource name if the locale provider throws an error',
       (done) => {
-        getLocaleInfo = () => Observable.throw(new Error());
+        getLocaleInfo = () => throwError(new Error());
 
         resources.getString('hi').subscribe((value) => {
           expect(value).toBe('hi');
