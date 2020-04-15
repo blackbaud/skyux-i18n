@@ -1,10 +1,8 @@
 import {
-  of
-} from 'rxjs';
+  Observable
+} from 'rxjs/Observable';
 
-import {
-  SkyAppLocaleInfo
-} from './locale-info';
+import 'rxjs/add/observable/of';
 
 import {
   SkyAppResourcesPipe
@@ -33,14 +31,7 @@ describe('Resources pipe', () => {
           value = 'hello';
         }
 
-        return of(value);
-      },
-      getStringForLocale: (localeInfo: SkyAppLocaleInfo, name: string, ...args) => {
-        if (args.length > 0) {
-          return of((localeInfo.locale === 'fr-CA' ? 'bonjour ' : 'hello ') + args[0]);
-        } else {
-          return of(localeInfo.locale === 'fr-CA' ? 'bonjour' : 'hello');
-        }
+        return Observable.of(value);
       }
     } as SkyAppResourcesService;
   });
@@ -55,20 +46,6 @@ describe('Resources pipe', () => {
     const pipe = new SkyAppResourcesPipe(changeDetector, resources);
 
     expect(pipe.transform('hi', 'abc')).toBe('format me abc');
-  });
-
-  it('should return the expected string for the specified locale', () => {
-    const pipe = new SkyAppResourcesPipe(changeDetector, resources);
-
-    expect(pipe.transform({ 'locale': 'fr-CA' }, 'hi')).toBe('bonjour');
-    expect(pipe.transform({ 'locale': 'en-US' }, 'hi')).toBe('hello');
-  });
-
-  it('should return the expected string formatted with the specified parameters for the specified locale', () => {
-    const pipe = new SkyAppResourcesPipe(changeDetector, resources);
-
-    expect(pipe.transform({ 'locale': 'fr-CA' }, 'hi', 'abc')).toBe('bonjour abc');
-    expect(pipe.transform({ 'locale': 'en-US' }, 'hi', 'abc')).toBe('hello abc');
   });
 
   it('should cache strings that have been retrieved via the resource service', () => {
