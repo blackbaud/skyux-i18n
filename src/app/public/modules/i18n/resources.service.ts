@@ -56,7 +56,8 @@ function getDefaultObs(): Observable<SkyResourceType> {
  */
 @Injectable()
 export class SkyAppResourcesService {
-  private httpObs: {[key: string]: Observable<SkyResourceType>} = {};
+  private resourcesObsCache: {[key: string]: Observable<SkyResourceType>} = {};
+  private httpObsCache: {[key: string]: Observable<SkyResourceType>} = {};
 
   constructor(
     private http: HttpClient,
@@ -92,14 +93,18 @@ export class SkyAppResourcesService {
           let obs: Observable<any>;
           let resourcesUrl: string;
 
-          const locale = localeInfo.locale;
+          // Use default locale if one not provided
+          const locale = localeInfo.locale || this.localeProvider.defaultLocale;
 
-          if (locale) {
-            resourcesUrl =
-              this.getUrlForLocale(locale) ||
-              // Try falling back to the non-region-specific language.
-              this.getUrlForLocale(locale.substr(0, 2));
+          if (this.resourcesObsCache[locale]) {
+            return this.resourcesObsCache[locale];
           }
+
+
+          resourcesUrl =
+            this.getUrlForLocale(locale) ||
+            // Try falling back to the non-region-specific language.
+            this.getUrlForLocale(locale.substr(0, 2));
 
           // Finally fall back to the default locale.
           resourcesUrl = resourcesUrl || this.getUrlForLocale(
@@ -107,7 +112,7 @@ export class SkyAppResourcesService {
           );
 
           if (resourcesUrl) {
-            obs = this.httpObs[resourcesUrl] || this.http
+            obs = this.httpObsCache[resourcesUrl] || this.http
               .get<SkyResourceType>(resourcesUrl)
               /* tslint:disable max-line-length */
               // publishReplay(1).refCount() will ensure future subscribers to
@@ -134,7 +139,8 @@ export class SkyAppResourcesService {
             obs = getDefaultObs();
           }
 
-          this.httpObs[resourcesUrl] = obs;
+          this.httpObsCache[resourcesUrl] = obs;
+          this.resourcesObsCache[locale] = obs;
 
           return obs;
         })
