@@ -1,13 +1,13 @@
 import {
+  HttpClient
+} from '@angular/common/http';
+
+import {
   forwardRef,
   Inject,
   Injectable,
   Optional
 } from '@angular/core';
-
-import {
-  HttpClient
-} from '@angular/common/http';
 
 import {
   SkyAppAssetsService
@@ -32,6 +32,10 @@ import {
 } from '../../utils/format';
 
 import {
+  SkyAppLocaleInfo
+} from './locale-info';
+
+import {
   SkyAppLocaleProvider
 } from './locale-provider';
 
@@ -52,8 +56,8 @@ function getDefaultObs(): Observable<SkyResourceType> {
  */
 @Injectable()
 export class SkyAppResourcesService {
-  private resourcesObs: Observable<SkyResourceType>;
-  private httpObs: {[key: string]: Observable<SkyResourceType>} = {};
+  private resourcesObsCache: {[key: string]: Observable<SkyResourceType>} = {};
+  private httpObsCache: {[key: string]: Observable<SkyResourceType>} = {};
 
   constructor(
     private http: HttpClient,
@@ -66,24 +70,40 @@ export class SkyAppResourcesService {
   /**
    * Gets a resource string based on its name.
    * @param name The name of the resource string.
+   * @param args Any templated args.
    */
   public getString(name: string, ...args: any[]): Observable<string> {
-    if (!this.resourcesObs) {
-      const localeObs = this.localeProvider.getLocaleInfo();
+    const localeObs: Observable<SkyAppLocaleInfo> = this.localeProvider.getLocaleInfo();
+    return this.getStringForLocaleInfoObservable(localeObs, name, ...args);
+  }
 
-      this.resourcesObs = localeObs.pipe(
+  /**
+   * Gets a resource string for a specific locale based on its name.
+   * @param localeInfo The locale to use.
+   * @param name The name of the resource string.
+   * @param args Any templated args.
+   */
+  public getStringForLocale(localeInfo: SkyAppLocaleInfo, name: string, ...args: any[]): Observable<string> {
+    return this.getStringForLocaleInfoObservable(observableOf(localeInfo), name, ...args);
+  }
+
+  private getStringForLocaleInfoObservable(localeInfoObs: Observable<SkyAppLocaleInfo>, name: string, ...args: any[]): Observable<string> {
+      const resourcesObs: Observable<any> = localeInfoObs.pipe(
         switchMap((localeInfo) => {
           let obs: Observable<any>;
           let resourcesUrl: string;
 
-          const locale = localeInfo.locale;
+          // Use default locale if one not provided
+          const locale = localeInfo.locale || this.localeProvider.defaultLocale;
 
-          if (locale) {
-            resourcesUrl =
-              this.getUrlForLocale(locale) ||
-              // Try falling back to the non-region-specific language.
-              this.getUrlForLocale(locale.substr(0, 2));
+          if (this.resourcesObsCache[locale]) {
+            return this.resourcesObsCache[locale];
           }
+
+          resourcesUrl =
+            this.getUrlForLocale(locale) ||
+            // Try falling back to the non-region-specific language.
+            this.getUrlForLocale(locale.substr(0, 2));
 
           // Finally fall back to the default locale.
           resourcesUrl = resourcesUrl || this.getUrlForLocale(
@@ -91,11 +111,13 @@ export class SkyAppResourcesService {
           );
 
           if (resourcesUrl) {
-            obs = this.httpObs[resourcesUrl] || this.http.get<SkyResourceType>(resourcesUrl)
+            obs = this.httpObsCache[resourcesUrl] || this.http.get<SkyResourceType>(resourcesUrl)
               .pipe(
+                /* tslint:disable max-line-length */
                 // publishReplay(1).refCount() will ensure future subscribers to
                 // this observable will use a cached result.
                 // https://stackoverflow.com/documentation/rxjs/8247/common-recipes/26490/caching-http-responses#t=201612161544428695958
+                /* tslint:enable max-line-length */
                 publishReplay(1),
                 refCount(),
                 catchError(() => {
@@ -117,7 +139,8 @@ export class SkyAppResourcesService {
             obs = getDefaultObs();
           }
 
-          this.httpObs[resourcesUrl] = obs;
+          this.httpObsCache[resourcesUrl] = obs;
+          this.resourcesObsCache[locale] = obs;
 
           return obs;
         }),
@@ -126,12 +149,11 @@ export class SkyAppResourcesService {
         // firing requests indefinitely every few milliseconds.
         catchError(() => getDefaultObs())
       );
-    }
 
     let mappedNameObs = this.resourceNameProvider ?
-    this.resourceNameProvider.getResourceName(name) : observableOf(name);
+      this.resourceNameProvider.getResourceName(name) : observableOf(name);
 
-    return forkJoin([mappedNameObs, this.resourcesObs]).pipe(map(([mappedName, resources]): string => {
+    return forkJoin([mappedNameObs, resourcesObs]).pipe(map(([mappedName, resources]): string => {
       let resource:  {message: string };
 
       if (mappedName in resources) {
