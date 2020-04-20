@@ -100,7 +100,6 @@ export class SkyAppResourcesService {
             return this.resourcesObsCache[locale];
           }
 
-
           resourcesUrl =
             this.getUrlForLocale(locale) ||
             // Try falling back to the non-region-specific language.
