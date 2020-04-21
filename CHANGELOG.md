@@ -1,3 +1,7 @@
+# 3.11.0 (2020-04-20)
+
+- Added a `getStringForLocale()` method to `SkyAppResourcesService` for retrieving a resource string for the specified locale. [#67](https://github.com/blackbaud/skyux-i18n/pull/67) Thanks [@Blackbaud-JasonBodnar](https://github.com/Blackbaud-JasonBodnar)!
+
 # 4.0.0-rc.3 (2020-04-01)
 
 - Upgraded the development and peer dependencies. [#65](https://github.com/blackbaud/skyux-i18n/pull/65)

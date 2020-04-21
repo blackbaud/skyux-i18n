@@ -1,12 +1,12 @@
 import {
-  getTestBed,
-  TestBed
-} from '@angular/core/testing';
-
-import {
   HttpClientTestingModule,
   HttpTestingController
 } from '@angular/common/http/testing';
+
+import {
+  getTestBed,
+  TestBed
+} from '@angular/core/testing';
 
 import {
   SkyAppAssetsService
@@ -22,12 +22,12 @@ import {
 } from './locale-provider';
 
 import {
-  SkyAppResourcesService
-} from './resources.service';
-
-import {
   SkyAppResourceNameProvider
 } from './resource-name-provider';
+
+import {
+  SkyAppResourcesService
+} from './resources.service';
 
 describe('Resources service', () => {
   let resources: SkyAppResourcesService;
@@ -37,6 +37,7 @@ describe('Resources service', () => {
   let enUsUrl: string;
   let esUrl: string;
   let enGbUrl: string;
+  let frCaUrl: string;
 
   function configureTestingModule(
     mockLocaleProvider?: any,
@@ -45,6 +46,7 @@ describe('Resources service', () => {
     enUsUrl = 'https://example.com/locales/resources_en_US.json';
     enGbUrl = 'https://example.com/locales/resources_en_GB.json';
     esUrl = 'https://example.com/locales/resources_es.json';
+    frCaUrl = 'https://example.com/locales/resources_fr_CA.json';
 
     testResources = {
       'hi': {
@@ -73,7 +75,6 @@ describe('Resources service', () => {
             ) {
               return undefined;
             }
-
             return 'https://example.com/' + path;
           }
         }
@@ -148,6 +149,24 @@ describe('Resources service', () => {
       addTestResourceResponse();
     });
 
+    it('should return the specified string for the locale provided ', (done: DoneFn) => {
+      resources.getStringForLocale({ 'locale': 'es-MX' }, 'hi').subscribe((value: string) => {
+        expect(value).toBe('hello');
+        done();
+      });
+
+      addTestResourceResponse(esUrl);
+    });
+
+    it('should return the specified string with the specified parameters for the locale provided ', (done: DoneFn) => {
+      resources.getStringForLocale({ 'locale': 'es-MX' }, 'template', 'a', 'b').subscribe((value: string) => {
+        expect(value).toBe('format a me b a');
+        done();
+      });
+
+      addTestResourceResponse(esUrl);
+    });
+
     it('should fall back to the resource name if no resource file exists', (done) => {
       mockAssetsService.getUrl = (): any => {
         return undefined;
@@ -220,8 +239,7 @@ describe('Resources service', () => {
     );
 
     it(
-      'should fall back to the default locale if the specified locale does not have a ' +
-      'corresponding resource file',
+      'should fall back to the default locale if the specified locale does not have a corresponding resource file',
       (done) => {
         currentLocale = 'fr-FR';
 
@@ -287,6 +305,23 @@ describe('Resources service', () => {
       }
     );
 
+    it('should use the per-locale cache for subsequent requests in the same locale', () => {
+      currentLocale = 'en-US';
+
+      resources.getString('hi').subscribe(() => {});
+      httpMock.expectOne(enUsUrl);
+
+      resources.getString('hi').subscribe(() => {});
+      httpMock.expectNone(enUsUrl);
+
+      resources.getString('hi').subscribe(() => {});
+      httpMock.expectNone(enUsUrl);
+
+      currentLocale = 'fr-CA';
+
+      resources.getString('hi').subscribe(() => {});
+      httpMock.expectOne(frCaUrl);
+    });
   });
 
   describe('with a resource name provider', () => {
