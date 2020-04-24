@@ -1,3 +1,9 @@
+# 4.0.0-rc.5 (2020-04-20)
+
+### Breaking changes
+
+- Removed `SkyLibResourcesTestService` because it is no longer needed. Instead of providing the test service in the `TestBed`, import the resources module that is used in production. [#75](https://github.com/blackbaud/skyux-i18n/pull/75)
+
 # 4.0.0-rc.4 (2020-04-20)
 
 - Added bug fixes and features from the `master` branch. [#72](https://github.com/blackbaud/skyux-i18n/pull/72)
