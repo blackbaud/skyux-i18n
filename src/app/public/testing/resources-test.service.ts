@@ -3,17 +3,17 @@ import {
 } from '@angular/core';
 
 import {
+  SkyAppResources
+} from '@skyux/i18n';
+
+import {
   Observable,
   of as observableOf
 } from 'rxjs';
 
 import {
-  SkyAppResources
-} from '../modules/i18n/resources';
-
-import {
   Format
-} from '../utils/format';
+} from './format';
 
 declare const ROOT_DIR: string;
 declare const require: { context: any };
