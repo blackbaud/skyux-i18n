@@ -35,7 +35,7 @@
 - Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#51](https://github.com/blackbaud/skyux-i18n/pull/51)
 
 ### Breaking changes
-- Dropped support for `rxjs@5`. Consumers may install `rxjs-compat@^6` to support older versions of `rxjs`. [#51](https://github.com/blackbaud/skyux-i18n/pull/51)
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#51](https://github.com/blackbaud/skyux-i18n/pull/51)
 - Removed `SkyAppHostLocaleProvider`. This class is provided automatically by `@skyux-sdk/builder@>=3`. [#51](https://github.com/blackbaud/skyux-i18n/pull/51)
 
 # 3.9.3 (2020-02-10)
