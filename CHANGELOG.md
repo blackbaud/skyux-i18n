@@ -7,13 +7,13 @@
 ### Breaking changes
 - Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#51](https://github.com/blackbaud/skyux-i18n/pull/51)
 - Removed `SkyAppHostLocaleProvider`. This class is provided automatically by `@skyux-sdk/builder@>=3`. [#51](https://github.com/blackbaud/skyux-i18n/pull/51)
-- Removed `SkyLibResourcesTestService` because it is no longer needed. Instead of providing the test service in the `TestBed`, import the resources module that is used in production. [#75](https://github.com/blackbaud/skyux-i18n/pull/75)
+- Removed `SkyLibResourcesTestService` because it is no longer needed. Instead of providing the test service in the `TestBed`, import the resources module used in production. [#75](https://github.com/blackbaud/skyux-i18n/pull/75)
 
 # 4.0.0-rc.5 (2020-04-20)
 
 ### Breaking changes
 
-- Removed `SkyLibResourcesTestService` because it is no longer needed. Instead of providing the test service in the `TestBed`, import the resources module that is used in production. [#75](https://github.com/blackbaud/skyux-i18n/pull/75)
+- Removed `SkyLibResourcesTestService` because it is no longer needed. Instead of providing the test service in the `TestBed`, import the resources module used in production. [#75](https://github.com/blackbaud/skyux-i18n/pull/75)
 
 # 4.0.0-rc.4 (2020-04-20)
 
