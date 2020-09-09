@@ -22,6 +22,7 @@ describe('Library resources pipe', () => {
     };
 
     resources = {
+      getStringSync: (name: string, ...args: any[]) => {},
       getString: (name: string, ...args: any[]) => {
         let value: string;
 

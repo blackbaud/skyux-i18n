@@ -48,9 +48,22 @@ export class SkyLibResourcesService {
     @Optional() private resourceNameProvider: SkyAppResourceNameProvider
   ) { }
 
+  public getStringSync(name: string, ...args: any[]): string {
+    if (!this.localeProvider.currentLocale) {
+      return;
+    }
+
+    return this.getStringForLocale(
+      { locale: this.localeProvider.currentLocale },
+      name,
+      ...args
+    );
+  }
+
   public getString(name: string, ...args: any[]): Observable<string> {
-    let mappedNameObs = this.resourceNameProvider ?
-    this.resourceNameProvider.getResourceName(name) : observableOf(name);
+    let mappedNameObs = this.resourceNameProvider
+      ? this.resourceNameProvider.getResourceName(name)
+      : observableOf(name);
 
     let localeInfoObs = this.localeProvider.getLocaleInfo();
 

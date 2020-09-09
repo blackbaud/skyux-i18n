@@ -26,6 +26,13 @@ export class SkyLibResourcesPipe implements PipeTransform {
     const cacheKey = name + JSON.stringify(args);
 
     if (!(cacheKey in this.resourceCache)) {
+
+      const foundMessage = this.resourcesService.getStringSync(name, ...args);
+      if (foundMessage) {
+        this.resourceCache[cacheKey] = foundMessage;
+        return foundMessage;
+      }
+
       this.resourcesService.getString(name, ...args)
         .subscribe((value: string) => {
           this.resourceCache[cacheKey] = value;

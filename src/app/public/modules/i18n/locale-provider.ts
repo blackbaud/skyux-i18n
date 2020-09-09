@@ -13,6 +13,11 @@ import {
 
 @Injectable()
 export class SkyAppLocaleProvider {
+
+  public get currentLocale(): string {
+    return undefined;
+  }
+
   public get defaultLocale(): string {
     return SkyAppLocaleProvider._defaultLocale;
   }
