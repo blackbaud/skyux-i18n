@@ -1,6 +1,5 @@
 import { getCurrencySymbol } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { Options as AutonumericOptions } from 'autonumeric';
 import { Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
@@ -8,9 +7,6 @@ import { SkyCurrencyFormat } from './currency-format';
 import { SkyAppLocaleProvider } from '../locale-provider';
 
 type IsoCodeAndLocale = { isoCode: string; locale: string };
-type GetAutonumericConfigParams = {
-  autonumericOverrides?: AutonumericOptions;
-} & Partial<IsoCodeAndLocale>;
 type CurrencyFormatParts = {
   symbol: string;
   symbolLocation: 'p' | 's';
@@ -26,28 +22,6 @@ type CurrencyFormatParts = {
 })
 export class SkyCurrencyFormatService {
   constructor(private localeProvider: SkyAppLocaleProvider) { }
-
-  /**
-   * Creates an Autonumeric Config from a Locale and Currency Code.
-   * http://autonumeric.org/guide
-   * @param params optional params object
-   * @param params.isoCode the ISO 4217 Code. Defaults to `USD`.
-   * @param params.locale the Locale. Defaults to Sky's LocaleProvider or `en-US`.
-   * @param params.autonumericOverrides overrides to the generated autonumeric options.
-   */
-  public getAutonumericConfig(params?: GetAutonumericConfigParams): Observable<AutonumericOptions> {
-    return this.getLocaleInfo(params?.locale).pipe(
-      map(locale => this.getCurrencyFormat({ isoCode: params?.isoCode, locale })),
-      map(currencyFormat => currencyFormat.mapToSkyAutonumeric()),
-      map(options => {
-        if (params?.autonumericOverrides) {
-          return { ...options, ...params.autonumericOverrides };
-        }
-
-        return options;
-      })
-    );
-  }
 
   /**
    * Gets the currency formatting.
@@ -73,6 +47,19 @@ export class SkyCurrencyFormatService {
       groupCharacter: parts.groupCharacter,
       precision: resolvedOptions.maximumFractionDigits
     });
+  }
+
+  /**
+   * Gets an observable of the currency formatting.
+   * @param params optional params object
+   * @param params.isoCode the ISO 4217 Code. Defaults to `USD`.
+   * @param params.locale the locale. Defaults to `SkyAppLocale.getLocaleInfo`.
+   */
+  public getCurrencyFormatAsync(params?: Partial<IsoCodeAndLocale>): Observable<SkyCurrencyFormat> {
+    return this.getLocaleInfo(params.locale).pipe(
+      map(locale => ({ ...params, locale })),
+      map(isoCodeAndLocale => this.getCurrencyFormat(isoCodeAndLocale))
+    );
   }
 
   /**

@@ -22,8 +22,7 @@
   "peerDependencies": {
     "@angular/core": "^9.1.6",
     "@angular/common": "^9.1.6",
-    "@skyux/assets": "^4.0.0",
-    "@skyux/autonumeric": "^4.0.2"
+    "@skyux/assets": "^4.0.0"
   },
   "dependencies": {},
   "devDependencies": {
@@ -42,7 +41,6 @@
     "@skyux-sdk/e2e": "4.0.0",
     "@skyux-sdk/testing": "4.2.2",
     "@skyux/assets": "4.0.1",
-    "@skyux/autonumeric": "4.0.2",
     "@skyux/config": "4.0.4",
     "@skyux/core": "4.3.1",
     "@skyux/http": "4.0.1",

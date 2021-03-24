@@ -1,5 +1,4 @@
 import { SkyCurrencyService } from './currency.service';
-import { fakeAsync } from '@angular/core/testing';
 import { take } from 'rxjs/operators';
 
 describe('SkyCurrencyService', () => {
