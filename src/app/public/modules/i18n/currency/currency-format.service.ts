@@ -53,7 +53,7 @@ export class SkyCurrencyFormatService {
    * Gets an observable of the currency formatting.
    * @param params optional params object
    * @param params.isoCode the ISO 4217 Code. Defaults to `USD`.
-   * @param params.locale the locale. Defaults to `SkyAppLocale.getLocaleInfo`.
+   * @param params.locale the locale. Defaults to `SkyAppLocaleProvider.getLocaleInfo`.
    */
   public getCurrencyFormatAsync(params?: Partial<IsoCodeAndLocale>): Observable<SkyCurrencyFormat> {
     return this.getLocaleInfo(params.locale).pipe(
