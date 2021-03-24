@@ -1,9 +1,9 @@
 import { Options as AutonumericOptions } from 'autonumeric';
 
 /**
- * The result of formatting a number with a Currency + Locale.
+ * The formatting options for Currency + Locale.
  */
-export class TxnCurrencyFormat {
+export class SkyCurrencyFormat {
   /** The Locale */
   public locale: string;
   /** The ISO 4217 Code */
@@ -19,7 +19,7 @@ export class TxnCurrencyFormat {
   /** The numeric precision / decimal places */
   public precision: number;
 
-  constructor(data: Partial<TxnCurrencyFormat>) {
+  constructor(data: Partial<SkyCurrencyFormat>) {
     this.locale = data.locale ?? '';
     this.isoCode = data.isoCode ?? '';
     this.symbol = data.symbol ?? '$';

@@ -4,11 +4,11 @@ import { Options as AutonumericOptions } from 'autonumeric';
 import { Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
-import { TxnCurrencyFormat } from './currency-format';
+import { SkyCurrencyFormat } from './currency-format';
 import { SkyAppLocaleProvider } from '../locale-provider';
 
 type IsoCodeAndLocale = { isoCode: string; locale: string };
-type GetAutonumericConfig = {
+type GetAutonumericConfigParams = {
   autonumericOverrides?: AutonumericOptions;
 } & Partial<IsoCodeAndLocale>;
 type CurrencyFormatParts = {
@@ -35,7 +35,7 @@ export class SkyCurrencyFormatService {
    * @param params.locale the Locale. Defaults to Sky's LocaleProvider or `en-US`.
    * @param params.autonumericOverrides overrides to the generated autonumeric options.
    */
-  public getSkyAutonumericConfig(params?: GetAutonumericConfig): Observable<AutonumericOptions> {
+  public getAutonumericConfig(params?: GetAutonumericConfigParams): Observable<AutonumericOptions> {
     return this.getLocaleInfo(params?.locale).pipe(
       map(locale => this.getCurrencyFormat({ isoCode: params?.isoCode, locale })),
       map(currencyFormat => currencyFormat.mapToSkyAutonumeric()),
@@ -55,7 +55,7 @@ export class SkyCurrencyFormatService {
    * @param params.isoCode the ISO 4217 Code. Defaults to `USD`.
    * @param params.locale the locale.
    */
-  public getCurrencyFormat(params?: Partial<IsoCodeAndLocale>): TxnCurrencyFormat {
+  public getCurrencyFormat(params?: Partial<IsoCodeAndLocale>): SkyCurrencyFormat {
     const isoCode = params?.isoCode ?? 'USD';
     const locale = params?.locale ?? 'en-US';
     const formatter = new Intl.NumberFormat(locale, { style: 'currency', currency: isoCode });
@@ -64,7 +64,7 @@ export class SkyCurrencyFormatService {
     const currencyCode = resolvedOptions.currency ?? isoCode;
     const parts = this.formatToParts(formatter, currencyCode, locale);
 
-    return new TxnCurrencyFormat({
+    return new SkyCurrencyFormat({
       locale: locale,
       isoCode: currencyCode,
       symbol: parts.symbol,

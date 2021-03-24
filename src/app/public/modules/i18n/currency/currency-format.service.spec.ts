@@ -24,12 +24,12 @@ describe('SkyCurrencyFormatService', () => {
     localeProvider.getLocaleInfo.and.nextWith({ locale: 'en-US' });
   });
 
-  describe('getSkyAutonumericConfig', () => {
+  describe('getAutonumericConfig', () => {
     describe('locale source', () => {
       it('sources the locale if explicitly passed in', async () => {
         spyOn(service, 'getCurrencyFormat').and.callThrough();
 
-        await service.getSkyAutonumericConfig({ locale: 'en-CA' }).toPromise();
+        await service.getAutonumericConfig({ locale: 'en-CA' }).toPromise();
         expect(service.getCurrencyFormat).toHaveBeenCalledWith({
           isoCode: undefined,
           locale: 'en-CA'
@@ -39,7 +39,7 @@ describe('SkyCurrencyFormatService', () => {
         spyOn(service, 'getCurrencyFormat').and.callThrough();
         localeProvider.getLocaleInfo.and.nextWith({ locale: 'en-GB' });
 
-        await service.getSkyAutonumericConfig().toPromise();
+        await service.getAutonumericConfig().toPromise();
         expect(service.getCurrencyFormat).toHaveBeenCalledWith({
           isoCode: undefined,
           locale: 'en-GB'
@@ -49,7 +49,7 @@ describe('SkyCurrencyFormatService', () => {
     describe('autonumeric overrides', () => {
       it('should allow user to override config', async () => {
         const result: AutonumericOptions = await service
-          .getSkyAutonumericConfig({
+          .getAutonumericConfig({
             isoCode: 'USD',
             autonumericOverrides: {
               currencySymbol: '???',
@@ -69,12 +69,12 @@ describe('SkyCurrencyFormatService', () => {
     describe('currency code source', () => {
       it('sources the isoCode if explicitly passed in', async () => {
         const result: AutonumericOptions = await service
-          .getSkyAutonumericConfig({ isoCode: 'JPY' })
+          .getAutonumericConfig({ isoCode: 'JPY' })
           .toPromise();
         expect(result.currencySymbol).toBe('¥');
       });
       it('defaults the isoCode to "USD" otherwise', async () => {
-        const result: AutonumericOptions = await service.getSkyAutonumericConfig().toPromise();
+        const result: AutonumericOptions = await service.getAutonumericConfig().toPromise();
         expect(result.currencySymbol).toBe('$');
       });
     });
@@ -102,7 +102,7 @@ describe('SkyCurrencyFormatService', () => {
     currencyAndPrecision.forEach(([currency, precision]) => {
       it(`should get formatting options for ${currency}`, async () => {
         const result: AutonumericOptions = await service
-          .getSkyAutonumericConfig({ isoCode: currency })
+          .getAutonumericConfig({ isoCode: currency })
           .toPromise();
         expect(result).toBeDefined();
         expect(result.decimalPlaces).toBe(precision);
