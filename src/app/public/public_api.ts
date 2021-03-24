@@ -1,5 +1,7 @@
 export * from './modules/i18n/get-string-for-locale';
 export * from './modules/i18n/i18n.module';
+export * from './modules/i18n/currency/currency-format';
+export * from './modules/i18n/currency/currency-format.service';
 export * from './modules/i18n/intl-date-formatter';
 export * from './modules/i18n/intl-number-format-style';
 export * from './modules/i18n/intl-number-formatter';
