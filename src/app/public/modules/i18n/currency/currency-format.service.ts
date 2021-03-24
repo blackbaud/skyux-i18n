@@ -38,7 +38,7 @@ export class SkyCurrencyFormatService {
     const currencyCode = resolvedOptions.currency ?? isoCode;
     const parts = this.formatToParts(formatter, currencyCode, locale);
 
-    return new SkyCurrencyFormat({
+    return {
       locale: locale,
       isoCode: currencyCode,
       symbol: parts.symbol,
@@ -46,7 +46,7 @@ export class SkyCurrencyFormatService {
       decimalCharacter: parts.decimalCharacter,
       groupCharacter: parts.groupCharacter,
       precision: resolvedOptions.maximumFractionDigits
-    });
+    };
   }
 
   /**
