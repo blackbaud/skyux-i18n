@@ -40,11 +40,20 @@ describe('SkyCurrencyFormatService', () => {
         const result = service.getCurrencyFormat({ locale: 'en-CA' });
         expect(result.locale).toBe('en-CA');
       });
-      it('sources the locale as "en-US" otherwise', () => {
+      it('defaults the locale to "en-US" otherwise', () => {
         localeProvider.getLocaleInfo.and.nextWith({ locale: (undefined as unknown) as string });
         const result = service.getCurrencyFormat();
         expect(result.locale).toBe('en-US');
       });
+    });
+  });
+
+  describe('getCurrencyFormatAsync', () => {
+    describe('currency code source', () => {
+
+    });
+    describe('browser locale code source', () => {
+
     });
   });
 
