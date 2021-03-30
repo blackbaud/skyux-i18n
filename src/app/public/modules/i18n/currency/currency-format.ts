@@ -4,8 +4,8 @@
 export interface SkyCurrencyFormat {
   /** The Locale */
   locale: string;
-  /** The ISO 4217 Code */
-  isoCode: string;
+  /** The ISO 4217 Currency Code */
+  isoCurrencyCode: string;
   /** The symbol */
   symbol: string;
   /** The symbol's location -- prefix or suffix? */
