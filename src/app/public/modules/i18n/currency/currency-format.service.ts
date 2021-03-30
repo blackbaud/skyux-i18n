@@ -1,46 +1,44 @@
-import { getCurrencySymbol } from '@angular/common';
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import {
+  Injectable
+} from '@angular/core';
 
-import { SkyCurrencyFormat } from './currency-format';
-import { SkyAppLocaleProvider } from '../locale-provider';
+import {
+  getCurrencySymbol
+} from '@angular/common';
 
-type IsoCodeAndLocale = { isoCode: string; locale: string };
-type CurrencyFormatParts = {
-  symbol: string;
-  symbolLocation: 'p' | 's';
-  decimalCharacter: string;
-  groupCharacter: string;
-};
+import {
+  SkyCurrencyFormat
+} from './currency-format';
 
 /**
  * Service to get a currency's format given an iso code.
  */
-@Injectable({
+ @Injectable({
   providedIn: 'root'
 })
 export class SkyCurrencyFormatService {
-  constructor(private localeProvider: SkyAppLocaleProvider) { }
 
   /**
-   * Gets the currency formatting.
+   * Gets a currency's format.
    * @param params optional params object
-   * @param params.isoCode the ISO 4217 Code. Defaults to `USD`.
-   * @param params.locale the locale.
+   * @param params.isoCurrencyCode the ISO 4217 Currency Code. Defaults to `USD`.
+   * @param params.locale the locale. Defaults to `en-US`. Examples: `en-US`, `en-GB`, `fr-FR`.
    */
-  public getCurrencyFormat(params?: Partial<IsoCodeAndLocale>): SkyCurrencyFormat {
-    const isoCode = params?.isoCode ?? 'USD';
+  public getCurrencyFormat(params?: Partial<IsoCurrencyCodeAndLocale>): SkyCurrencyFormat {
+    const isoCurrencyCode = params?.isoCurrencyCode ?? 'USD';
     const locale = params?.locale ?? 'en-US';
-    const formatter = new Intl.NumberFormat(locale, { style: 'currency', currency: isoCode });
+    const formatter = new Intl.NumberFormat(locale, {
+      style: 'currency',
+      currency: isoCurrencyCode
+    });
 
     const resolvedOptions: Intl.ResolvedNumberFormatOptions = formatter.resolvedOptions();
-    const currencyCode = resolvedOptions.currency ?? isoCode;
+    const currencyCode = resolvedOptions.currency;
     const parts = this.formatToParts(formatter, currencyCode, locale);
 
     return {
       locale: locale,
-      isoCode: currencyCode,
+      isoCurrencyCode: currencyCode,
       symbol: parts.symbol,
       symbolLocation: parts.symbolLocation,
       decimalCharacter: parts.decimalCharacter,
@@ -50,69 +48,64 @@ export class SkyCurrencyFormatService {
   }
 
   /**
-   * Gets an observable of the currency formatting.
-   * @param params optional params object
-   * @param params.isoCode the ISO 4217 Code. Defaults to `USD`.
-   * @param params.locale the locale. Defaults to `SkyAppLocaleProvider.getLocaleInfo`.
+   * Given an ISO 4217 Currency Code return the currency's precision.
+   * @param isoCurrencyCode the ISO 4217. Defaults to `USD`.
    */
-  public getCurrencyFormatAsync(params?: Partial<IsoCodeAndLocale>): Observable<SkyCurrencyFormat> {
-    return this.getLocaleInfo(params.locale).pipe(
-      map(locale => ({ ...params, locale })),
-      map(isoCodeAndLocale => this.getCurrencyFormat(isoCodeAndLocale))
-    );
-  }
-
-  /**
-   * Given an ISO Code return its precision.
-   * @param isoCode the ISO 4217. Defaults to `USD`.
-   */
-  public getCurrencyPrecision(isoCode: string): number {
-    return this.getCurrencyFormat({ isoCode }).precision;
-  }
-
-  private getLocaleInfo(locale: string | undefined): Observable<string> {
-    if (locale !== undefined) {
-      return of(locale);
-    }
-
-    return this.localeProvider.getLocaleInfo().pipe(
-      take(1),
-      map(skyLocaleInfo => skyLocaleInfo.locale)
-    );
+  public getCurrencyPrecision(isoCurrencyCode: string): number {
+    return this.getCurrencyFormat({ isoCurrencyCode: isoCurrencyCode }).precision;
   }
 
   private formatToParts(
     formatter: Intl.NumberFormat,
-    currencyCode: string,
+    isoCurrencyCode: string,
     locale: string
   ): CurrencyFormatParts {
     const BIG_VALUE_TO_GET_PART_INFO: number = 100_000_000;
 
+    /* istanbul ignore else: Unsure how to mock a browser API missing */
     if (formatter.formatToParts) {
       const parts = formatter.formatToParts(BIG_VALUE_TO_GET_PART_INFO);
 
+      type IntlFindFn = (intlType: Intl.NumberFormatPartTypes, defaultValue: string) => string;
+      const findOrDefault: IntlFindFn = (intlType, defaultValue) =>
+        parts.find(p => p.type === intlType)?.value ?? defaultValue;
+
       return {
-        symbol: parts.find(p => p.type === 'currency')?.value ?? '',
+        symbol: findOrDefault('currency', ''),
         symbolLocation: parts.findIndex(p => p.type === 'currency') === 0 ? 'p' : 's',
-        decimalCharacter: parts.find(p => p.type === 'decimal')?.value ?? '.',
-        groupCharacter: parts.find(p => p.type === 'group')?.value ?? ','
+        decimalCharacter: findOrDefault('decimal', '.'),
+        groupCharacter: findOrDefault('group', ',')
       };
     }
 
-    return this.shimFormatToParts(currencyCode, locale);
+    /* istanbul ignore next: Unsure how to mock a browser API missing */
+    return this.shimFormatToParts(isoCurrencyCode, locale);
   }
 
   /**
    * Shims INTL.NumberFormatter.formatToParts since it does not exist in IE.
-   * @param currencyCode
+   * @param isoCurrencyCode
    * @param locale
    */
-  private shimFormatToParts(currencyCode: string, locale: string): CurrencyFormatParts {
+  /* istanbul ignore next: Unsure how to mock a browser API missing */
+  private shimFormatToParts(isoCurrencyCode: string, locale: string): CurrencyFormatParts {
     return {
-      symbol: getCurrencySymbol(currencyCode, 'narrow', locale),
+      symbol: getCurrencySymbol(isoCurrencyCode, 'narrow', locale),
       symbolLocation: 'p',
       decimalCharacter: '.',
       groupCharacter: ','
     };
   }
 }
+
+type IsoCurrencyCodeAndLocale = {
+  isoCurrencyCode: string;
+  locale: string
+};
+
+type CurrencyFormatParts = {
+  symbol: string;
+  symbolLocation: 'p' | 's';
+  decimalCharacter: string;
+  groupCharacter: string;
+};
