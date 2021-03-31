@@ -6,8 +6,13 @@ import {
   SkyCurrencyFormat
 } from './currency-format';
 
+import {
+  SkyBrowserDetector
+} from '../browser-detector';
+
 describe('SkyCurrencyFormatService', () => {
   let service: SkyCurrencyFormatService;
+  const isIE = SkyBrowserDetector.isIE;
 
   beforeEach(() => service = new SkyCurrencyFormatService());
 
@@ -42,6 +47,25 @@ describe('SkyCurrencyFormatService', () => {
       it('should have the currency symbol as the suffix for "fr-CA"', () => {
         const result = service.getCurrencyFormat({ locale: 'fr-CA' });
         expect(result.symbolLocation).toBe('suffix');
+      });
+    });
+
+    describe('Browser compatability', () => {
+      it('should shim the INTL.formatToParts browser api if needed', () => {
+        const result = service.getCurrencyFormat({ locale: 'en-CA', isoCurrencyCode: 'USD' });
+
+        expect(result.locale).toBe('en-CA');
+        expect(result.isoCurrencyCode).toBe('USD');
+        expect(result.symbolLocation).toBe('prefix');
+        expect(result.decimalCharacter).toBe('.');
+        expect(result.groupCharacter).toBe(',');
+        expect(result.precision).toBe(2);
+
+        if (isIE) {
+          expect(result.symbol).toBe('$');
+        } else {
+          expect(result.symbol).toBe('US$');
+        }
       });
     });
   });
