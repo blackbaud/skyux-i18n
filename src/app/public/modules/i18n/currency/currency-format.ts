@@ -9,7 +9,7 @@ export interface SkyCurrencyFormat {
   /** The symbol */
   symbol: string;
   /** The symbol's location -- prefix or suffix? */
-  symbolLocation: 'p' | 's';
+  symbolLocation: SkyCurrencySymbolLocation;
   /** The fractional decimal character  */
   decimalCharacter: string;
   /** The grouping character (1,000) */
@@ -17,3 +17,6 @@ export interface SkyCurrencyFormat {
   /** The numeric precision (decimal places) */
   precision: number;
 }
+
+/** The Currency symbol's location */
+export type SkyCurrencySymbolLocation = 'prefix' | 'suffix';

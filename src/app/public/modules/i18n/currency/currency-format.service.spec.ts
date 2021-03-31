@@ -22,6 +22,7 @@ describe('SkyCurrencyFormatService', () => {
         expect(result.symbol).toBe('$');
       });
     });
+
     describe('locale source', () => {
       it('sources the locale from the parameters if explicitly passed in', () => {
         const result = service.getCurrencyFormat({ locale: 'en-CA' });
@@ -34,13 +35,13 @@ describe('SkyCurrencyFormatService', () => {
     });
 
     describe('currency rules', () => {
-      it ('should have the currency symbol as the prefix for "en-CA"', () => {
+      it('should have the currency symbol as the prefix for "en-CA"', () => {
         const result = service.getCurrencyFormat({ locale: 'en-CA' });
-        expect(result.symbolLocation).toBe('p');
+        expect(result.symbolLocation).toBe('prefix');
       });
-      it ('should have the currency symbol as the suffix for "fr-CA"', () => {
+      it('should have the currency symbol as the suffix for "fr-CA"', () => {
         const result = service.getCurrencyFormat({ locale: 'fr-CA' });
-        expect(result.symbolLocation).toBe('s');
+        expect(result.symbolLocation).toBe('suffix');
       });
     });
   });
