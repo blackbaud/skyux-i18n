@@ -3,21 +3,21 @@ import {
 } from '@angular/core';
 
 import {
-  getCurrencySymbol
-} from '@angular/common';
-
-import {
-  SkyCurrencyFormat
+  SkyCurrencyFormat, SkyCurrencySymbolLocation
 } from './currency-format';
+
+const DEFAULT_LOCALE = 'en-US';
+const DEFAULT_CURRENCY_CODE = 'USD';
+const DEFAULT_GROUP_CHARACTER = ',';
+const DEFAULT_DECIMAL_CHARACTER = '.';
 
 /**
  * Service to get a currency's format given an iso code.
  */
- @Injectable({
+@Injectable({
   providedIn: 'root'
 })
 export class SkyCurrencyFormatService {
-
   /**
    * Gets a currency's format.
    * @param params optional params object
@@ -25,8 +25,8 @@ export class SkyCurrencyFormatService {
    * @param params.locale the locale. Defaults to `en-US`. Examples: `en-US`, `en-GB`, `fr-FR`.
    */
   public getCurrencyFormat(params?: Partial<IsoCurrencyCodeAndLocale>): SkyCurrencyFormat {
-    const isoCurrencyCode = params?.isoCurrencyCode ?? 'USD';
-    const locale = params?.locale ?? 'en-US';
+    const isoCurrencyCode = params?.isoCurrencyCode ?? DEFAULT_CURRENCY_CODE;
+    const locale = params?.locale ?? DEFAULT_LOCALE;
     const formatter = new Intl.NumberFormat(locale, {
       style: 'currency',
       currency: isoCurrencyCode
@@ -34,7 +34,7 @@ export class SkyCurrencyFormatService {
 
     const resolvedOptions: Intl.ResolvedNumberFormatOptions = formatter.resolvedOptions();
     const currencyCode = resolvedOptions.currency;
-    const parts = this.formatToParts(formatter, currencyCode, locale);
+    const parts = this.formatToParts(formatter);
 
     return {
       locale: locale,
@@ -55,14 +55,9 @@ export class SkyCurrencyFormatService {
     return this.getCurrencyFormat({ isoCurrencyCode: isoCurrencyCode }).precision;
   }
 
-  private formatToParts(
-    formatter: Intl.NumberFormat,
-    isoCurrencyCode: string,
-    locale: string
-  ): CurrencyFormatParts {
+  private formatToParts(formatter: Intl.NumberFormat): CurrencyFormatParts {
     const BIG_VALUE_TO_GET_PART_INFO: number = 100_000_000;
 
-    /* istanbul ignore else: Unsure how to mock a browser API missing */
     if (formatter.formatToParts) {
       const parts = formatter.formatToParts(BIG_VALUE_TO_GET_PART_INFO);
 
@@ -72,14 +67,13 @@ export class SkyCurrencyFormatService {
 
       return {
         symbol: findOrDefault('currency', ''),
-        symbolLocation: parts.findIndex(p => p.type === 'currency') === 0 ? 'p' : 's',
-        decimalCharacter: findOrDefault('decimal', '.'),
-        groupCharacter: findOrDefault('group', ',')
+        symbolLocation: parts.findIndex(p => p.type === 'currency') === 0 ? 'prefix' : 'suffix',
+        decimalCharacter: findOrDefault('decimal', DEFAULT_DECIMAL_CHARACTER),
+        groupCharacter: findOrDefault('group', DEFAULT_GROUP_CHARACTER)
       };
     }
 
-    /* istanbul ignore next: Unsure how to mock a browser API missing */
-    return this.shimFormatToParts(isoCurrencyCode, locale);
+    return this.shimFormatToParts(formatter);
   }
 
   /**
@@ -87,13 +81,23 @@ export class SkyCurrencyFormatService {
    * @param isoCurrencyCode
    * @param locale
    */
-  /* istanbul ignore next: Unsure how to mock a browser API missing */
-  private shimFormatToParts(isoCurrencyCode: string, locale: string): CurrencyFormatParts {
+  private shimFormatToParts(formatter: Intl.NumberFormat): CurrencyFormatParts {
+    const zeroCurrency: string = formatter.format(0);
+    const firstZeroIndex: number = zeroCurrency.indexOf('0');
+    const lastZeroIndex: number = zeroCurrency.lastIndexOf('0');
+
+    const currencySymbol: string = (
+      zeroCurrency.slice(0, firstZeroIndex) +
+      zeroCurrency.slice(lastZeroIndex + 1)
+    ).trim();
+    const symbolLocation: SkyCurrencySymbolLocation =
+      zeroCurrency.indexOf(currencySymbol) === 0 ? 'prefix' : 'suffix';
+
     return {
-      symbol: getCurrencySymbol(isoCurrencyCode, 'narrow', locale),
-      symbolLocation: 'p',
-      decimalCharacter: '.',
-      groupCharacter: ','
+      symbol: currencySymbol,
+      symbolLocation: symbolLocation,
+      decimalCharacter: DEFAULT_DECIMAL_CHARACTER,
+      groupCharacter: DEFAULT_GROUP_CHARACTER
     };
   }
 }
@@ -105,7 +109,7 @@ type IsoCurrencyCodeAndLocale = {
 
 type CurrencyFormatParts = {
   symbol: string;
-  symbolLocation: 'p' | 's';
+  symbolLocation: SkyCurrencySymbolLocation;
   decimalCharacter: string;
   groupCharacter: string;
 };
