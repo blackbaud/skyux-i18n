@@ -132,10 +132,6 @@ describe('Resources service', () => {
     request.flush(testResources);
   }
 
-  beforeEach(() => {
-    mockAssetsService = undefined;
-  });
-
   describe('without an assets service', () => {
     beforeEach(() => {
       configureTestingModule(
