@@ -142,7 +142,7 @@ describe('Resources service', () => {
       injectServices();
     });
 
-    it('should fall back to resource key', (done) => {
+    it('should fall back to the specified resource key', (done) => {
       resources.getString('hi').pipe(take(1)).subscribe((value) => {
         expect(value).toBe('hi');
         done();
