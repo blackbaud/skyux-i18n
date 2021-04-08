@@ -68,21 +68,23 @@ describe('SkyCurrencyFormatService', () => {
         }
       });
     });
-  });
 
-  describe('getCurrencyPrecision', () => {
-    const currencyAndPrecision: [string, number][] = [
-      ['JPY', 0],
-      ['USD', 2],
-      ['AUD', 2],
-      ['CAD', 2],
-      ['EUR', 2]
-    ];
-    currencyAndPrecision.forEach(([currency, precision]) => {
-      it(`should get the expected currency (${precision}) precision for ${currency}`, async () => {
-        const result: number = service.getCurrencyPrecision(currency);
-        expect(result).toBe(precision);
+    describe('currency precision', () => {
+      const currencyAndPrecision: [string, number][] = [
+        ['JPY', 0],
+        ['USD', 2],
+        ['AUD', 2],
+        ['CAD', 2],
+        ['EUR', 2]
+      ];
+
+      currencyAndPrecision.forEach(([currency, precision]) => {
+        it(`should get the expected currency (${precision}) precision for ${currency}`, async () => {
+          const result: number = service.getCurrencyFormat({ isoCurrencyCode: currency }).precision;
+          expect(result).toBe(precision);
+        });
       });
     });
   });
+
 });

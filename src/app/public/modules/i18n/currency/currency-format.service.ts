@@ -47,14 +47,6 @@ export class SkyCurrencyFormatService {
     };
   }
 
-  /**
-   * Given an ISO 4217 Currency Code return the currency's precision.
-   * @param isoCurrencyCode the ISO 4217. Defaults to `USD`.
-   */
-  public getCurrencyPrecision(isoCurrencyCode: string): number {
-    return this.getCurrencyFormat({ isoCurrencyCode: isoCurrencyCode }).precision;
-  }
-
   private formatToParts(formatter: Intl.NumberFormat): CurrencyFormatParts {
     const BIG_VALUE_TO_GET_PART_INFO: number = 100_000_000;
 
