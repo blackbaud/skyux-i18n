@@ -51,7 +51,8 @@ describe('SkyCurrencyFormatService', () => {
     });
 
     describe('Browser compatability', () => {
-      it('should shim the INTL.formatToParts browser api if needed', () => {
+      it('1) should shim the INTL.formatToParts browser api if needed', () => {
+        // Test 1
         const result = service.getCurrencyFormat('USD', 'en-CA');
 
         expect(result.locale).toBe('en-CA');

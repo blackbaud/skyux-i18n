@@ -73,22 +73,50 @@ export class SkyCurrencyFormatService {
    * Shims INTL.NumberFormatter.formatToParts since it does not exist in IE.
    */
   private shimFormatToParts(formatter: Intl.NumberFormat): CurrencyFormatParts {
-    const zeroCurrency: string = formatter.format(0);
-    const firstZeroIndex: number = zeroCurrency.indexOf('0');
-    const lastZeroIndex: number = zeroCurrency.lastIndexOf('0');
+    const { locale, currency }  = formatter.resolvedOptions();
+    const currencyFormat: Intl.NumberFormatOptions = { style: 'currency', currency: currency };
+    const noDecimals: Intl.NumberFormatOptions = {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    };
 
-    const currencySymbol: string = (
-      zeroCurrency.slice(0, firstZeroIndex) +
-      zeroCurrency.slice(lastZeroIndex + 1)
-    ).trim();
-    const symbolLocation: SkyCurrencySymbolLocation =
-      zeroCurrency.indexOf(currencySymbol) === 0 ? 'prefix' : 'suffix';
+    const zeroWithoutDecimalFormat: string = (0).toLocaleString(locale, {
+      ...currencyFormat,
+      ...noDecimals
+    });
+    const zeroWithDecimalFormat: string = (0).toLocaleString(locale, {
+      ...currencyFormat,
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1
+    });
+    const largeZeroFormat: string = (0).toLocaleString(locale, {
+      ...currencyFormat,
+      ...noDecimals,
+      minimumIntegerDigits: 9
+    });
+
+    const removeAll = (s: string, search: string) => s.split(search).join('').trim();
+
+    // This allows us to replace locale localized numeric zeros.
+    //   en-US: 0123456789
+    //   ar-EG: ٠١٢٣٤٥٦٧٨٩
+    const localizedZero = (0).toLocaleString(locale);
+    const removeZeros = (s: string) => s.split(localizedZero).join('').trim();
+
+    const currencySymbol = removeZeros(zeroWithoutDecimalFormat);
+    const symbolLocation = zeroWithoutDecimalFormat.indexOf(currencySymbol) === 0
+      ? 'prefix'
+      : 'suffix';
+    const removeSymbol = (s: string) => removeAll(s, currencySymbol).trim();
+
+    const decimalCharacter = removeSymbol(removeZeros(zeroWithDecimalFormat));
+    const groupCharacter = removeSymbol(removeZeros(largeZeroFormat)).charAt(0);
 
     return {
       symbol: currencySymbol,
       symbolLocation: symbolLocation,
-      decimalCharacter: DEFAULT_DECIMAL_CHARACTER,
-      groupCharacter: DEFAULT_GROUP_CHARACTER
+      decimalCharacter: decimalCharacter,
+      groupCharacter: groupCharacter
     };
   }
 }
