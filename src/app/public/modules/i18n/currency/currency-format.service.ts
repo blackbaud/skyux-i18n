@@ -18,15 +18,16 @@ const DEFAULT_DECIMAL_CHARACTER = '.';
   providedIn: 'root'
 })
 export class SkyCurrencyFormatService {
+
   /**
    * Gets a currency's format.
-   * @param params optional params object
-   * @param params.isoCurrencyCode the ISO 4217 Currency Code. Defaults to `USD`.
-   * @param params.locale the locale. Defaults to `en-US`. Examples: `en-US`, `en-GB`, `fr-FR`.
+   * @param isoCurrencyCode the ISO 4217 Currency Code. Defaults to `USD`.
+   * @param locale the locale. Defaults to `en-US`. Examples: `en-US`, `en-GB`, `fr-FR`.
    */
-  public getCurrencyFormat(params?: Partial<IsoCurrencyCodeAndLocale>): SkyCurrencyFormat {
-    const isoCurrencyCode = params?.isoCurrencyCode ?? DEFAULT_CURRENCY_CODE;
-    const locale = params?.locale ?? DEFAULT_LOCALE;
+  public getCurrencyFormat(
+    isoCurrencyCode: string = DEFAULT_CURRENCY_CODE,
+    locale: string = DEFAULT_LOCALE
+  ): SkyCurrencyFormat {
     const formatter = new Intl.NumberFormat(locale, {
       style: 'currency',
       currency: isoCurrencyCode
@@ -70,8 +71,6 @@ export class SkyCurrencyFormatService {
 
   /**
    * Shims INTL.NumberFormatter.formatToParts since it does not exist in IE.
-   * @param isoCurrencyCode
-   * @param locale
    */
   private shimFormatToParts(formatter: Intl.NumberFormat): CurrencyFormatParts {
     const zeroCurrency: string = formatter.format(0);
@@ -93,11 +92,6 @@ export class SkyCurrencyFormatService {
     };
   }
 }
-
-type IsoCurrencyCodeAndLocale = {
-  isoCurrencyCode: string;
-  locale: string
-};
 
 type CurrencyFormatParts = {
   symbol: string;

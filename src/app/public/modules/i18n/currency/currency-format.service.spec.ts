@@ -19,7 +19,7 @@ describe('SkyCurrencyFormatService', () => {
   describe('getCurrencyFormat', () => {
     describe('currency code source', () => {
       it('sources the currency code from the parameters if explicitly passed in', async () => {
-        const result: SkyCurrencyFormat = service.getCurrencyFormat({ isoCurrencyCode: 'JPY' });
+        const result: SkyCurrencyFormat = service.getCurrencyFormat('JPY');
         expect(result.symbol).toBe('¥');
       });
       it('defaults the currency code to "USD" otherwise', async () => {
@@ -30,7 +30,7 @@ describe('SkyCurrencyFormatService', () => {
 
     describe('locale source', () => {
       it('sources the locale from the parameters if explicitly passed in', () => {
-        const result = service.getCurrencyFormat({ locale: 'en-CA' });
+        const result = service.getCurrencyFormat('USD', 'en-CA');
         expect(result.locale).toBe('en-CA');
       });
       it('defaults the locale to "en-US" otherwise', () => {
@@ -41,18 +41,18 @@ describe('SkyCurrencyFormatService', () => {
 
     describe('currency rules', () => {
       it('should have the currency symbol as the prefix for "en-CA"', () => {
-        const result = service.getCurrencyFormat({ locale: 'en-CA' });
+        const result = service.getCurrencyFormat('USD', 'en-CA');
         expect(result.symbolLocation).toBe('prefix');
       });
       it('should have the currency symbol as the suffix for "fr-CA"', () => {
-        const result = service.getCurrencyFormat({ locale: 'fr-CA' });
+        const result = service.getCurrencyFormat('USD', 'fr-CA');
         expect(result.symbolLocation).toBe('suffix');
       });
     });
 
     describe('Browser compatability', () => {
       it('should shim the INTL.formatToParts browser api if needed', () => {
-        const result = service.getCurrencyFormat({ locale: 'en-CA', isoCurrencyCode: 'USD' });
+        const result = service.getCurrencyFormat('USD', 'en-CA');
 
         expect(result.locale).toBe('en-CA');
         expect(result.isoCurrencyCode).toBe('USD');
@@ -80,7 +80,7 @@ describe('SkyCurrencyFormatService', () => {
 
       currencyAndPrecision.forEach(([currency, precision]) => {
         it(`should get the expected currency (${precision}) precision for ${currency}`, async () => {
-          const result: number = service.getCurrencyFormat({ isoCurrencyCode: currency }).precision;
+          const result: number = service.getCurrencyFormat(currency).precision;
           expect(result).toBe(precision);
         });
       });
