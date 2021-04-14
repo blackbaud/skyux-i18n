@@ -1,22 +1,43 @@
-/**
- * The formatting options for Currency + Locale.
- */
-export interface SkyCurrencyFormat {
-  /** The Locale */
-  locale: string;
-  /** The ISO 4217 Currency Code */
-  isoCurrencyCode: string;
-  /** The symbol */
-  symbol: string;
-  /** The symbol's location -- prefix or suffix? */
-  symbolLocation: SkyCurrencySymbolLocation;
-  /** The fractional decimal character  */
-  decimalCharacter: string;
-  /** The grouping character (1,000) */
-  groupCharacter: string;
-  /** The numeric precision (decimal places) */
-  precision: number;
-}
+import {
+  SkyI18nCurrencySymbolLocation
+} from './currency-symbol-location';
 
-/** The Currency symbol's location */
-export type SkyCurrencySymbolLocation = 'prefix' | 'suffix';
+/**
+ * Used to describe locale-specific currency format.
+ */
+export interface SkyI18nCurrencyFormat {
+  /**
+   * The ISO 4217 currency code.
+   */
+  isoCurrencyCode: string;
+
+  /**
+   * The fractional decimal character.
+   */
+  decimalCharacter: string;
+
+  /**
+   * The grouping character, e.g. '(1,000)'.
+   */
+  groupCharacter: string;
+
+  /**
+   * The locale.
+   */
+  locale: string;
+
+  /**
+   * The numeric precision (i.e., decimal places).
+   */
+  precision: number;
+
+  /**
+   * The currency symbol (e.g., '$').
+   */
+  symbol: string;
+
+  /**
+   * The symbol's location relative to the number.
+   */
+  symbolLocation: SkyI18nCurrencySymbolLocation;
+}

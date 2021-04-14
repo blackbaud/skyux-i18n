@@ -1,29 +1,29 @@
 import {
-  SkyCurrencyFormatService
+  SkyI18nCurrencyFormatService
 } from './currency-format.service';
 
 import {
-  SkyCurrencyFormat
+  SkyI18nCurrencyFormat
 } from './currency-format';
 
 import {
   SkyBrowserDetector
 } from '../browser-detector';
 
-describe('SkyCurrencyFormatService', () => {
-  let service: SkyCurrencyFormatService;
+describe('SkyI18nCurrencyFormatService', () => {
+  let service: SkyI18nCurrencyFormatService;
   const isIE = SkyBrowserDetector.isIE;
 
-  beforeEach(() => service = new SkyCurrencyFormatService());
+  beforeEach(() => service = new SkyI18nCurrencyFormatService());
 
   describe('getCurrencyFormat', () => {
     describe('currency code source', () => {
       it('sources the currency code from the parameters if explicitly passed in', async () => {
-        const result: SkyCurrencyFormat = service.getCurrencyFormat('JPY');
+        const result: SkyI18nCurrencyFormat = service.getCurrencyFormat('JPY');
         expect(result.symbol).toBe('¥');
       });
       it('defaults the currency code to "USD" otherwise', async () => {
-        const result: SkyCurrencyFormat = service.getCurrencyFormat();
+        const result: SkyI18nCurrencyFormat = service.getCurrencyFormat();
         expect(result.symbol).toBe('$');
       });
     });

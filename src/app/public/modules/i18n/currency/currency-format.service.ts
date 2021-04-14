@@ -3,31 +3,42 @@ import {
 } from '@angular/core';
 
 import {
-  SkyCurrencyFormat, SkyCurrencySymbolLocation
+  SkyI18nCurrencyFormat
 } from './currency-format';
+
+import {
+  SkyI18nCurrencySymbolLocation
+} from './currency-symbol-location';
 
 const DEFAULT_LOCALE = 'en-US';
 const DEFAULT_CURRENCY_CODE = 'USD';
 const DEFAULT_GROUP_CHARACTER = ',';
 const DEFAULT_DECIMAL_CHARACTER = '.';
 
+type CurrencyFormatParts = {
+  symbol: string;
+  symbolLocation: SkyI18nCurrencySymbolLocation;
+  decimalCharacter: string;
+  groupCharacter: string;
+};
+
 /**
- * Service to get a currency's format given an iso code.
+ * Used to format a currency given an ISO currency code.
  */
 @Injectable({
   providedIn: 'root'
 })
-export class SkyCurrencyFormatService {
+export class SkyI18nCurrencyFormatService {
 
   /**
    * Gets a currency's format.
-   * @param isoCurrencyCode the ISO 4217 Currency Code. Defaults to `USD`.
-   * @param locale the locale. Defaults to `en-US`. Examples: `en-US`, `en-GB`, `fr-FR`.
+   * @param isoCurrencyCode the ISO 4217 Currency Code. Defaults to 'USD'.
+   * @param locale the locale. Defaults to 'en-US'. Examples: 'en-US', 'en-GB', 'fr-FR'.
    */
   public getCurrencyFormat(
     isoCurrencyCode: string = DEFAULT_CURRENCY_CODE,
     locale: string = DEFAULT_LOCALE
-  ): SkyCurrencyFormat {
+  ): SkyI18nCurrencyFormat {
     const formatter = new Intl.NumberFormat(locale, {
       style: 'currency',
       currency: isoCurrencyCode
@@ -37,20 +48,23 @@ export class SkyCurrencyFormatService {
     const currencyCode = resolvedOptions.currency;
     const parts = this.formatToParts(formatter);
 
-    return {
-      locale: locale,
-      isoCurrencyCode: currencyCode,
-      symbol: parts.symbol,
-      symbolLocation: parts.symbolLocation,
+    const format: SkyI18nCurrencyFormat = {
       decimalCharacter: parts.decimalCharacter,
       groupCharacter: parts.groupCharacter,
-      precision: resolvedOptions.maximumFractionDigits
+      isoCurrencyCode: currencyCode,
+      locale,
+      precision: resolvedOptions.maximumFractionDigits,
+      symbol: parts.symbol,
+      symbolLocation: parts.symbolLocation
     };
+
+    return format;
   }
 
   private formatToParts(formatter: Intl.NumberFormat): CurrencyFormatParts {
     const BIG_VALUE_TO_GET_PART_INFO: number = 100_000_000;
 
+    // Some browsers do not support `formatToParts`.
     if (formatter.formatToParts) {
       const parts = formatter.formatToParts(BIG_VALUE_TO_GET_PART_INFO);
 
@@ -84,11 +98,13 @@ export class SkyCurrencyFormatService {
       ...currencyFormat,
       ...noDecimals
     });
+
     const zeroWithDecimalFormat: string = (0).toLocaleString(locale, {
       ...currencyFormat,
       minimumFractionDigits: 1,
       maximumFractionDigits: 1
     });
+
     const largeZeroFormat: string = (0).toLocaleString(locale, {
       ...currencyFormat,
       ...noDecimals,
@@ -120,10 +136,3 @@ export class SkyCurrencyFormatService {
     };
   }
 }
-
-type CurrencyFormatParts = {
-  symbol: string;
-  symbolLocation: SkyCurrencySymbolLocation;
-  decimalCharacter: string;
-  groupCharacter: string;
-};
