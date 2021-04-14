@@ -3,7 +3,7 @@ import {
 } from './currency-symbol-location';
 
 /**
- * Used to describe locale-specific currency format.
+ * Used to describe a locale-specific currency format.
  */
 export interface SkyI18nCurrencyFormat {
   /**

@@ -23,7 +23,7 @@ type CurrencyFormatParts = {
 };
 
 /**
- * Used to format a currency given an ISO currency code.
+ * Used to format a currency within a given locale.
  */
 @Injectable({
   providedIn: 'root'
