@@ -1,6 +1,6 @@
 {
   "name": "@skyux/i18n",
-  "version": "4.1.0",
+  "version": "5.0.0-alpha.0",
   "description": "SKY UX Internationalization",
   "scripts": {
     "build": "skyux build-public-library",
