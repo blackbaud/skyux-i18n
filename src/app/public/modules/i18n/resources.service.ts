@@ -44,6 +44,9 @@ import {
 } from './resource-name-provider';
 
 declare type SkyResourceType = {[key: string]: {message: string}};
+type ResourceKey = string;
+type TemplatedResource = [ResourceKey, ...any[]];
+type ResourceDictionary = Record<string, ResourceKey | TemplatedResource>;
 
 const defaultResources: SkyResourceType = {};
 
@@ -75,6 +78,42 @@ export class SkyAppResourcesService {
   public getString(name: string, ...args: any[]): Observable<string> {
     const localeObs: Observable<SkyAppLocaleInfo> = this.localeProvider.getLocaleInfo();
     return this.getStringForLocaleInfoObservable(localeObs, name, ...args);
+  }
+
+  /**
+   * Gets a Resource String Dictionary.
+   *
+   * This is similar to forkJoin's dictionary syntax.
+   *
+   * @param dictionary a Record of **SomeObjectKey** to a **ResourceKey** entries.
+   * @return an `Observable` of a resource string dictionary in the same shape as the passed dictionary.
+   *
+   * @example
+   * ```
+   * service.getStrings({
+   *    simpleKey: 'hello',
+   *    arraySyntax: ['hi'],
+   *    arraySyntaxWithTemplateArgs: ['template', 'a', 'b'],
+   * }
+   * ```
+   */
+  public getStrings<T extends ResourceDictionary>(dictionary: T): Observable<{ [K in keyof T]: string }> {
+    const resources$: Record<string, Observable<string>> = {};
+
+    for (const resourceName in dictionary) {
+      if (dictionary.hasOwnProperty(resourceName)) {
+        const resource: string | [string, ...any[]] = dictionary[resourceName];
+
+        if (typeof resource === 'string') {
+          resources$[resourceName] = this.getString(resource);
+        } else {
+          const [key, ...templateItems] = resource;
+          resources$[resourceName] = this.getString(key, ...templateItems);
+        }
+      }
+    }
+
+    return forkJoin(resources$);
   }
 
   /**
