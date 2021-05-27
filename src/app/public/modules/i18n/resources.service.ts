@@ -85,7 +85,9 @@ export class SkyAppResourcesService {
    *
    * This is similar to forkJoin's dictionary syntax.
    *
-   * @param dictionary a Record of **SomeObjectKey** to a **ResourceKey** entries.
+   * @param dictionary a Record of **SomeObjectKey** to a Value that is either
+   *   - (1) **ResourceKey**
+   *   - (2) or an **Array** where the first item is the **ResourceKey** and the other items are template args.
    * @return an `Observable` of a resource string dictionary in the same shape as the passed dictionary.
    *
    * @example
