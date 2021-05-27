@@ -102,16 +102,14 @@ export class SkyAppResourcesService {
   public getStrings<T extends ResourceDictionary>(dictionary: T): Observable<{ [K in keyof T]: string }> {
     const resources$: Record<string, Observable<string>> = {};
 
-    for (const resourceName in dictionary) {
-      if (dictionary.hasOwnProperty(resourceName)) {
-        const resource: string | [string, ...any[]] = dictionary[resourceName];
+    for (const objKey of Object.keys(dictionary)) {
+      const resource: string | [string, ...any[]] = dictionary[objKey];
 
-        if (typeof resource === 'string') {
-          resources$[resourceName] = this.getString(resource);
-        } else {
-          const [key, ...templateItems] = resource;
-          resources$[resourceName] = this.getString(key, ...templateItems);
-        }
+      if (typeof resource === 'string') {
+        resources$[objKey] = this.getString(resource);
+      } else {
+        const [key, ...templateItems] = resource;
+        resources$[objKey] = this.getString(key, ...templateItems);
       }
     }
 
