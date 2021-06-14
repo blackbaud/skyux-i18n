@@ -22,7 +22,7 @@
   "peerDependencies": {
     "@angular/core": "^9.1.6 || ^12",
     "@angular/common": "^9.1.6 || ^12",
-    "@skyux/assets": "^4.0.0"
+    "@skyux/assets": "^4.0.0 || ^5.0.0-alpha.0"
   },
   "dependencies": {},
   "devDependencies": {

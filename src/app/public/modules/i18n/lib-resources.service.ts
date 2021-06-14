@@ -40,7 +40,9 @@ import {
 } from './resource-name-provider';
 // #endregion
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class SkyLibResourcesService {
   constructor(
     private localeProvider: SkyAppLocaleProvider,
