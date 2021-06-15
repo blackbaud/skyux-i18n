@@ -1,3 +1,14 @@
+# 5.0.0-beta.0 (2021-06-15)
+
+- Initial beta release.
+- Added support for `@angular/core@^12`. [#107](https://github.com/blackbaud/skyux-i18n/pull/107)
+- Updated the following singleton services to use [Angular's preferred method to become tree-shakeable](https://angular.io/guide/singleton-services#using-providedin): `SkyAppLocaleProvider`, `SkyAppResourceNameProvider`, `SkyAppResourcesService`, and `SkyLibResourcesService`. [#107](https://github.com/blackbaud/skyux-i18n/pull/107)
+- Updated `5.0.0-next` branch with features from the `master` branch. [#107](https://github.com/blackbaud/skyux-i18n/pull/107)
+
+# 4.2.1 (2021-05-27)
+
+- Added a `getStrings()` method to `SkyAppResourcesTestService` to support unit testing code that uses `SkyAppResourcesService`. [#105](https://github.com/blackbaud/skyux-i18n/pull/105) (Thanks [@ThomasOrtiz](https://github.com/ThomasOrtiz)!)
+
 # 5.0.0-alpha.0 (2021-05-26)
 
 ### Breaking changes

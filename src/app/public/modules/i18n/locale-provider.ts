@@ -11,7 +11,9 @@ import {
   SkyAppLocaleInfo
 } from './locale-info';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class SkyAppLocaleProvider {
   public get defaultLocale(): string {
     return SkyAppLocaleProvider._defaultLocale;
