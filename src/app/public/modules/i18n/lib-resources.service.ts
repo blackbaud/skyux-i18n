@@ -41,7 +41,7 @@ import {
 // #endregion
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'any'
 })
 export class SkyLibResourcesService {
   constructor(
