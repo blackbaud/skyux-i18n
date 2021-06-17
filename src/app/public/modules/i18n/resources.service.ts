@@ -58,7 +58,7 @@ function getDefaultObs(): Observable<SkyResourceType> {
  * An Angular service for interacting with resource strings.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'any'
 })
 export class SkyAppResourcesService {
   private resourcesObsCache: {[key: string]: Observable<SkyResourceType>} = {};

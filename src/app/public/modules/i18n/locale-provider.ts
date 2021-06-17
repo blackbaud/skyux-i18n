@@ -12,7 +12,7 @@ import {
 } from './locale-info';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'any'
 })
 export class SkyAppLocaleProvider {
   public get defaultLocale(): string {
