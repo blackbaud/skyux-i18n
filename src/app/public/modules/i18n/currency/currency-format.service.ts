@@ -26,7 +26,7 @@ type CurrencyFormatParts = {
  * Used to format a currency within a given locale.
  */
 @Injectable({
-  providedIn: 'any'
+  providedIn: 'root'
 })
 export class SkyI18nCurrencyFormatService {
 

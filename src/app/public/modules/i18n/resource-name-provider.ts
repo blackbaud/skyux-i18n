@@ -7,9 +7,7 @@ import {
   of as observableOf
 } from 'rxjs';
 
-@Injectable({
-  providedIn: 'any'
-})
+@Injectable()
 export class SkyAppResourceNameProvider {
 
   public getResourceName(name: string): Observable<string> {
