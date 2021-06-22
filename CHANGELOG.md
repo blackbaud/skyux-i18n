@@ -1,3 +1,7 @@
+# 5.0.0-beta.1 (2021-06-22)
+
+- Fixed the `SkyLibResourcesService` to work within lazy-loaded feature modules. [#108](https://github.com/blackbaud/skyux-i18n/pull/108)
+
 # 5.0.0-beta.0 (2021-06-15)
 
 - Initial beta release.
