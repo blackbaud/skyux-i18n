@@ -1,3 +1,7 @@
+# 5.0.0-beta.1 (2021-06-22)
+
+- Fixed the `SkyLibResourcesService` to work within lazy-loaded feature modules. [#108](https://github.com/blackbaud/skyux-i18n/pull/108)
+
 # 5.0.0-beta.0 (2021-06-15)
 
 - Initial beta release.
@@ -14,6 +18,9 @@
 ### Breaking changes
 
 - Removed the `SkyAppResourcesTestService`. [#101](https://github.com/blackbaud/skyux-i18n/pull/101)
+# 4.2.0 (2021-05-27)
+
+- Added a `getStrings()` method to `SkyAppResourcesService` for retreiving multiple resource strings in one asynchronous operation. [#103](https://github.com/blackbaud/skyux-i18n/pull/103) (Thanks [@ThomasOrtiz](https://github.com/ThomasOrtiz)!)
 
 # 4.1.0 (2021-04-14)
 
