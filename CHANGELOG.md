@@ -1,3 +1,7 @@
+# 5.0.0-beta.2 (2021-06-29)
+
+- Fixed the peer dependencies to only reference beta versions for SKY UX packages. []()
+
 # 5.0.0-beta.1 (2021-06-22)
 
 - Fixed the `SkyLibResourcesService` to work within lazy-loaded feature modules. [#108](https://github.com/blackbaud/skyux-i18n/pull/108)
