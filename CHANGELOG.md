@@ -1,6 +1,6 @@
 # 5.0.0-beta.2 (2021-06-29)
 
-- Fixed the peer dependencies to only reference beta versions for SKY UX packages. []()
+- Fixed the peer dependencies to only reference beta versions for SKY UX packages. [110](https://github.com/blackbaud/skyux-i18n/pull/110)
 
 # 5.0.0-beta.1 (2021-06-22)
 
