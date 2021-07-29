@@ -102,10 +102,7 @@ describe('Library resources service', () => {
   });
 
   it('should return the key if no string found', () => {
-    spyOn(mockLocaleProvider, 'getLocaleInfo').and.returnValue(observableOf({
-      locale: 'foo_BAR'
-    }));
-    service = new SkyLibResourcesService(mockLocaleProvider, mockProviders, undefined);
+    service = new SkyLibResourcesService(mockLocaleProvider, undefined, undefined);
     service.getString('greeting').pipe(take(1)).subscribe((value: string) => {
       expect(value).toEqual('greeting');
     });

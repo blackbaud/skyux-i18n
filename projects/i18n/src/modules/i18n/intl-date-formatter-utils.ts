@@ -87,6 +87,7 @@ const DATE_FORMATS: {[format: string]: DateFormatterFn} = {
 function digitModifier(inner: DateFormatterFn): DateFormatterFn {
   return function(date: Date, locale: string): string {
     const result = inner(date, locale);
+    /* istanbul ignore next */
     return result.length === 1 ? '0' + result : result;
   };
 }

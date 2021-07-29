@@ -64,75 +64,17 @@ export class SkyI18nCurrencyFormatService {
   private formatToParts(formatter: Intl.NumberFormat): CurrencyFormatParts {
     const BIG_VALUE_TO_GET_PART_INFO: number = 100_000_000;
 
-    // Some browsers do not support `formatToParts`.
-    if (formatter.formatToParts) {
-      const parts = formatter.formatToParts(BIG_VALUE_TO_GET_PART_INFO);
+    const parts = formatter.formatToParts(BIG_VALUE_TO_GET_PART_INFO);
 
-      type IntlFindFn = (intlType: Intl.NumberFormatPartTypes, defaultValue: string) => string;
-      const findOrDefault: IntlFindFn = (intlType, defaultValue) =>
-        parts.find(p => p.type === intlType)?.value ?? defaultValue;
-
-      return {
-        symbol: findOrDefault('currency', ''),
-        symbolLocation: parts.findIndex(p => p.type === 'currency') === 0 ? 'prefix' : 'suffix',
-        decimalCharacter: findOrDefault('decimal', DEFAULT_DECIMAL_CHARACTER),
-        groupCharacter: findOrDefault('group', DEFAULT_GROUP_CHARACTER)
-      };
-    }
-
-    return this.shimFormatToParts(formatter);
-  }
-
-  /**
-   * Shims INTL.NumberFormatter.formatToParts since it does not exist in IE.
-   */
-  private shimFormatToParts(formatter: Intl.NumberFormat): CurrencyFormatParts {
-    const { locale, currency }  = formatter.resolvedOptions();
-    const currencyFormat: Intl.NumberFormatOptions = { style: 'currency', currency: currency };
-    const noDecimals: Intl.NumberFormatOptions = {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    };
-
-    const zeroWithoutDecimalFormat: string = (0).toLocaleString(locale, {
-      ...currencyFormat,
-      ...noDecimals
-    });
-
-    const zeroWithDecimalFormat: string = (0).toLocaleString(locale, {
-      ...currencyFormat,
-      minimumFractionDigits: 1,
-      maximumFractionDigits: 1
-    });
-
-    const largeZeroFormat: string = (0).toLocaleString(locale, {
-      ...currencyFormat,
-      ...noDecimals,
-      minimumIntegerDigits: 9
-    });
-
-    const removeAll = (s: string, search: string) => s.split(search).join('').trim();
-
-    // This allows us to replace locale localized numeric zeros.
-    //   en-US: 0123456789
-    //   ar-EG: ٠١٢٣٤٥٦٧٨٩
-    const localizedZero = (0).toLocaleString(locale);
-    const removeZeros = (s: string) => s.split(localizedZero).join('').trim();
-
-    const currencySymbol = removeZeros(zeroWithoutDecimalFormat);
-    const symbolLocation = zeroWithoutDecimalFormat.indexOf(currencySymbol) === 0
-      ? 'prefix'
-      : 'suffix';
-    const removeSymbol = (s: string) => removeAll(s, currencySymbol).trim();
-
-    const decimalCharacter = removeSymbol(removeZeros(zeroWithDecimalFormat));
-    const groupCharacter = removeSymbol(removeZeros(largeZeroFormat)).charAt(0);
+    type IntlFindFn = (intlType: Intl.NumberFormatPartTypes, defaultValue: string) => string;
+    const findOrDefault: IntlFindFn = (intlType, defaultValue) =>
+      parts.find(p => p.type === intlType)?.value ?? defaultValue;
 
     return {
-      symbol: currencySymbol,
-      symbolLocation: symbolLocation,
-      decimalCharacter: decimalCharacter,
-      groupCharacter: groupCharacter
+      symbol: findOrDefault('currency', ''),
+      symbolLocation: parts.findIndex(p => p.type === 'currency') === 0 ? 'prefix' : 'suffix',
+      decimalCharacter: findOrDefault('decimal', DEFAULT_DECIMAL_CHARACTER),
+      groupCharacter: findOrDefault('group', DEFAULT_GROUP_CHARACTER)
     };
   }
 }
