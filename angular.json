@@ -1,0 +1,51 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "i18n": {
+      "projectType": "library",
+      "root": "projects/i18n",
+      "sourceRoot": "projects/i18n/src",
+      "prefix": "sky",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/i18n/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/i18n/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/i18n/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/i18n/src/test.ts",
+            "tsConfig": "projects/i18n/tsconfig.spec.json",
+            "karmaConfig": "projects/i18n/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/i18n/**/*.ts",
+              "projects/i18n/**/*.html"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "i18n",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
+}
