@@ -13,7 +13,6 @@ on:
       - 5.0.0-next
     tags:
       - '*.*.*'
-      - '*.*.*-alpha.*'
 jobs:
   ci:
     runs-on: ubuntu-latest
