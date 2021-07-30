@@ -87,6 +87,7 @@ const DATE_FORMATS: {[format: string]: DateFormatterFn} = {
 function digitModifier(inner: DateFormatterFn): DateFormatterFn {
   return function(date: Date, locale: string): string {
     const result = inner(date, locale);
+    /* istanbul ignore next */
     return result.length === 1 ? '0' + result : result;
   };
 }
@@ -103,9 +104,9 @@ function intlDateFormat(date: Date, locale: string, options: Intl.DateTimeFormat
   return new Intl.DateTimeFormat(locale, options).format(date).replace(/[\u200e\u200f]/g, '');
 }
 
-function timeZoneGetter(timezone: string): DateFormatterFn {
+function timeZoneGetter(timezone: 'long' | 'short'): DateFormatterFn {
   // To workaround `Intl` API restriction for single timezone let format with 24 hours
-  const options = {hour: '2-digit', hour12: false, timeZoneName: timezone};
+  const options: Intl.DateTimeFormatOptions = {hour: '2-digit', hour12: false, timeZoneName: timezone};
   return function(date: Date, locale: string): string {
     const result = intlDateFormat(date, locale, options);
     // Then extract first 3 letters that related to hours
