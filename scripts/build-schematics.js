@@ -12,19 +12,18 @@ function runCommand(command, args) {
 }
 
 function buildSchematics() {
-  try {
-    runCommand('../../node_modules/.bin/tsc', [
-      '--project', 'tsconfig.schematics.json'
-    ]);
+  console.log('Building library schematics...');
 
-    fs.copySync(
-      path.join(LIB_PATH, 'schematics/collection.json'),
-      path.join('dist/i18n/schematics/collection.json')
-    );
+  runCommand('../../node_modules/.bin/tsc', [
+    '--project', 'tsconfig.schematics.json'
+  ]);
 
-  } catch (err) {
-    console.log(err);
-  }
+  fs.copySync(
+    path.join(LIB_PATH, 'schematics/collection.json'),
+    path.join('dist/i18n/schematics/collection.json')
+  );
+
+  console.log('Done.');
 }
 
 buildSchematics();
