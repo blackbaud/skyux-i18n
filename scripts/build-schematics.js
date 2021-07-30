@@ -2,19 +2,29 @@ const crossSpawn = require('cross-spawn');
 const fs = require('fs-extra');
 const path = require('path');
 
+const LIB_PATH = path.join(process.cwd(), 'projects/i18n');
+
 function runCommand(command, args) {
-  const result = crossSpawn.sync(command, ...args, {
-    cwd: path.join(__dirname, '../projects/i18n'),
+  crossSpawn.sync(command, args, {
+    cwd: LIB_PATH,
     stdio: 'inherit'
   });
-
-  if (result.error) {
-    throw new Error(result.error);
-  }
 }
 
 function buildSchematics() {
-  runCommand('node', ['../../node_modules/.bin/tsc', '-p', 'tsconfig.schematics.json']);
+  try {
+    runCommand('../../node_modules/.bin/tsc', [
+      '--project', 'tsconfig.schematics.json'
+    ]);
+
+    fs.copySync(
+      path.join(LIB_PATH, 'schematics/collection.json'),
+      path.join('dist/i18n/schematics/collection.json')
+    );
+
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 buildSchematics();

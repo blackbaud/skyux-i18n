@@ -5,13 +5,6 @@
   "ng-add": {
     "save": "dependencies"
   },
-  "scripts": {
-    "build": "../../node_modules/.bin/tsc -p tsconfig.schematics.json",
-    "copy:schemas": "cp --parents schematics/*/schema.json ../../dist/i18n/",
-    "copy:files": "cp --parents -p schematics/*/files/** ../../dist/i18n/",
-    "copy:collection": "cp schematics/collection.json ../../dist/i18n/schematics/collection.json",
-    "postbuild": "npm run copy:schemas && npm run copy:files && npm run copy:collection"
-  },
   "peerDependencies": {
     "@angular/core": "^12.1.0",
     "@angular/common": "^12.1.0",
