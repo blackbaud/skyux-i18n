@@ -2,6 +2,7 @@
   "root": true,
   "ignorePatterns": [
     "projects/**/*",
+    "scripts/**/*",
     "src/app/__skyux"
   ],
   "overrides": [
