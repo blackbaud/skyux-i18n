@@ -2,8 +2,13 @@
   "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
   "schematics": {
     "ng-add": {
-      "description": "Add @skyux/i18n to your project.",
+      "description": "Add @skyux/i18n to your project",
       "factory": "./ng-add/index#ngAdd"
+    },
+    "lib-resources-module": {
+      "description": "Generate library resources module",
+      "factory": "./ng-generate/lib-resources-module/lib-resources-module.schematic",
+      "schema": "./ng-generate/lib-resources-module/schema.json"
     }
   }
 }
