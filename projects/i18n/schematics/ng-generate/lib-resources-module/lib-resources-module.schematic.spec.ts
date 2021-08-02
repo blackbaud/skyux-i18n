@@ -14,7 +14,7 @@ describe('lib-resources-module.schematic', () => {
   const schematicName = 'lib-resources-module';
 
   const resourcesModulePath = `/projects/${defaultProjectName}/src/lib/shared/${defaultProjectName}-resources.module.ts`;
-  const defaultResourcesJsonPath = `/projects/${defaultProjectName}/src/assets/locales/resources_en_US.json`;
+  const defaultResourcesJsonPath = `/projects/${defaultProjectName}/assets/locales/resources_en_US.json`;
   const packageJsonPath = `projects/${defaultProjectName}/package.json`;
 
   const runner = new SchematicTestRunner('schematics', collectionPath);

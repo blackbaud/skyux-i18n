@@ -20,12 +20,12 @@ import { ResourceMessages } from './resource-messages';
 import { Schema } from './schema';
 import { TemplateContext } from './template-context';
 
-function getResourceFilesContents(tree: Tree, srcPath: string) {
+function getResourceFilesContents(tree: Tree, project: ProjectDefinition) {
   const contents: any = {};
-  const dirEntry = tree.getDir(normalize(`${srcPath}/assets/locales`));
+  const dirEntry = tree.getDir(normalize(`${project.root}/assets/locales`));
 
   dirEntry.subfiles
-    .map((subfile) => normalize(`${srcPath}/assets/locales/${subfile}`))
+    .map((subfile) => normalize(`${project.root}/assets/locales/${subfile}`))
     .forEach((file) => {
       const locale = parseLocaleIdFromFileName(file);
       contents[locale] = JSON.parse(readRequiredFile(tree, file));
@@ -47,9 +47,12 @@ function parseLocaleIdFromFileName(fileName: string): string {
     .replace('_', '-');
 }
 
-function getResources(tree: Tree, srcPath: string): ResourceMessages {
+function getResources(
+  tree: Tree,
+  project: ProjectDefinition
+): ResourceMessages {
   const messages: ResourceMessages = {};
-  const contents = getResourceFilesContents(tree, srcPath);
+  const contents = getResourceFilesContents(tree, project);
 
   Object.keys(contents).forEach((locale) => {
     messages[locale] = {};
@@ -80,7 +83,7 @@ function addI18nPeerDependency(project: ProjectDefinition): Rule {
 function ensureDefaultResourcesFileExists(project: ProjectDefinition): Rule {
   return (tree) => {
     const defaultResourcePath = normalize(
-      `${project.sourceRoot}/assets/locales/resources_en_US.json`
+      `${project.root}/assets/locales/resources_en_US.json`
     );
 
     if (tree.exists(defaultResourcePath)) {
@@ -111,7 +114,7 @@ function generateTemplateFiles(
 ): Rule {
   return (tree) => {
     const movePath = normalize(project.sourceRoot + '/');
-    const messages = getResources(tree, project.sourceRoot!);
+    const messages = getResources(tree, project);
 
     const templateContext: TemplateContext = {
       name: projectName,
