@@ -13,7 +13,7 @@ describe('lib-resources-module.schematic', () => {
   const defaultProjectName = 'my-lib';
   const schematicName = 'lib-resources-module';
 
-  const resourcesModulePath = `/projects/${defaultProjectName}/src/lib/shared/${defaultProjectName}-resources.module.ts`;
+  const resourcesModulePath = `/projects/${defaultProjectName}/src/${defaultProjectName}-resources.module.ts`;
   const defaultResourcesJsonPath = `/projects/${defaultProjectName}/assets/locales/resources_en_US.json`;
   const packageJsonPath = `projects/${defaultProjectName}/package.json`;
 
@@ -38,16 +38,10 @@ describe('lib-resources-module.schematic', () => {
     );
   });
 
-  function runSchematic(project?: string): Promise<UnitTestTree> {
-    return runner
-      .runSchematicAsync(
-        schematicName,
-        {
-          project,
-        },
-        tree
-      )
-      .toPromise();
+  function runSchematic(
+    options: { name?: string; project?: string } = {}
+  ): Promise<UnitTestTree> {
+    return runner.runSchematicAsync(schematicName, options, tree).toPromise();
   }
 
   it('should generate a resources module', async () => {
@@ -116,9 +110,22 @@ export class MyLibResourcesModule { }
   });
 
   it('should handle invalid project name', async () => {
-    await expectAsync(runSchematic('invalid-project')).toBeRejectedWithError(
+    await expectAsync(
+      runSchematic({ project: 'invalid-project' })
+    ).toBeRejectedWithError(
       'The "invalid-project" project is not defined in angular.json. Provide a valid project name.'
     );
+  });
+
+  it('should allow changing the location of the module', async () => {
+    const updatedTree = await runSchematic({
+      name: 'shared/foobar',
+    });
+    expect(
+      updatedTree.exists(
+        '/projects/my-lib/src/shared/foobar-resources.module.ts'
+      )
+    ).toEqual(true);
   });
 
   it('should add `@skyux/i18n` as a peer dependency', async () => {

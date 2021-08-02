@@ -13,6 +13,8 @@ import {
   url,
 } from '@angular-devkit/schematics';
 
+import path from 'path';
+
 import { readRequiredFile } from '../../utility/tree';
 import { getProject, getWorkspace } from '../../utility/workspace';
 
@@ -110,14 +112,18 @@ function ensureDefaultResourcesFileExists(project: ProjectDefinition): Rule {
 
 function generateTemplateFiles(
   project: ProjectDefinition,
-  projectName: string
+  projectName: string,
+  moduleName: string
 ): Rule {
   return (tree) => {
-    const movePath = normalize(project.sourceRoot + '/');
+    const parsedPath = path.parse(moduleName || '');
+
+    const movePath = normalize(project.sourceRoot + '/' + parsedPath.dir);
+
     const messages = getResources(tree, project);
 
     const templateContext: TemplateContext = {
-      name: projectName,
+      name: parsedPath.name || projectName,
       resources: JSON.stringify(messages),
     };
 
@@ -167,7 +173,7 @@ export default function generateLibraryResourcesModule(options: Schema): Rule {
     const rules: Rule[] = [
       addI18nPeerDependency(project),
       ensureDefaultResourcesFileExists(project),
-      generateTemplateFiles(project, projectName),
+      generateTemplateFiles(project, projectName, options.name),
     ];
 
     return chain(rules);
