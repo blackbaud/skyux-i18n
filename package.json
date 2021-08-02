@@ -10,7 +10,7 @@
     "test": "ng test --code-coverage --watch=false",
     "posttest": "node ./scripts/test-schematics.js",
     "lint": "ng lint",
-    "format-all": "npx prettier --write ."
+    "format-schematics": "npx prettier --write projects/i18n/schematics"
   },
   "private": true,
   "dependencies": {
