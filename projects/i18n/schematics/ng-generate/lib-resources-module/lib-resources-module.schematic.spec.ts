@@ -15,6 +15,7 @@ describe('lib-resources-module.schematic', () => {
 
   const resourcesModulePath = `/projects/${defaultProjectName}/src/lib/shared/${defaultProjectName}-resources.module.ts`;
   const defaultResourcesJsonPath = `/projects/${defaultProjectName}/src/assets/locales/resources_en_US.json`;
+  const packageJsonPath = `projects/${defaultProjectName}/package.json`;
 
   const runner = new SchematicTestRunner('schematics', collectionPath);
 
@@ -118,8 +119,6 @@ export class MyLibResourcesModule { }
   });
 
   it('should add `@skyux/i18n` as a peer dependency', async () => {
-    const packageJsonPath = `projects/${defaultProjectName}/package.json`;
-
     // Overwrite package.json.
     tree.overwrite(packageJsonPath, '{}');
 
@@ -146,27 +145,13 @@ export class MyLibResourcesModule { }
     expect(app.exists(resourcesModulePath)).toBeFalse();
   });
 
-  // it('should handle missing package.json file', async () => {
-  //   app.delete(PACKAGE_JSON_FILE);
+  it('should throw an error if package.json does not exist', async () => {
+    tree.delete(packageJsonPath);
 
-  //   await expectAsync(
-  //     runner
-  //       .runSchematicAsync(
-  //         'lib-resources-module',
-  //         { project: PROJECT_NAME },
-  //         app
-  //       )
-  //       .toPromise()
-  //   ).toBeRejectedWithError(
-  //     `Cannot read "${PACKAGE_JSON_FILE}" because it does not exist.`
-  //   );
-  // });
-
-  // it("should throw an error if angular.json doesn't exist", async () => {
-  //   tree.delete('angular.json');
-
-  //   await expectAsync(
-  //     runSchematic()
-  //   ).toBeRejectedWithError('Not an Angular CLI workspace.');
-  // });
+    await expectAsync(
+      runSchematic()
+    ).toBeRejectedWithError(
+      `The file '${packageJsonPath}' was expected to exist but was not found.`
+    );
+  });
 });
