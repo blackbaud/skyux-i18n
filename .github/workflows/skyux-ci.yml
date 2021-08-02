@@ -31,5 +31,6 @@ jobs:
           npm-token: ${{ secrets.NPM_TOKEN }}
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
           hook-after-build-public-library-success: ./scripts/after-build-public-library-success.js
+          hook-after-code-coverage-success: ./scripts/after-code-coverage-success.js
       - name: Upload coverage report
         run: bash <(curl -s https://codecov.io/bash)
