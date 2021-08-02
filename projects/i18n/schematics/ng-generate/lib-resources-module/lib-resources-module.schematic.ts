@@ -15,8 +15,8 @@ import {
 
 import { readRequiredFile } from '../../utility/tree';
 import { getProject, getWorkspace } from '../../utility/workspace';
-import { ResourceMessages } from './resource-messages';
 
+import { ResourceMessages } from './resource-messages';
 import { Schema } from './schema';
 import { TemplateContext } from './template-context';
 
@@ -105,7 +105,10 @@ function ensureDefaultResourcesFileExists(project: ProjectDefinition): Rule {
   };
 }
 
-function generateTemplateFiles(project: ProjectDefinition, projectName: string): Rule {
+function generateTemplateFiles(
+  project: ProjectDefinition,
+  projectName: string
+): Rule {
   return (tree) => {
     const movePath = normalize(project.sourceRoot + '/');
     const messages = getResources(tree, project.sourceRoot!);
@@ -152,14 +155,16 @@ export default function generateLibraryResourcesModule(options: Schema): Rule {
 
     // Abort if executed against an application.
     if (project.extensions.projectType === 'application') {
-      context.logger.warn(`The project "${projectName}" is not of type "library". Aborting.`);
+      context.logger.warn(
+        `The project "${projectName}" is not of type "library". Aborting.`
+      );
       return;
     }
 
     const rules: Rule[] = [
       addI18nPeerDependency(project),
       ensureDefaultResourcesFileExists(project),
-      generateTemplateFiles(project, projectName)
+      generateTemplateFiles(project, projectName),
     ];
 
     return chain(rules);

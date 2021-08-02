@@ -22,9 +22,8 @@ describe('lib-resources-module.schematic', () => {
   let tree: UnitTestTree;
 
   beforeEach(async () => {
-
     tree = await createTestLibrary(runner, {
-      name: defaultProjectName
+      name: defaultProjectName,
     });
 
     // Create a default resources file.
@@ -40,9 +39,15 @@ describe('lib-resources-module.schematic', () => {
   });
 
   function runSchematic(project?: string): Promise<UnitTestTree> {
-    return runner.runSchematicAsync(schematicName, {
-      project
-    }, tree).toPromise();
+    return runner
+      .runSchematicAsync(
+        schematicName,
+        {
+          project,
+        },
+        tree
+      )
+      .toPromise();
   }
 
   it('should generate a resources module', async () => {
@@ -111,9 +116,7 @@ export class MyLibResourcesModule { }
   });
 
   it('should handle invalid project name', async () => {
-    await expectAsync(
-      runSchematic('invalid-project')
-    ).toBeRejectedWithError(
+    await expectAsync(runSchematic('invalid-project')).toBeRejectedWithError(
       'The "invalid-project" project is not defined in angular.json. Provide a valid project name.'
     );
   });
@@ -135,12 +138,18 @@ export class MyLibResourcesModule { }
 
   it('should abort for application projects', async () => {
     const app = await createTestApp(runner, {
-      defaultProjectName: 'foo-app'
+      defaultProjectName: 'foo-app',
     });
 
-    await runner.runSchematicAsync(schematicName, {
-      project: 'foo-app'
-    }, app).toPromise();
+    await runner
+      .runSchematicAsync(
+        schematicName,
+        {
+          project: 'foo-app',
+        },
+        app
+      )
+      .toPromise();
 
     expect(app.exists(resourcesModulePath)).toBeFalse();
   });
@@ -148,9 +157,7 @@ export class MyLibResourcesModule { }
   it('should throw an error if package.json does not exist', async () => {
     tree.delete(packageJsonPath);
 
-    await expectAsync(
-      runSchematic()
-    ).toBeRejectedWithError(
+    await expectAsync(runSchematic()).toBeRejectedWithError(
       `The file '${packageJsonPath}' was expected to exist but was not found.`
     );
   });
