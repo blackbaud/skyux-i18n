@@ -1,4 +1,5 @@
-import { strings } from '@angular-devkit/core';
+import { normalize, strings } from '@angular-devkit/core';
+import { ProjectDefinition } from '@angular-devkit/core/src/workspace';
 import {
   apply,
   applyTemplates,
@@ -8,26 +9,23 @@ import {
   mergeWith,
   move,
   Rule,
-  SchematicContext,
-  SchematicsException,
   Tree,
   url,
 } from '@angular-devkit/schematics';
 
-import path from 'path';
-
 import { readRequiredFile } from '../../utility/tree';
-
-import { InputOptions } from './input-options';
+import { getProject, getWorkspace } from '../../utility/workspace';
 import { ResourceMessages } from './resource-messages';
+
+import { Schema } from './schema';
 import { TemplateContext } from './template-context';
 
 function getResourceFilesContents(tree: Tree, srcPath: string) {
   const contents: any = {};
-  const dirEntry = tree.getDir(path.join(srcPath, 'assets/locales'));
+  const dirEntry = tree.getDir(normalize(`${srcPath}/assets/locales`));
 
   dirEntry.subfiles
-    .map((subfile) => path.join(srcPath, 'assets/locales', subfile))
+    .map((subfile) => normalize(`${srcPath}/assets/locales/${subfile}`))
     .forEach((file) => {
       const locale = parseLocaleIdFromFileName(file);
       contents[locale] = JSON.parse(readRequiredFile(tree, file));
@@ -45,11 +43,11 @@ function parseLocaleIdFromFileName(fileName: string): string {
   return fileName
     .split('.json')[0]
     .split('resources_')[1]
-    .toUpperCase()
+    .toLocaleUpperCase()
     .replace('_', '-');
 }
 
-function parseResourceMessages(tree: Tree, srcPath: string): ResourceMessages {
+function getResources(tree: Tree, srcPath: string): ResourceMessages {
   const messages: ResourceMessages = {};
   const contents = getResourceFilesContents(tree, srcPath);
 
@@ -66,56 +64,23 @@ function parseResourceMessages(tree: Tree, srcPath: string): ResourceMessages {
 /**
  * Adds `@skyux/i18n` to the project's package.json `peerDependencies`.
  */
-function addI18nPeerDependency(tree: Tree, srcPath: string): void {
-  const packageJsonPath = path.join(srcPath.replace('src', ''), 'package.json');
-  const packageJsonContent = readRequiredFile(tree, packageJsonPath);
+function addI18nPeerDependency(project: ProjectDefinition): Rule {
+  return (tree) => {
+    const packageJsonPath = normalize(`${project.root}/package.json`);
+    const packageJsonContent = readRequiredFile(tree, packageJsonPath);
 
-  const packageJson = JSON.parse(packageJsonContent);
-  packageJson.peerDependencies = packageJson.peerDependencies || {};
-  packageJson.peerDependencies['@skyux/i18n'] = '^5.0.0-beta.0';
+    const packageJson = JSON.parse(packageJsonContent);
+    packageJson.peerDependencies = packageJson.peerDependencies || {};
+    packageJson.peerDependencies['@skyux/i18n'] = '^5.0.0-beta.0';
 
-  tree.overwrite(packageJsonPath, JSON.stringify(packageJson, undefined, 2));
+    tree.overwrite(packageJsonPath, JSON.stringify(packageJson, undefined, 2));
+  };
 }
 
-/**
- * Fixes an Angular CLI issue with merge strategies.
- * @see https://github.com/angular/angular-cli/issues/11337#issuecomment-516543220
- */
-function overwriteIfExists(tree: Tree): Rule {
-  return forEach((fileEntry) => {
-    if (tree.exists(fileEntry.path)) {
-      tree.overwrite(fileEntry.path, fileEntry.content);
-      return null;
-    }
-    return fileEntry;
-  });
-}
-
-function getProjectSourcePath(tree: Tree, options: InputOptions): string {
-  // Get the workspace config.
-  const workspaceConfigBuffer = tree.read('angular.json');
-  if (!workspaceConfigBuffer) {
-    throw new SchematicsException('Not an Angular CLI workspace.');
-  }
-
-  const workspace = JSON.parse(workspaceConfigBuffer.toString());
-
-  const project = workspace.projects[options.project];
-
-  if (!project) {
-    throw new Error(
-      `The "${options.project}" project is not defined in angular.json. Provide a valid project name.`
-    );
-  }
-
-  return path.join(path.normalize(project.root), 'src');
-}
-
-function ensureDefaultResourcesFileExists(options: InputOptions): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
-    const srcPath = getProjectSourcePath(tree, options);
-    const defaultResourcePath = path.join(
-      `${srcPath}/assets/locales/resources_en_US.json`
+function ensureDefaultResourcesFileExists(project: ProjectDefinition): Rule {
+  return (tree) => {
+    const defaultResourcePath = normalize(
+      `${project.sourceRoot}/assets/locales/resources_en_US.json`
     );
 
     if (tree.exists(defaultResourcePath)) {
@@ -140,31 +105,63 @@ function ensureDefaultResourcesFileExists(options: InputOptions): Rule {
   };
 }
 
-export default function generateResourcesModule(options: InputOptions): Rule {
-  return chain([
-    ensureDefaultResourcesFileExists(options),
+function generateTemplateFiles(project: ProjectDefinition, projectName: string): Rule {
+  return (tree) => {
+    const movePath = normalize(project.sourceRoot + '/');
+    const messages = getResources(tree, project.sourceRoot!);
 
-    (tree: Tree, _context: SchematicContext) => {
-      const srcPath = getProjectSourcePath(tree, options);
-      const movePath = path.normalize(srcPath + '/');
+    const templateContext: TemplateContext = {
+      name: projectName,
+      resources: JSON.stringify(messages),
+    };
 
-      addI18nPeerDependency(tree, srcPath);
+    const templateConfig = { ...strings, ...templateContext };
 
-      const messages = parseResourceMessages(tree, srcPath);
-      const templateContext: TemplateContext = {
-        name: options.project,
-        resources: JSON.stringify(messages),
-      };
+    const templateSource = apply(url('./files'), [
+      applyTemplates(templateConfig),
+      move(movePath),
+      overwriteIfExists(tree),
+    ]);
 
-      const templateConfig = { ...strings, ...templateContext };
+    return mergeWith(templateSource, MergeStrategy.Overwrite);
+  };
+}
 
-      const templateSource = apply(url('./files'), [
-        applyTemplates(templateConfig),
-        move(movePath),
-        overwriteIfExists(tree),
-      ]);
+/**
+ * Fixes an Angular CLI issue with merge strategies.
+ * @see https://github.com/angular/angular-cli/issues/11337#issuecomment-516543220
+ */
+function overwriteIfExists(tree: Tree): Rule {
+  return forEach((fileEntry) => {
+    if (tree.exists(fileEntry.path)) {
+      tree.overwrite(fileEntry.path, fileEntry.content);
+      return null;
+    }
+    return fileEntry;
+  });
+}
 
-      return mergeWith(templateSource, MergeStrategy.Overwrite);
-    },
-  ]);
+export default function generateLibraryResourcesModule(options: Schema): Rule {
+  return async (tree, context) => {
+    const { workspace } = await getWorkspace(tree);
+
+    const { project, projectName } = await getProject(
+      workspace,
+      options.project || (workspace.extensions.defaultProject as string)
+    );
+
+    // Abort if executed against an application.
+    if (project.extensions.projectType === 'application') {
+      context.logger.warn(`The project "${projectName}" is not of type "library". Aborting.`);
+      return;
+    }
+
+    const rules: Rule[] = [
+      addI18nPeerDependency(project),
+      ensureDefaultResourcesFileExists(project),
+      generateTemplateFiles(project, projectName)
+    ];
+
+    return chain(rules);
+  };
 }

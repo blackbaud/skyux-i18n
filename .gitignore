@@ -48,3 +48,7 @@ Thumbs.db
 .skyux4sourcecode
 /screenshots-baseline-local
 /screenshots-diff-local
+
+# Code coverage
+.nyc_output
+coverage
