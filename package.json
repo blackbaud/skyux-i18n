@@ -7,7 +7,8 @@
     "build": "ng build",
     "postbuild": "node ./scripts/build-schematics.js",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
+    "test": "ng test --code-coverage --watch=false",
+    "posttest": "node ./scripts/test-schematics.js",
     "lint": "ng lint"
   },
   "private": true,
