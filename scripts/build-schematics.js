@@ -3,6 +3,8 @@ const path = require('path');
 
 const runCommand = require('./run-command');
 
+const LIB_PATH = path.join(process.cwd(), 'projects/i18n');
+
 function buildSchematics() {
   console.log('Building library schematics...');
 
