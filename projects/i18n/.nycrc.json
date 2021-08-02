@@ -9,5 +9,7 @@
   "lines": 100,
   "functions": 100,
   "statements": 100,
-  "reporter": ["text", "html", "json"]
+  "reporter": ["text", "html", "json"],
+  "report-dir": "../../coverage/i18n-schematics",
+  "temp-dir": "../../.nyc_output"
 }
