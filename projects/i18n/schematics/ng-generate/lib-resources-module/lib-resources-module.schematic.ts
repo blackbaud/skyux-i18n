@@ -18,23 +18,26 @@ import path from 'path';
 import { readRequiredFile } from '../../utility/tree';
 import { getProject, getWorkspace } from '../../utility/workspace';
 
-import { ResourceMessages } from './resource-messages';
 import { Schema } from './schema';
 import { TemplateContext } from './template-context';
 
-function getResourceFilesContents(tree: Tree, project: ProjectDefinition) {
-  const contents: any = {};
-  const dirEntry = tree.getDir(normalize(`${project.root}/assets/locales`));
+// function getResourceFilesContents(tree: Tree, project: ProjectDefinition) {
+//   const contents: any = {};
+//   const dirEntry = tree.getDir(
+//     normalize(`${project.sourceRoot}/assets/locales`)
+//   );
 
-  dirEntry.subfiles
-    .map((subfile) => normalize(`${project.root}/assets/locales/${subfile}`))
-    .forEach((file) => {
-      const locale = parseLocaleIdFromFileName(file);
-      contents[locale] = JSON.parse(readRequiredFile(tree, file));
-    });
+//   dirEntry.subfiles
+//     .map((subfile) =>
+//       normalize(`${project.sourceRoot}/assets/locales/${subfile}`)
+//     )
+//     .forEach((file) => {
+//       const locale = parseLocaleIdFromFileName(file);
+//       contents[locale] = JSON.parse(readRequiredFile(tree, file));
+//     });
 
-  return contents;
-}
+//   return contents;
+// }
 
 /**
  * Standardize keys to be uppercase, due to some language limitations
@@ -49,21 +52,24 @@ function parseLocaleIdFromFileName(fileName: string): string {
     .replace('_', '-');
 }
 
-function getResources(
-  tree: Tree,
-  project: ProjectDefinition
-): ResourceMessages {
-  const messages: ResourceMessages = {};
-  const contents = getResourceFilesContents(tree, project);
+function getResources(tree: Tree, project: ProjectDefinition): string {
+  let imports: string = '';
+  let resourcesVar: string =
+    'const RESOURCES: { [locale: string]: SkyLibResources } = {';
 
-  Object.keys(contents).forEach((locale) => {
-    messages[locale] = {};
-    Object.keys(contents[locale]).forEach((key) => {
-      messages[locale][key] = contents[locale][key].message;
-    });
+  const localesPath = normalize(`${project.sourceRoot}/assets/locales`);
+  const localesDir = tree.getDir(localesPath);
+
+  localesDir.subfiles.forEach((file) => {
+    const localeId = parseLocaleIdFromFileName(file);
+    const variableName = localeId.replace('-', '_').toLowerCase();
+    imports += `import ${variableName} from '${localesPath}/${file}';\n`;
+    resourcesVar += `\n  '${localeId}': ${variableName},`;
   });
 
-  return messages;
+  resourcesVar += '\n};';
+
+  return imports + '\n' + resourcesVar;
 }
 
 /**
@@ -85,7 +91,7 @@ function addI18nPeerDependency(project: ProjectDefinition): Rule {
 function ensureDefaultResourcesFileExists(project: ProjectDefinition): Rule {
   return (tree) => {
     const defaultResourcePath = normalize(
-      `${project.root}/assets/locales/resources_en_US.json`
+      `${project.sourceRoot}/assets/locales/resources_en_US.json`
     );
 
     if (tree.exists(defaultResourcePath)) {
@@ -121,12 +127,12 @@ function generateTemplateFiles(
     const parsedPath = path.parse(options.name || '');
     const movePath = normalize(project.sourceRoot + '/' + parsedPath.dir);
 
-    const messages = getResources(tree, project);
+    const resources = getResources(tree, project);
 
     const templateContext: TemplateContext = {
       modulePath: modulePath ? ` ${modulePath}` : '',
       name: parsedPath.name || projectName,
-      resources: JSON.stringify(messages),
+      resources,
     };
 
     const templateConfig = { ...strings, ...templateContext };

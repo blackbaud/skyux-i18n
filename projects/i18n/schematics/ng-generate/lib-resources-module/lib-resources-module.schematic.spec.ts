@@ -14,7 +14,7 @@ describe('lib-resources-module.schematic', () => {
   const schematicName = 'lib-resources-module';
 
   const resourcesModulePath = `/projects/${defaultProjectName}/src/${defaultProjectName}-resources.module.ts`;
-  const defaultResourcesJsonPath = `/projects/${defaultProjectName}/assets/locales/resources_en_US.json`;
+  const defaultResourcesJsonPath = `/projects/${defaultProjectName}/src/assets/locales/resources_en_US.json`;
   const packageJsonPath = `projects/${defaultProjectName}/package.json`;
 
   const runner = new SchematicTestRunner('schematics', collectionPath);
@@ -45,6 +45,11 @@ describe('lib-resources-module.schematic', () => {
   }
 
   it('should generate a resources module', async () => {
+    tree.create(
+      `/projects/${defaultProjectName}/src/assets/locales/resources_fr_CA.json`,
+      '{}'
+    );
+
     const updatedTree = await runSchematic();
 
     const moduleContents = readRequiredFile(updatedTree, resourcesModulePath);
@@ -58,17 +63,25 @@ describe('lib-resources-module.schematic', () => {
 
 import { NgModule } from '@angular/core';
 import {
-  getStringForLocale,
+  getLibStringForLocale,
   SkyAppLocaleInfo,
   SkyI18nModule,
+  SkyLibResources,
   SkyLibResourcesProvider,
   SKY_LIB_RESOURCES_PROVIDERS
 } from '@skyux/i18n';
 
+import en_us from 'projects/my-lib/src/assets/locales/resources_en_US.json';
+import fr_ca from 'projects/my-lib/src/assets/locales/resources_fr_CA.json';
+
+const RESOURCES: { [locale: string]: SkyLibResources } = {
+  'EN-US': en_us,
+  'FR-CA': fr_ca,
+};
+
 class MyLibResourcesProvider implements SkyLibResourcesProvider {
-  private resources: any = {"EN-US":{"foobar":"Hello, world!"}};
   public getString(localeInfo: SkyAppLocaleInfo, name: string): string {
-    return getStringForLocale(this.resources, localeInfo.locale, name);
+    return getLibStringForLocale(RESOURCES, localeInfo.locale, name);
   }
 }
 
@@ -142,17 +155,23 @@ export class MyLibResourcesModule { }
 
 import { NgModule } from '@angular/core';
 import {
-  getStringForLocale,
+  getLibStringForLocale,
   SkyAppLocaleInfo,
   SkyI18nModule,
+  SkyLibResources,
   SkyLibResourcesProvider,
   SKY_LIB_RESOURCES_PROVIDERS
 } from '@skyux/i18n';
 
+import en_us from 'projects/my-lib/src/assets/locales/resources_en_US.json';
+
+const RESOURCES: { [locale: string]: SkyLibResources } = {
+  'EN-US': en_us,
+};
+
 class FoobarResourcesProvider implements SkyLibResourcesProvider {
-  private resources: any = {"EN-US":{"foobar":"Hello, world!"}};
   public getString(localeInfo: SkyAppLocaleInfo, name: string): string {
-    return getStringForLocale(this.resources, localeInfo.locale, name);
+    return getLibStringForLocale(RESOURCES, localeInfo.locale, name);
   }
 }
 
