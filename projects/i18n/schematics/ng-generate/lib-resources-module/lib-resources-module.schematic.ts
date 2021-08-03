@@ -21,24 +21,6 @@ import { getProject, getWorkspace } from '../../utility/workspace';
 import { Schema } from './schema';
 import { TemplateContext } from './template-context';
 
-// function getResourceFilesContents(tree: Tree, project: ProjectDefinition) {
-//   const contents: any = {};
-//   const dirEntry = tree.getDir(
-//     normalize(`${project.sourceRoot}/assets/locales`)
-//   );
-
-//   dirEntry.subfiles
-//     .map((subfile) =>
-//       normalize(`${project.sourceRoot}/assets/locales/${subfile}`)
-//     )
-//     .forEach((file) => {
-//       const locale = parseLocaleIdFromFileName(file);
-//       contents[locale] = JSON.parse(readRequiredFile(tree, file));
-//     });
-
-//   return contents;
-// }
-
 /**
  * Standardize keys to be uppercase, due to some language limitations
  * with lowercase characters.
