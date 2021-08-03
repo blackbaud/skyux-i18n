@@ -113,16 +113,18 @@ function ensureDefaultResourcesFileExists(project: ProjectDefinition): Rule {
 function generateTemplateFiles(
   project: ProjectDefinition,
   projectName: string,
-  moduleName: string
+  options: Schema
 ): Rule {
   return (tree) => {
-    const parsedPath = path.parse(moduleName || '');
+    const modulePath = options.name || '';
 
+    const parsedPath = path.parse(options.name || '');
     const movePath = normalize(project.sourceRoot + '/' + parsedPath.dir);
 
     const messages = getResources(tree, project);
 
     const templateContext: TemplateContext = {
+      modulePath: modulePath ? ` ${modulePath}` : '',
       name: parsedPath.name || projectName,
       resources: JSON.stringify(messages),
     };
@@ -173,7 +175,7 @@ export default function generateLibraryResourcesModule(options: Schema): Rule {
     const rules: Rule[] = [
       addI18nPeerDependency(project),
       ensureDefaultResourcesFileExists(project),
-      generateTemplateFiles(project, projectName, options.name),
+      generateTemplateFiles(project, projectName, options),
     ];
 
     return chain(rules);
