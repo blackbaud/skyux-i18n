@@ -1,6 +1,14 @@
 {
   "name": "@skyux/i18n",
   "version": "5.0.0-beta.2",
+  "schematics": "./schematics/collection.json",
+  "scripts": {
+    "test": "../../node_modules/.bin/nyc npm run test:unit",
+    "test:unit": "../../node_modules/.bin/ts-node --project tsconfig.schematics.json ../../node_modules/jasmine/bin/jasmine.js --config=jasmine.json"
+  },
+  "ng-add": {
+    "save": "dependencies"
+  },
   "peerDependencies": {
     "@angular/core": "^12.1.0",
     "@angular/common": "^12.1.0",
