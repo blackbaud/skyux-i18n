@@ -15,6 +15,7 @@ import {
 
 import path from 'path';
 
+import { SkyuxVersions } from '../../shared/skyux-versions';
 import { readRequiredFile } from '../../utility/tree';
 import { getProject, getWorkspace } from '../../utility/workspace';
 
@@ -64,7 +65,7 @@ function addI18nPeerDependency(project: ProjectDefinition): Rule {
 
     const packageJson = JSON.parse(packageJsonContent);
     packageJson.peerDependencies = packageJson.peerDependencies || {};
-    packageJson.peerDependencies['@skyux/i18n'] = '^5.0.0-beta.0';
+    packageJson.peerDependencies['@skyux/i18n'] = SkyuxVersions.I18n;
 
     tree.overwrite(packageJsonPath, JSON.stringify(packageJson, undefined, 2));
   };

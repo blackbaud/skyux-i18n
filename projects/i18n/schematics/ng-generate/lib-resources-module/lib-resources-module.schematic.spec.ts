@@ -5,6 +5,7 @@ import {
 
 import path from 'path';
 
+import { SkyuxVersions } from '../../shared/skyux-versions';
 import { createTestApp, createTestLibrary } from '../../testing/scaffold';
 import { readRequiredFile } from '../../utility/tree';
 
@@ -201,7 +202,7 @@ export class FoobarResourcesModule { }
     );
 
     expect(packageJsonContents.peerDependencies['@skyux/i18n']).toEqual(
-      '^5.0.0-beta.0'
+      SkyuxVersions.I18n
     );
   });
 

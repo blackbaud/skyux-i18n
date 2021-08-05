@@ -5,6 +5,7 @@ import {
 
 import path from 'path';
 
+import { SkyuxVersions } from '../shared/skyux-versions';
 import { createTestLibrary } from '../testing/scaffold';
 
 const COLLECTION_PATH = path.resolve(__dirname, '../collection.json');
@@ -34,6 +35,16 @@ describe('ng-add.schematic', () => {
 
     expect(runner.tasks.some((task) => task.name === 'node-package')).toEqual(
       true
+    );
+  });
+
+  it('should add dependencies', async () => {
+    const updatedTree = await runSchematic();
+    const packageJson = JSON.parse(updatedTree.readContent('package.json'));
+    expect(packageJson.dependencies).toEqual(
+      jasmine.objectContaining({
+        '@skyux/assets': SkyuxVersions.Assets,
+      })
     );
   });
 });
