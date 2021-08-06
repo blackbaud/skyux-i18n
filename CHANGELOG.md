@@ -1,3 +1,8 @@
+# 5.0.0-beta.3 (2021-08-06)
+
+- Added the `ng add` schematic.
+- Added the `ng generate @skyux/i18n:lib-resources-module` schematic.
+
 # 5.0.0-beta.2 (2021-06-29)
 
 - Fixed the peer dependencies to only reference beta versions for SKY UX packages. [110](https://github.com/blackbaud/skyux-i18n/pull/110)
