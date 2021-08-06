@@ -1,7 +1,7 @@
 # 5.0.0-beta.3 (2021-08-06)
 
 - Added the `ng add` schematic. [113](https://github.com/blackbaud/skyux-i18n/pull/113)
-- Added the `ng generate @skyux/i18n:lib-resources-module` schematic.
+- Added the `ng generate @skyux/i18n:lib-resources-module` schematic. [113](https://github.com/blackbaud/skyux-i18n/pull/113)
 
 # 5.0.0-beta.2 (2021-06-29)
 
