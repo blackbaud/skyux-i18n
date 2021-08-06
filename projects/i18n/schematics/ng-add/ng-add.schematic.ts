@@ -1,4 +1,4 @@
-import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { chain, Rule } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import {
   addPackageJsonDependency,
@@ -7,10 +7,20 @@ import {
 
 import { SkyuxVersions } from '../shared/skyux-versions';
 
-export default function ngAdd(): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    context.addTask(new NodePackageInstallTask());
+function addPackageJsonScript(): Rule {
+  return (tree) => {
+    const packageJson = JSON.parse(tree.read('package.json')!.toString());
 
+    packageJson.scripts = packageJson.scripts || {};
+    packageJson.scripts['skyux:generate-lib-resources-module'] =
+      'ng generate @skyux/i18n:lib-resources-module';
+
+    tree.overwrite('package.json', JSON.stringify(packageJson, undefined, 2));
+  };
+}
+
+export default function ngAdd(): Rule {
+  return (tree, context) => {
     addPackageJsonDependency(tree, {
       type: NodeDependencyType.Default,
       name: '@skyux/assets',
@@ -18,6 +28,8 @@ export default function ngAdd(): Rule {
       overwrite: true,
     });
 
-    return tree;
+    context.addTask(new NodePackageInstallTask());
+
+    return chain([addPackageJsonScript()]);
   };
 }

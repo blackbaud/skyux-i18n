@@ -30,6 +30,10 @@ describe('ng-add.schematic', () => {
     return runner.runSchematicAsync('ng-add', options, tree).toPromise();
   }
 
+  function readPackageJson(tree: UnitTestTree): any {
+    return JSON.parse(tree.readContent('package.json'));
+  }
+
   it('should run the NodePackageInstallTask', async () => {
     await runSchematic();
 
@@ -40,11 +44,34 @@ describe('ng-add.schematic', () => {
 
   it('should add dependencies', async () => {
     const updatedTree = await runSchematic();
-    const packageJson = JSON.parse(updatedTree.readContent('package.json'));
+    const packageJson = readPackageJson(updatedTree);
     expect(packageJson.dependencies).toEqual(
       jasmine.objectContaining({
         '@skyux/assets': SkyuxVersions.Assets,
       })
+    );
+  });
+
+  it('should add package.json script', async () => {
+    const updatedTree = await runSchematic();
+    const packageJson = readPackageJson(updatedTree);
+    expect(packageJson.scripts['skyux:generate-lib-resources-module']).toEqual(
+      'ng generate @skyux/i18n:lib-resources-module'
+    );
+  });
+
+  it('should handle an empty scripts section', async () => {
+    // Delete the scripts section, first.
+    let packageJson = readPackageJson(tree);
+    delete packageJson.scripts;
+    tree.overwrite('package.json', JSON.stringify(packageJson));
+
+    const updatedTree = await runSchematic();
+
+    packageJson = readPackageJson(updatedTree);
+
+    expect(packageJson.scripts['skyux:generate-lib-resources-module']).toEqual(
+      'ng generate @skyux/i18n:lib-resources-module'
     );
   });
 });
