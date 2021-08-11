@@ -36,23 +36,28 @@ function parseLocaleIdFromFileName(fileName: string): string {
 }
 
 function getResources(tree: Tree, project: ProjectDefinition): string {
-  let imports: string = '';
   let resourcesVar: string =
-    'const RESOURCES: { [locale: string]: SkyLibResources } = {';
+    'const RESOURCES: {[_: string]: SkyLibResources} = {';
 
   const localesPath = normalize(`${project.sourceRoot}/assets/locales`);
   const localesDir = tree.getDir(localesPath);
 
   localesDir.subfiles.forEach((file) => {
     const localeId = parseLocaleIdFromFileName(file);
-    const variableName = localeId.replace('-', '_').toLowerCase();
-    imports += `import ${variableName} from '${localesPath}/${file}';\n`;
-    resourcesVar += `\n  '${localeId}': ${variableName},`;
+    const contents = JSON.parse(
+      readRequiredFile(tree, `${localesPath}/${file}`)
+    );
+
+    Object.keys(contents).forEach((key) => {
+      delete contents[key]._description;
+    });
+
+    resourcesVar += `\n  '${localeId}': ${JSON.stringify(contents)},`;
   });
 
   resourcesVar += '\n};';
 
-  return imports + '\n' + resourcesVar;
+  return resourcesVar;
 }
 
 /**
