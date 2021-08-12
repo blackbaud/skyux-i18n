@@ -72,7 +72,7 @@ import {
   SKY_LIB_RESOURCES_PROVIDERS
 } from '@skyux/i18n';
 
-const RESOURCES: {[_: string]: SkyLibResources} = {
+const RESOURCES: { [locale: string]: SkyLibResources } = {
   'EN-US': {"foobar":{"message":"Hello, world!"}},
   'FR-CA': {},
 };
@@ -161,7 +161,7 @@ import {
   SKY_LIB_RESOURCES_PROVIDERS
 } from '@skyux/i18n';
 
-const RESOURCES: {[_: string]: SkyLibResources} = {
+const RESOURCES: { [locale: string]: SkyLibResources } = {
   'EN-US': {"foobar":{"message":"Hello, world!"}},
 };
 
