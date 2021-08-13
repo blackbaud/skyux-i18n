@@ -72,15 +72,12 @@ import {
   SKY_LIB_RESOURCES_PROVIDERS
 } from '@skyux/i18n';
 
-import en_us from 'projects/my-lib/src/assets/locales/resources_en_US.json';
-import fr_ca from 'projects/my-lib/src/assets/locales/resources_fr_CA.json';
-
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': en_us,
-  'FR-CA': fr_ca,
+  'EN-US': {"foobar":{"message":"Hello, world!"}},
+  'FR-CA': {},
 };
 
-class MyLibResourcesProvider implements SkyLibResourcesProvider {
+export class MyLibResourcesProvider implements SkyLibResourcesProvider {
   public getString(localeInfo: SkyAppLocaleInfo, name: string): string {
     return getLibStringForLocale(RESOURCES, localeInfo.locale, name);
   }
@@ -164,13 +161,11 @@ import {
   SKY_LIB_RESOURCES_PROVIDERS
 } from '@skyux/i18n';
 
-import en_us from 'projects/my-lib/src/assets/locales/resources_en_US.json';
-
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': en_us,
+  'EN-US': {"foobar":{"message":"Hello, world!"}},
 };
 
-class FoobarResourcesProvider implements SkyLibResourcesProvider {
+export class FoobarResourcesProvider implements SkyLibResourcesProvider {
   public getString(localeInfo: SkyAppLocaleInfo, name: string): string {
     return getLibStringForLocale(RESOURCES, localeInfo.locale, name);
   }
