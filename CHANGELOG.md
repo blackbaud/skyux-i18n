@@ -1,3 +1,7 @@
+# 5.0.0-beta.4 (2021-08-13)
+
+- Fixed the `lib-resources-module` schematic to work with ahead-of-time compilation. [#115](https://github.com/blackbaud/skyux-i18n/pull/115)
+
 # 5.0.0-beta.3 (2021-08-06)
 
 - Added the `ng add` schematic. [113](https://github.com/blackbaud/skyux-i18n/pull/113)
