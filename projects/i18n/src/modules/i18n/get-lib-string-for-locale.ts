@@ -15,7 +15,7 @@ import {
   const defaultLocale = 'en-US';
 
   function getResourcesForLocale(locale: string): SkyLibResources {
-    const parsedLocale = locale.toUpperCase().replace('_', '-');
+    const parsedLocale = locale.toLocaleUpperCase().replace('_', '-');
     return resources[parsedLocale];
   }
 
