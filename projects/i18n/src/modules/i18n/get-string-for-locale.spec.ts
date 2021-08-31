@@ -23,9 +23,9 @@ describe('Get string', () => {
     expect(result).toEqual('bar');
   });
 
-  it('should return an empty string if the key does not exist', () => {
+  it('should return undefined if the key does not exist', () => {
     const result = getStringForLocale(resources, 'EN-US', 'invalid');
-    expect(result).toEqual('');
+    expect(result).toBeUndefined();
   });
 
   it('should handle mixed-case locales', () => {
