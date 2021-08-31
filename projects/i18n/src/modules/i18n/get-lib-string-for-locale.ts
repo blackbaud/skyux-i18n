@@ -11,11 +11,11 @@ import {
   },
   preferredLocale: string,
   name: string
-): string {
+): string | undefined {
   const defaultLocale = 'en-US';
 
   function getResourcesForLocale(locale: string): SkyLibResources {
-    const parsedLocale = locale.toUpperCase().replace('_', '-');
+    const parsedLocale = locale.toLocaleUpperCase().replace('_', '-');
     return resources[parsedLocale];
   }
 
@@ -31,6 +31,4 @@ import {
   if (values && values[name]) {
     return values[name].message;
   }
-
-  return name;
 }

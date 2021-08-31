@@ -69,7 +69,7 @@ export class SkyLibResourcesService {
     if (this.providers) {
       for (const provider of this.providers) {
         const s = provider.getString(info, name);
-        if (s) {
+        if (s !== undefined) {
           return Format.formatText(s, ...args);
         }
       }

@@ -6,6 +6,6 @@ import {
 
 export abstract class SkyLibResourcesProvider {
 
-  public abstract getString: (localeInfo: SkyAppLocaleInfo, name: string) => string;
+  public abstract getString: (localeInfo: SkyAppLocaleInfo, name: string) => string | undefined;
 
 }
