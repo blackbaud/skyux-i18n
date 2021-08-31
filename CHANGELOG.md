@@ -1,3 +1,7 @@
+# 5.0.0-beta.5 (2021-08-31)
+
+- Fixed the `SkyLibResourcesService` to return empty resource strings if they are defined for a given resource key. [#119](https://github.com/blackbaud/skyux-i18n/pull/119)
+
 # 5.0.0-beta.4 (2021-08-13)
 
 - Fixed the `lib-resources-module` schematic to work with ahead-of-time compilation. [#115](https://github.com/blackbaud/skyux-i18n/pull/115)
