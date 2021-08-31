@@ -11,7 +11,7 @@ import {
   },
   preferredLocale: string,
   name: string
-): string {
+): string | undefined {
   const defaultLocale = 'en-US';
 
   function getResourcesForLocale(locale: string): SkyLibResources {
@@ -31,6 +31,4 @@ import {
   if (values && values[name]) {
     return values[name].message;
   }
-
-  return name;
 }
