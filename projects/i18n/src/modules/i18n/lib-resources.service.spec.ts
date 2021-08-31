@@ -33,11 +33,12 @@ class MockSkyLibResourcesProvider implements SkyLibResourcesProvider {
     private key: string
   ) { }
 
-  public getString(localeInfo: SkyAppLocaleInfo, name: string): string {
+  public getString(localeInfo: SkyAppLocaleInfo, name: string): string | undefined {
     const resources: any = {
       'en_US': { [this.key]: 'hello', [this.key + '_alternate']: 'hi' },
       'fr_CA': { [this.key]: 'bonjour' },
-      'fr_FR': { [this.key]: 'hello {0} {1}' }
+      'fr_FR': { [this.key]: 'hello {0} {1}' },
+      'is_empty': { [this.key]: '' } // <-- support empty messages
     };
 
     const values = resources[localeInfo.locale];
@@ -130,6 +131,17 @@ describe('Library resources service', () => {
 
     service.getString('greeting').pipe(take(1)).subscribe((value: string) => {
       expect(value).toEqual('hi');
+    });
+  });
+
+  it('should support empty library resource strings', () => {
+    spyOn(mockLocaleProvider, 'getLocaleInfo').and.returnValue(observableOf({
+      locale: 'is_empty'
+    }));
+
+    service = new SkyLibResourcesService(mockLocaleProvider, mockProviders, undefined);
+    service.getString('greeting').pipe(take(1)).subscribe((value: string) => {
+      expect(value).toEqual('');
     });
   });
 });
