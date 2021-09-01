@@ -4,5 +4,5 @@ export interface SkyIntlNumberFormatterOptions {
   maximumFractionDigits?: number;
   currency?: string | null;
   currencyAsSymbol?: boolean;
-  currencySign?: string;
+  currencySign?: 'standard' | 'accounting';
 }
