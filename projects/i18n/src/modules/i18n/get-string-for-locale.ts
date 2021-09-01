@@ -8,19 +8,21 @@ import {
  */
 export function getStringForLocale(
   resources: {
-    [locale: string]: SkyAppResources
+    [locale: string]: {
+      [name: string]: string;
+    }
   },
   preferredLocale: string,
   name: string
-): string {
+): string | undefined {
   const defaultLocale = 'en-US';
 
-  function getResourcesForLocale(locale: string): SkyAppResources {
+  function getResourcesForLocale(locale: string): {[name: string]: string} {
     const parsedLocale = locale.toUpperCase().replace('_', '-');
     return resources[parsedLocale];
   }
 
-  let values: any = getResourcesForLocale(preferredLocale);
+  let values: {[name: string]: string} = getResourcesForLocale(preferredLocale);
 
   if (values && values[name]) {
     return values[name];
@@ -32,6 +34,4 @@ export function getStringForLocale(
   if (values && values[name]) {
     return values[name];
   }
-
-  return '';
 }
