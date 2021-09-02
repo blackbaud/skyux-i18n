@@ -6,13 +6,8 @@ import {
   SkyI18nCurrencyFormat
 } from './currency-format';
 
-import {
-  SkyBrowserDetector
-} from '../browser-detector';
-
 describe('SkyI18nCurrencyFormatService', () => {
   let service: SkyI18nCurrencyFormatService;
-  const isIE = SkyBrowserDetector.isIE;
 
   beforeEach(() => service = new SkyI18nCurrencyFormatService());
 
@@ -62,11 +57,7 @@ describe('SkyI18nCurrencyFormatService', () => {
         expect(result.groupCharacter).toBe(',');
         expect(result.precision).toBe(2);
 
-        if (isIE) {
-          expect(result.symbol).toBe('$');
-        } else {
-          expect(result.symbol).toBe('US$');
-        }
+        expect(result.symbol).toBe('US$');
       });
     });
 

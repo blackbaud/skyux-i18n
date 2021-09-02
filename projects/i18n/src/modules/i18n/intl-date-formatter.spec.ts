@@ -1,15 +1,8 @@
 import {
-  SkyBrowserDetector
-} from './browser-detector';
-
-import {
   SkyIntlDateFormatter
 } from './intl-date-formatter';
 
 describe('Intl date formatter', function () {
-  const isIE = SkyBrowserDetector.isIE;
-  const isWindows7 = SkyBrowserDetector.isWindows7;
-
   let testDate: Date;
 
   beforeEach(function () {
@@ -60,22 +53,7 @@ describe('Intl date formatter', function () {
 
     let timezone = timezoneFragments[timezoneFragments.length - 1];
 
-    if (isIE) {
-      // IE 11 subtracts 1 from the hours count.
-      if (isWindows7) {
-        hours = `0${testDate.getHours() - 1}`;
-      }
-
-      // IE adds minutes to the hours.
-      hours += ':00';
-
-      // IE does not include timezone in the formatted locale string.
-      timezone = '00';
-
-      expect(formattedDate).toBe(`2019 ${hours} ${meridiem} ${timezone}`);
-    } else {
-      expect(formattedDate).toBe(`2019 ${hours} ${meridiem} ${timezone}`);
-    }
+    expect(formattedDate).toBe(`2019 ${hours} ${meridiem} ${timezone}`);
   });
 
   it('should handle non-date part characters in the format string', function () {

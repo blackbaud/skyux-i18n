@@ -8,9 +8,6 @@ import {
 
 export abstract class SkyIntlNumberFormatter {
 
-  /* istanbul ignore next */
-  constructor() { }
-
   public static format(
     num: number,
     locale: string,
@@ -27,7 +24,7 @@ export abstract class SkyIntlNumberFormatter {
       currencySign = 'standard'
     } = opts;
 
-    const options: Intl.NumberFormatOptions & { currencySign: string } = {
+    const options: Intl.NumberFormatOptions = {
       minimumIntegerDigits,
       minimumFractionDigits,
       maximumFractionDigits,
