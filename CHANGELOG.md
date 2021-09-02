@@ -1,3 +1,11 @@
+# 4.4.0 (2021-09-02)
+
+- Added a `getStrings()` method to `SkyLibResourcesService` for retrieving multiple resource strings in one asynchronous operation. [#125](https://github.com/blackbaud/skyux-i18n/pull/125) (Thanks [@ThomasOrtiz](https://github.com/ThomasOrtiz)!)
+
+# 4.3.0 (2021-09-02)
+
+- Updated the `SkyIntlNumberFormatter` utility to support the accounting currency sign. [#123](https://github.com/blackbaud/skyux-i18n/pull/123) (Thanks [@Blackbaud-TomMaszk](https://github.com/Blackbaud-TomMaszk)!)
+
 # 5.0.0-beta.6 (2021-09-01)
 
 - Fixed the `getStringForLocale` function to return empty resource strings if they are defined for a given resource key. [#121](https://github.com/blackbaud/skyux-i18n/pull/121)
@@ -33,6 +41,10 @@
 # 4.2.1 (2021-05-27)
 
 - Added a `getStrings()` method to `SkyAppResourcesTestService` to support unit testing code that uses `SkyAppResourcesService`. [#105](https://github.com/blackbaud/skyux-i18n/pull/105) (Thanks [@ThomasOrtiz](https://github.com/ThomasOrtiz)!)
+
+# 4.2.0 (2021-05-27)
+
+- Added a `getStrings()` method to `SkyAppResourcesService` for retreiving multiple resource strings in one asynchronous operation. [#103](https://github.com/blackbaud/skyux-i18n/pull/103) (Thanks [@ThomasOrtiz](https://github.com/ThomasOrtiz)!)
 
 # 5.0.0-alpha.0 (2021-05-26)
 
