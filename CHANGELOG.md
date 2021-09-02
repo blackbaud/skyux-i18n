@@ -1,6 +1,6 @@
 # 4.4.0 (2021-09-02)
 
-- Added a `getStrings()` method to `SkyLibResourcesService` for retreiving multiple resource strings in one asynchronous operation. [#125](https://github.com/blackbaud/skyux-i18n/pull/125) (Thanks [@ThomasOrtiz](https://github.com/ThomasOrtiz)!)
+- Added a `getStrings()` method to `SkyLibResourcesService` for retrieving multiple resource strings in one asynchronous operation. [#125](https://github.com/blackbaud/skyux-i18n/pull/125) (Thanks [@ThomasOrtiz](https://github.com/ThomasOrtiz)!)
 
 # 4.3.0 (2021-09-02)
 
