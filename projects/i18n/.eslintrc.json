@@ -1,8 +1,7 @@
 {
   "extends": "../../.eslintrc.json",
   "ignorePatterns": [
-    "!**/*",
-    "src/app/__skyux"
+    "!**/*"
   ],
   "overrides": [
     {

@@ -25,11 +25,6 @@ import {
 // #endregion
 
 class MockSkyLibResourcesProvider implements SkyLibResourcesProvider {
-  constructor(
-    // @ts-ignore - ignore in favor of using static test data
-    private key: string
-  ) { }
-
   public getString(localeInfo: SkyAppLocaleInfo, name: string): string | undefined {
     const resources: any = {
       'en_US': {
@@ -46,7 +41,7 @@ class MockSkyLibResourcesProvider implements SkyLibResourcesProvider {
       'fr_FR': {
         'greeting': 'hello {0} {1}'
       },
-      'is_empty': { [this.key]: '' } // <-- support empty messages
+      'is_empty': { greeting: '' } // <-- support empty messages
     };
 
     const values = resources[localeInfo.locale];
@@ -71,8 +66,8 @@ describe('Library resources service', () => {
     };
 
     mockProviders = [
-      new MockSkyLibResourcesProvider('noop'),
-      new MockSkyLibResourcesProvider('greeting')
+      new MockSkyLibResourcesProvider(),
+      new MockSkyLibResourcesProvider()
     ];
   });
 
