@@ -8,9 +8,6 @@ import {
 
 export abstract class SkyIntlNumberFormatter {
 
-  /* istanbul ignore next */
-  constructor() { }
-
   public static format(
     num: number,
     locale: string,
@@ -23,14 +20,16 @@ export abstract class SkyIntlNumberFormatter {
       minimumFractionDigits,
       maximumFractionDigits,
       currency,
-      currencyAsSymbol = false
+      currencyAsSymbol = false,
+      currencySign = 'standard'
     } = opts;
 
     const options: Intl.NumberFormatOptions = {
       minimumIntegerDigits,
       minimumFractionDigits,
       maximumFractionDigits,
-      style: SkyIntlNumberFormatStyle[style].toLowerCase()
+      style: SkyIntlNumberFormatStyle[style].toLowerCase(),
+      currencySign
     };
 
     if (style === SkyIntlNumberFormatStyle.Currency) {

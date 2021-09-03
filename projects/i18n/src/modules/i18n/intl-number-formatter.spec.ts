@@ -1,8 +1,4 @@
 import {
-  SkyBrowserDetector
-} from './browser-detector';
-
-import {
   SkyIntlNumberFormatStyle
 } from './intl-number-format-style';
 
@@ -16,8 +12,6 @@ function verifyResult(result: string, expectation: string): void {
 }
 
 describe('Intl number formatter', function () {
-  const isIE = SkyBrowserDetector.isIE;
-  const isWindows7 = SkyBrowserDetector.isWindows7;
 
   it('should format currency for a locale', function () {
     const result = SkyIntlNumberFormatter.format(
@@ -76,12 +70,36 @@ describe('Intl number formatter', function () {
       SkyIntlNumberFormatStyle.Percent
     );
 
-    // IE 11 doesn't add a space before the symbol.
-    if (isIE && isWindows7) {
-      verifyResult(result, '48%');
-    } else {
-      verifyResult(result, '48 %');
-    }
+    verifyResult(result, '48 %');
   });
 
+  it('should format positive accounting values', function() {
+    const result = SkyIntlNumberFormatter.format(
+      100.12,
+      'en-US',
+      SkyIntlNumberFormatStyle.Currency,
+      {
+        currency: 'USD',
+        currencyAsSymbol: true,
+        currencySign: 'accounting'
+      }
+    );
+
+    verifyResult(result, '$100.12');
+  });
+
+  it('should format negative accounting values', function() {
+    const result = SkyIntlNumberFormatter.format(
+      -100.12,
+      'en-US',
+      SkyIntlNumberFormatStyle.Currency,
+      {
+        currency: 'USD',
+        currencyAsSymbol: true,
+        currencySign: 'accounting'
+      }
+    );
+
+    verifyResult(result, '($100.12)');
+  });
 });
