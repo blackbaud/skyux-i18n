@@ -1,3 +1,8 @@
+# 5.0.0-beta.7 (2021-09-03)
+
+- Enabled Ivy's "partial" compilation mode. [#127](https://github.com/blackbaud/skyux-i18n/pull/127)
+- Dropped Internet Explorer 11 support. [#127](https://github.com/blackbaud/skyux-i18n/pull/127)
+
 # 4.4.0 (2021-09-02)
 
 - Added a `getStrings()` method to `SkyLibResourcesService` for retrieving multiple resource strings in one asynchronous operation. [#125](https://github.com/blackbaud/skyux-i18n/pull/125) (Thanks [@ThomasOrtiz](https://github.com/ThomasOrtiz)!)
