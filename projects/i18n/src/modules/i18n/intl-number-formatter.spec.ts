@@ -100,6 +100,6 @@ describe('Intl number formatter', function () {
       }
     );
 
-    verifyResult(result, '-$100.12');
+    verifyResult(result, '($100.12)');
   });
 });
