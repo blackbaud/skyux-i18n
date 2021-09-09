@@ -10,6 +10,10 @@
       "i18n": [
         "dist/i18n/i18n",
         "dist/i18n"
+      ],
+      "@skyux/i18n": [
+        "dist/i18n",
+        "projects/i18n/src/public-api.ts"
       ]
     },
     "downlevelIteration": true,
