@@ -1,14 +1,34 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
-  "extends": "./node_modules/@skyux-sdk/builder/tsconfig",
+  "compileOnSave": false,
   "compilerOptions": {
-    "module": "commonjs",
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
     "paths": {
+      "i18n": [
+        "dist/i18n/i18n",
+        "dist/i18n"
+      ],
       "@skyux/i18n": [
-        "./src/app/public"
+        "dist/i18n",
+        "projects/i18n/src/public-api.ts"
       ]
-    }
+    },
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2017",
+    "module": "es2020",
+    "lib": [
+      "es2018",
+      "dom"
+    ]
   },
-  "exclude": [
-    "node_modules"
-  ]
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false
+  }
 }
