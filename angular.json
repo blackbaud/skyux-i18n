@@ -30,7 +30,10 @@
             "main": "projects/i18n/src/test.ts",
             "tsConfig": "projects/i18n/tsconfig.spec.json",
             "karmaConfig": "projects/i18n/karma.conf.js",
-            "codeCoverage": true
+            "codeCoverage": true,
+            "codeCoverageExclude": [
+              "projects/i18n/src/test.ts"
+            ]
           }
         },
         "lint": {
