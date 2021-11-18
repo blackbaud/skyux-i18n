@@ -9,7 +9,8 @@ function buildSchematics() {
   console.log('Building library schematics...');
 
   runCommand('../../node_modules/.bin/tsc', [
-    '--project', 'tsconfig.schematics.json'
+    '--project',
+    'tsconfig.schematics.json',
   ]);
 
   // Copy collection.json.
@@ -20,8 +21,13 @@ function buildSchematics() {
 
   // Copy schemas.
   fs.copySync(
-    path.join(LIB_PATH, 'schematics/ng-generate/lib-resources-module/schema.json'),
-    path.join('dist/i18n/schematics/ng-generate/lib-resources-module/schema.json')
+    path.join(
+      LIB_PATH,
+      'schematics/ng-generate/lib-resources-module/schema.json'
+    ),
+    path.join(
+      'dist/i18n/schematics/ng-generate/lib-resources-module/schema.json'
+    )
   );
 
   // Copy template files.
