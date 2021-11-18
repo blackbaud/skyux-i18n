@@ -10,7 +10,7 @@
       "prefix": "sky",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "builder": "@skyux-sdk/angular-builders:ng-packagr",
           "options": {
             "project": "projects/i18n/ng-package.json"
           },
@@ -31,9 +31,7 @@
             "tsConfig": "projects/i18n/tsconfig.spec.json",
             "karmaConfig": "projects/i18n/karma.conf.js",
             "codeCoverage": true,
-            "codeCoverageExclude": [
-              "projects/i18n/src/test.ts"
-            ]
+            "codeCoverageExclude": ["projects/i18n/src/test.ts"]
           }
         },
         "lint": {
