@@ -1,6 +1,6 @@
 # 5.0.1 (2021-11-18)
 
-- Added support for prettier code formatting and updated the builder to support StackBlitz. []()
+- Added support for prettier code formatting and updated the builder to support StackBlitz. [#131](https://github.com/blackbaud/skyux-i18n/pull/131)
 
 # 5.0.0 (2021-09-29)
 
