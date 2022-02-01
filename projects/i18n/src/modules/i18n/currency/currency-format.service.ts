@@ -37,13 +37,13 @@ export class SkyI18nCurrencyFormatService {
 
     const resolvedOptions: Intl.ResolvedNumberFormatOptions =
       formatter.resolvedOptions();
-    const currencyCode = resolvedOptions.currency;
+    const currencyCode = resolvedOptions.currency!;
     const parts = this.formatToParts(formatter);
 
     const format: SkyI18nCurrencyFormat = {
       decimalCharacter: parts.decimalCharacter,
       groupCharacter: parts.groupCharacter,
-      isoCurrencyCode: currencyCode || isoCurrencyCode,
+      isoCurrencyCode: currencyCode,
       locale,
       precision: resolvedOptions.maximumFractionDigits,
       symbol: parts.symbol,
