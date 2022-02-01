@@ -43,7 +43,7 @@ export class SkyI18nCurrencyFormatService {
     const format: SkyI18nCurrencyFormat = {
       decimalCharacter: parts.decimalCharacter,
       groupCharacter: parts.groupCharacter,
-      isoCurrencyCode: currencyCode,
+      isoCurrencyCode: currencyCode || isoCurrencyCode,
       locale,
       precision: resolvedOptions.maximumFractionDigits,
       symbol: parts.symbol,
